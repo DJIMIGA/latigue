@@ -1,0 +1,27 @@
+# Environnement virtuel
+venv/
+env/
+
+# Fichiers de configuration personnels
+*.pyc
+__pycache__/
+
+# Fichiers de configuration IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers de base de données
+*.sqlite3
+db.json
+
+# Fichiers statiques et médias (si vous utilisez collectstatic)
+staticfiles/
+media/
+
+# Configuration locale de l'environnement
+.env
+
+# Migrations de base de données
+*/migrations/*
