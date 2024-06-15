@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}<title>essais</title>{% endblock %}
+
+{% block content %}
+<ul class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
+    {% for project in projects %}
+    <a href="{{ project.lien }}" class="flex flex-col items-center overflow-visible shadow-2xl border-8 rounded-xl group transition-opacity duration-500">
+        <div class="w-full">
+            <img class="object-cover object-center w-full h-64 rounded-lg group-hover:opacity-25" src="{{ project.thumbnail.url }}" alt="Project Thumbnail">
+        </div>
+        <div class="w-full text-center bg-slate-300">
+            <h5 class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800">{{ project.title }}</h5>
+        </div>
+        <div class="w-full text-center bg-slate-200">
+            <p class="uppercase">{{ project.description }}</p>
+        </div>
+    </a>
+    {% endfor %}
+</ul>
+
+    {% endblock %}
