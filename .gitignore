@@ -16,9 +16,7 @@ __pycache__/
 *.sqlite3
 db.json
 
-# Fichiers statiques et médias (si vous utilisez collectstatic)
-static/
-media/
+
 
 # Configuration locale de l'environnement
 .env
@@ -126,12 +124,6 @@ dist
 # TernJS port file
 .tern-port
 
-# IDE and editor files
-.vscode/
-.idea/
-.DS_Store
-*.sublime-project
-*.sublime-workspace
 
 # npm 7+
 node_modules/

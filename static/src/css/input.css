@@ -1,0 +1,93 @@
+@import 'reset.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#third{
+     background: url("../../../static/blog/undraw_writer_q06d.png");
+     height: 650px;
+     padding: 100px 0 0 0;
+     background-position: 50% 0;
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+     }
+
+
+.dark-toggle {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dark-toggle:hover {
+  background-color: #444;
+}
+.tools{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10%;
+
+}
+
+.main{
+        width: 90%;
+}
+#metier{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+
+#kok{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+@media only screen and (min-width: 700px){
+    .tools{
+    width: 100%;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2%;
+    }
+    #metier{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+
+}
+
+@media only screen and (min-width: 600px) and (max-width : 700px) {
+    #metier{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+    .tools{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2%;
+}
+    .posts{
+        display: grid;
+        margin-inline-end: auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2%;
+}
+    .main{
+            width: 60%;
+}
+    .post-image{
+        float: right;
+        border-radius: 0.125rem;
+    }
+}
