@@ -77,10 +77,20 @@ WSGI_APPLICATION = 'latigue.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd9msk0jg7kfr3n',
+        'USER': 'udedjcu9r4d76u',
+        'PASSWORD': 'p76df2a46e9f78be771948cc727bc73073856ed6ac582bf8d7a8efac10e50039d',
+        'HOST': 'c9mq4861d16jlm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
