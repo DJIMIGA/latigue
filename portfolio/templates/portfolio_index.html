@@ -1,276 +1,287 @@
- {% extends "base.html" %}{% load static %} {% block title %}<title xmlns="">
-  konimba . Website</title
+{% extends "base.html" %}{% load static %} {% block title %}<title xmlns="">
+    konimba . Website</title
 >{% endblock %} {% block content %}
 <section
-  id="about"
-  class="gap-2 mx-auto dark:text-slate-300 justify-center items-center"
+        id="about"
+        class="gap-2 mx-auto dark:text-slate-300 justify-center items-center"
 >
-  <div id="kok" class="flex-col justify-center items-center pt-10">
-    <div class="rounded-full">
-      <img
-        alt="profile picture"
-        loading="lazy"
-        width="70"
-        height="70"
-        decoding="async"
-        src="{{ MEDIA_URL }}image/IMG-7101.png"
-      />
-    </div>
-    <div class="text-2xl font-extrabold text-gray-800">
+    <div id="kok" class="flex-col justify-center items-center pt-5">
+        <div class="rounded-full">
+            <img
+                    alt="profile picture"
+                    loading="lazy"
+                    width="70"
+                    height="70"
+                    decoding="async"
+                    src="{{ MEDIA_URL }}image/IMG-7101.png"
+            />
+        </div>
+        <div class="text-2xl font-extrabold text-gray-800">
       <span
-        class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"
-        >Djimiga konimba</span
+              class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"
+      >Djimiga konimba</span
       >
+        </div>
+        <div class="shadow-md rounded-md p-4 m-2">
+            <p class="text-center dark:text-white text-lg text-gray-600 font-bold">
+                De primeur à développeur, un parcours unique
+            </p>
+            <p class="text-center dark:text-white text-base text-gray-500">
+                primeur et développeur, un parcours unique
+            </p>
+        </div>
     </div>
-    <div class="shadow-md rounded-md p-4 m-2">
-      <p class="text-center dark:text-white text-lg text-gray-600 font-bold">
-        La main dans les fruits, la tête dans le code
-      </p>
-      <p class="text-center dark:text-white text-base text-gray-500">
-        primeur et développeur, un parcours unique
-      </p>
-    </div>
-  </div>
 
-  <div class="shadow-md rounded-md dark:text-white p-4">
-    <p class="text-2xl text-center italic m-2">Python Developer</p>
-    <div id="metier" class="mt-2">
-      <p class="flex text-center">I share my knowledge and experiences on:</p>
-      <a
-        class="flex dark:bg-neutral-900 dark:text-white items-center rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 hover:bg-gray-300 transition-colors"
-        href="https://www.youtube.com/@pythonmalien"
-      >
-        <svg
-          stroke="currentColor"
-          fill="currentColor"
-          stroke-width="0"
-          viewBox="0 0 576 512"
-          class="h-4 w-4 mr-2"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-          ></path>
-        </svg>
-        YouTube
-      </a>
-      <a
-        class="flex m-x-2 items-center dark:bg-neutral-900 dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 hover:bg-gray-300 transition-colors"
-        href="https://x.com/pymalien"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="h-4 w-4"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
-          ></path>
-        </svg>
-      </a>
-      <a
-        class="flex items-center dark:bg-neutral-900 dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 hover:bg-gray-300 transition-colors"
-        href="https://linkedin.com/in/pymalien"
-      >
-        <svg
-          stroke="currentColor"
-          fill="currentColor"
-          stroke-width="0"
-          viewBox="0 0 448 512"
-          class="h-4 w-4 mr-2"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-          ></path>
-        </svg>
-        LinkedIn
-      </a>
+    <div class="shadow-md rounded-md dark:text-white p-4">
+        <p class="text-2xl text-center italic m-2">Python Developer</p>
+        <p class="text-center">I share my knowledge and experiences on:</p>
+
+        <div id="metier">
+            <a
+                    class="flex dark:text-white items-center rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://www.tiktok.com/@djimiga55?is_from_webapp=1&sender_device=pc"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="h-4 w-4 mr-2" stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0">
+                    <path d="M41,4H9C6.243,4,4,6.243,4,9v32c0,2.757,2.243,5,5,5h32c2.757,0,5-2.243,5-5V9C46,6.243,43.757,4,41,4z M37.006,22.323 c-0.227,0.021-0.457,0.035-0.69,0.035c-2.623,0-4.928-1.349-6.269-3.388c0,5.349,0,11.435,0,11.537c0,4.709-3.818,8.527-8.527,8.527 s-8.527-3.818-8.527-8.527s3.818-8.527,8.527-8.527c0.178,0,0.352,0.016,0.527,0.027v4.202c-0.175-0.021-0.347-0.053-0.527-0.053 c-2.404,0-4.352,1.948-4.352,4.352s1.948,4.352,4.352,4.352s4.527-1.894,4.527-4.298c0-0.095,0.042-19.594,0.042-19.594h4.016 c0.378,3.591,3.277,6.425,6.901,6.685V22.323z"/>
+                </svg>
+
+            </a>
+            <a
+                    class="flex dark:text-white items-center rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://www.youtube.com/@pythonmalien"
+            >
+                <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 576 512"
+                        class="h-4 w-4 mr-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                            d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+                    ></path>
+                </svg>
+            </a>
+            <a
+                    class="flex m-x-2 items-center dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://x.com/pymalien"
+            >
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="h-4 w-4"
+                        viewBox="0 0 16 16"
+                >
+                    <path
+                            d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
+                    ></path>
+                </svg>
+            </a>
+            <a
+                    class="flex items-center  dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://linkedin.com/in/pymalien"
+            >
+                <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 448 512"
+                        class="h-4 w-4 mr-2"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                    ></path>
+                </svg>
+
+            </a>
+        </div>
     </div>
-  </div>
 </section>
 
 <section id="projects" class="scroll-smooth scroll-mt-20 w-3/4 mx-auto ">
-  <div class="container py-4 mx-auto text-center">
-    <div class="flex flex-col items-center ">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="w-10 h-10 text-black dark:text-white hover:rotate-45"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
-        />
-      </svg>
-      <div class="mx-0">
-        <p
-          class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800"
+    <div class="container py-4 mx-auto text-center">
+        <div class="flex flex-col items-center ">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-10 h-10 text-black dark:text-white hover:rotate-45"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                />
+            </svg>
+            <div class="mx-0">
+                <p
+                        class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800"
+                >
+                    Projects
+                </p>
+            </div>
+        </div>
+        <ul
+                class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:grid-cols-3 gap-12 pt-2"
         >
-          Projects
-        </p>
-      </div>
+            {% for portfolio in portfolios %}
+            <a
+                    href="#"
+                    class="flex flex-col items-center overflow-visible shadow-xl border-2 rounded-xl"
+            >
+                <div class="w-full">
+                    <img
+                            class="object-cover object-center w-full h-64 rounded-lg group-hover:opacity-25"
+                            src="{{ portfolio.thumbnail.url }}"
+                            alt="Project Thumbnail"
+                    />
+                </div>
+                <div class="w-full text-center bg-slate-300">
+                    <h5
+                            class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800"
+                    >
+                        {{ portfolio.title }}
+                    </h5>
+                </div>
+                <div class="w-full text-center bg-slate-200">
+                    <p class="uppercase">{{ portfolio.description }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </ul>
     </div>
-    <ul
-      class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:grid-cols-3 gap-12 pt-2"
-    >
-      {% for portfolio in portfolios %}
-      <a
-        href="#"
-        class="flex flex-col items-center overflow-visible shadow-xl border-2 rounded-xl"
-      >
-        <div class="w-full">
-          <img
-            class="object-cover object-center w-full h-64 rounded-lg group-hover:opacity-25"
-            src="{{ portfolio.thumbnail.url }}"
-            alt="Project Thumbnail"
-          />
-        </div>
-        <div class="w-full text-center bg-slate-300">
-          <h5
-            class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800"
-          >
-            {{ portfolio.title }}
-          </h5>
-        </div>
-        <div class="w-full text-center bg-slate-200">
-          <p class="uppercase">{{ portfolio.description }}</p>
-        </div>
-      </a>
-      {% endfor %}
-    </ul>
-  </div>
 </section>
 
 <div class="container w-3/4 mx-auto py-4 mx-auto text-center">
-  <div class="flex flex-col items-center">
-    <svg
-      class="w-14 h-12 text-black dark:fill-white hover:rotate-45"
-      viewBox="0 0 25 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M19.2301 12.5502C17.9301 13.8502 16.0901 14.3302 14.4301 13.9402L8.70012 19.6702C7.92012 20.4502 6.65012 20.4502 5.87012 19.6702L4.83012 18.6302C4.05012 17.8502 4.05012 16.5802 4.83012 15.8002L10.5601 10.0702C10.1701 8.40021 10.6501 6.57021 11.9501 5.27021C13.6301 3.59021 16.1501 3.30021 18.1101 4.39021L14.0801 8.42021L16.1301 10.4702L20.1501 6.45021C21.2101 8.40021 20.9001 10.8902 19.2401 12.5502H19.2301Z"
-        stroke="#121331"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-    <div class="mx-0">
+    <div class="flex flex-col items-center">
+        <svg
+                class="w-14 h-12 text-black dark:fill-white hover:rotate-45"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                    d="M19.2301 12.5502C17.9301 13.8502 16.0901 14.3302 14.4301 13.9402L8.70012 19.6702C7.92012 20.4502 6.65012 20.4502 5.87012 19.6702L4.83012 18.6302C4.05012 17.8502 4.05012 16.5802 4.83012 15.8002L10.5601 10.0702C10.1701 8.40021 10.6501 6.57021 11.9501 5.27021C13.6301 3.59021 16.1501 3.30021 18.1101 4.39021L14.0801 8.42021L16.1301 10.4702L20.1501 6.45021C21.2101 8.40021 20.9001 10.8902 19.2401 12.5502H19.2301Z"
+                    stroke="#121331"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+            />
+        </svg>
+        <div class="mx-0">
       <span
-        class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800"
-        >My Tech Toolbox</span
+              class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800"
+      >My Tech Toolbox</span
       >
+        </div>
     </div>
-  </div>
-  <div class="tools dark:text-white p-2 m-2">
-    <div
-      class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
-    >
-      <svg
-        class=""
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-      >
-        <image
-          href="{% static 'portfolio/svg/python.svg' %}"
-          width="64"
-          height="64"
-        />
-      </svg>
-      <p class="mt-6 text-xl font-semibold text-center md:text-xl">Python</p>
-    </div>
-    <div
-      class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
-    >
-      <svg
-        class=""
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-      >
-        <image
-          href="../../static/portfolio/svg/django.svg"
-          width="64"
-          height="64"
-        />
-      </svg>
-      <p class="mt-6 text-xl font-semibold text-center md:text-xl">Django</p>
-    </div>
+    <div class="tools dark:text-white p-2 m-2">
+        <div
+                class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
+        >
+            <svg
+                    class=""
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+            >
+                <image
+                        href="{% static 'portfolio/svg/python.svg' %}"
+                        width="64"
+                        height="64"
+                />
+            </svg>
+            <p class="mt-6 text-xl font-semibold text-center md:text-xl">Python</p>
+        </div>
+        <div
+                class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
+        >
+            <svg
+                    class=""
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+            >
+                <image
+                        href="../../static/portfolio/svg/django.svg"
+                        width="64"
+                        height="64"
+                />
+            </svg>
+            <p class="mt-6 text-xl font-semibold text-center md:text-xl">Django</p>
+        </div>
 
-    <div
-      class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
-    >
-      <svg
-        class=""
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-      >
-        <image
-          href="../../static/portfolio/svg/html.svg"
-          width="64"
-          height="64"
-        />
-      </svg>
-      <p class="mt-6 text-xl font-semibold text-center md:text-xl col-span-2">
-        HTML
-      </p>
+        <div
+                class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
+        >
+            <svg
+                    class=""
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+            >
+                <image
+                        href="../../static/portfolio/svg/html.svg"
+                        width="64"
+                        height="64"
+                />
+            </svg>
+            <p class="mt-6 text-xl font-semibold text-center md:text-xl col-span-2">
+                HTML
+            </p>
+        </div>
+        <div
+                class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
+        >
+            <svg
+                    class="m-4"
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+            >
+                <image
+                        href="../../static/portfolio/svg/css.svg"
+                        width="64"
+                        height="64"
+                />
+            </svg>
+            <p class="mt-6 text-xl font-semibold text-center md:text-xl col-span-2">
+                CSS
+            </p>
+        </div>
+        <div
+                class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
+        >
+            <svg
+                    class=""
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+            >
+                <image
+                        href="../../static/portfolio/svg/tailwind.svg"
+                        width="64"
+                        height="64"
+                />
+            </svg>
+            <p class="mt-6 text-xl font-semibold text-center md:text-xl col-span-2">
+                Tailwind
+            </p>
+        </div>
     </div>
-    <div
-      class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
-    >
-      <svg
-        class="m-4"
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-      >
-        <image
-          href="../../static/portfolio/svg/css.svg"
-          width="64"
-          height="64"
-        />
-      </svg>
-      <p class="mt-6 text-xl font-semibold text-center md:text-xl col-span-2">
-        CSS
-      </p>
-    </div>
-    <div
-      class="flex flex-col items-center overflow-hidden shadow-xl rounded-xl bg-slate-100 dark:bg-neutral-900 border-2 shrink-0"
-    >
-      <svg
-        class=""
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-      >
-        <image
-          href="../../static/portfolio/svg/tailwind.svg"
-          width="64"
-          height="64"
-        />
-      </svg>
-      <p class="mt-6 text-xl font-semibold text-center md:text-xl col-span-2">
-        Tailwind
-      </p>
-    </div>
-  </div>
 </div>
 
 {% endblock %}
