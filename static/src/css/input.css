@@ -51,6 +51,11 @@
         align-items: center;
 
     }
+    #about{
+    display: flex;
+
+
+    }
 
 
 }
@@ -73,11 +78,15 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 2%;
 }
-    .main{
-            width: 60%;
+
 }
     .post-image{
         float: right;
         border-radius: 0.125rem;
+    }
+    #about{
+    display: flex;
+
+
     }
 }
