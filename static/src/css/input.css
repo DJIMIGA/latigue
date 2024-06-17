@@ -3,15 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#third{
-     background: url("");
-     height: 650px;
-     padding: 100px 0 0 0;
-     background-position: 50% 0;
-     background-repeat: no-repeat;
-     background-attachment: fixed;
-     }
-
 
 .dark-toggle {
   background-color: #333;
