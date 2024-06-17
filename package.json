@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tailwindcss -i ./static/src/css/input.css -o ./static/dist/css/output.css",
-    "watch": "tailwindcss -i ./static/src/css/input.css -o ./static/dist/css/output.css --watch"
+    "watch": "tailwindcss -i ./static/src/css/input.css -o ./static/dist/css/output.css --watch",
+    "c": "heroku run python manage.py collectstatic"
   },
   "keywords": [],
   "author": "",
