@@ -1,4 +1,4 @@
-@import 'reset.css';
+@import "reset.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,77 +16,117 @@
 .dark-toggle:hover {
   background-color: #444;
 }
-.tools{
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10%;
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10%;
+}
+
+.main {
+  width: 90%;
+}
+
+#social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#bio{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column-reverse;
+   margin-bottom: 8px;
 
 }
 
-.main{
-        width: 90%;
-}
-#metier{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-}
-
-#kok{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-@media only screen and (min-width: 700px){
-    .tools{
+@media only screen and (min-width: 700px) {
+  .tools {
     width: 100%;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 2%;
+  }
+  #social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #about {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+  }
+  #profile{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+
     }
-    #metier{
+    #bio{
         display: flex;
-        flex-direction: row;
+        flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
-
     }
-    #about{
-    display: flex;
-
-
-    }
-
 
 }
 
-@media only screen and (min-width: 600px) and (max-width : 700px) {
-    #metier{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-
-    }
-    .tools{
+@media only screen and (min-width: 600px) and (max-width: 700px) {
+  #metier {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .tools {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 2%;
-}
-    .posts{
-        display: grid;
-        margin-inline-end: auto;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 2%;
-}
-
-}
-    .post-image{
-        float: right;
-        border-radius: 0.125rem;
-    }
-    #about{
+  }
+  .posts {
+    display: grid;
+    margin-inline-end: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2%;
+  }
+  .post-image {
+    float: right;
+    border-radius: 0.125rem;
+  }
+  #about {
     display: flex;
+    width: 100%;
 
+  }
+
+   #profile{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
 
     }
+    #bio{
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+     #social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
 }
