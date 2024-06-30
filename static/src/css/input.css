@@ -77,6 +77,15 @@
         justify-content: center;
         align-items: center;
     }
+    .carousel-item{
+        flex-direction: row;
+           }
+    #default-carousel{
+        width: 80%;
+    }
+    #projects{
+        width: 50%;
+    }
 
 }
 
@@ -126,6 +135,16 @@
     justify-content: center;
     align-items: center;
   }
+  .carousel-item{
+        flex-direction: row;
+    }
+  #default-carousel{
+        width: 80%;
+    }
+
+  #projects{
+        width: 20%;
+    }
 
 
 
@@ -198,3 +217,4 @@
 .hover-text:hover {
   opacity: 10;
 }
+
