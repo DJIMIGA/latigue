@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %} {% block title %}<title xmlns="">
     konimba . Website</title
 >{% endblock %} {% block content %}
-<section class="w-full  ">
+<section class="w-full">
 <div class="flex flex-col mx-auto tablet:flex-row justify-center items-center mx-auto dark:text-white">
     <div class="flex tablet:p-4 m-4 items-center justify-center">
         <img
@@ -107,14 +107,14 @@
             technologie, de partager des idées sur l'innovation ou simplement de discuter de la vie et de la foi ?
             N'hésitez pas à me contacter !</p>
         {% if messages %}
-        <ul class="messages">
+        <ul class="text-green-500">
             {% for message in messages %}
             <li
             {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
-        <form action="{% url 'about' %}" method="post" class="space-y-8">
+        <form action="{% url 'about' %}" method="post" onsubmit="aler('Le message est envoyé avec succès !')" class="space-y-8">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit"

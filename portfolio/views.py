@@ -1,5 +1,5 @@
 from django.conf import settings
-
+from django.contrib import messages
 from django.core.mail import send_mail
 
 from .forms import ContactForm
@@ -24,6 +24,7 @@ def about(request):
             email = form.cleaned_data['email']
             sujet = form.cleaned_data['sujet']
             message = form.cleaned_data['message']
+            messages.success(request, 'Votre message a été envoyé avec succès.')
             try:
                 # Envoyer un e-mail
                 send_mail(
@@ -39,7 +40,6 @@ def about(request):
             context = {
                 'form': ContactForm(),
                 'MEDIA_URL': settings.MEDIA_URL,
-                'success_message': 'Votre message a été envoyé avec succès.'
             }
             return render(request, 'about.html', context)
         else:
