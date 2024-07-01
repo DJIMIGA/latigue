@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "portfolio",
     'livereload',
     'blog',
-    'ckeditor',
     'ckeditor_uploader',
 
 ]
