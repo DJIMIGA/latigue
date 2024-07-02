@@ -1,13 +1,13 @@
 {% extends 'base.html' %} {% block title %}
 <title>{{ post.title}}</title>
 {% endblock %} {% block content %}
-<article id="thir" class="dark:text-white mx-auto tablet:w-3/5">
+<article id="thir" class="dark:text-white mx-auto tablet:w-3/5 p-2">
   <h1 class="dark:text-white font-bold text-gray-800 text-2xl">
     {{post.title}}
   </h1>
   <p class="text-xs rounded m-2 border">{{post.created_on}}</p>
   <img
-    class="post-image h-full max-h-80 mx-auto desktop:float-left rounded m-2"
+    class="post-image h-full p-2 max-h-80 mx-auto desktop:float-left rounded"
     src="{{post.thumbnail.url }}"
     alt="image de l'article"
   />
