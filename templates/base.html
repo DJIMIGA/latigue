@@ -18,12 +18,8 @@
     />
     {% block head_extra %}{% endblock %}
   </head>
-  <body
-    class="bg-slate-100 flex flex-col min-h-screen dark:bg-neutral-900 text-gray-900"
-  >
-    <header
-      class="top-0 z-10 bg-slate-200 border-b-[2px] border-gray-50 sticky dark:bg-slate-800"
-    >
+  <body class="bg-slate-100 flex flex-col min-h-screen dark:bg-neutral-900 text-gray-900">
+    <header class="top-0 z-20 bg-slate-200 border-b-[2px] border-gray-50 sticky dark:bg-slate-800">
       <div class="flex justify-evenly flex-wrap: nowrap">
         <div>
           <a href="{% url 'portfolio-index' %}">
@@ -48,12 +44,12 @@
           <a
             href="{% url 'about' %}"
             class="font-bold text-gray-800 dark:text-white m-5 md:mr-10 hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800"
-            >About</a
+            >À propos</a
           >
           <a
             href="#projects"
             class="mr-5 font-bold text-gray-800 dark:text-white md:mr-10 hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800"
-            >Projects</a
+            >Projets</a
           >
           <a
             href="{% url 'blog-index' %}"
@@ -112,7 +108,8 @@
         </nav>
       </div>
     </header>
-    <main class="main m-4 w-full container mx-auto flex-grow">
+    <div></div>
+    <main class="mx-auto">
       {% block content %} {% endblock %}
     </main>
     <footer class="bg-slate-200 mt-auto dark:bg-slate-800 dark:text-white">
@@ -132,82 +129,94 @@
             />
           </svg>
         </div>
-        <div class="flex flex-row">
-          <a
-            class="flex items-center justify-center border-solid border-2 border-slate-500 dark:border-white dark:hover:bg-slate-600 rounded-full hover:text-teal-600 transition-colors hover:bg-slate-300"
-            href="https://x.com/pymalien"
-            style="width: 30px; height: 30px"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="h-4 w-4"
-              viewBox="0 0 16 16"
+        <div id="social-icons">
+            <a
+                    class="flex dark:text-white items-center rounded px-2 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://www.tiktok.com/@djimiga55?is_from_webapp=1&sender_device=pc"
             >
-              <path
-                d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
-              ></path>
-            </svg>
-          </a>
-          <a
-            class="mx-2 flex items-center justify-center border-solid border-2 border-slate-500 dark:border-white dark:hover:bg-slate-600 rounded-full hover:text-teal-600 transition-colors hover:bg-slate-300"
-            href="https://www.youtube.com/@pythonmalien"
-            style="width: 30px; height: 30px"
-          >
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              stroke-width="0"
-              viewBox="0 0 576 512"
-              class="h-4 w-4"
-              xmlns="http://www.w3.org/2000/svg"
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 50 50"
+                        class="h-7 w-7"
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                >
+                    <path d="M41,4H9C6.243,4,4,6.243,4,9v32c0,2.757,2.243,5,5,5h32c2.757,0,5-2.243,5-5V9C46,6.243,43.757,4,41,4z M37.006,22.323 c-0.227,0.021-0.457,0.035-0.69,0.035c-2.623,0-4.928-1.349-6.269-3.388c0,5.349,0,11.435,0,11.537c0,4.709-3.818,8.527-8.527,8.527 s-8.527-3.818-8.527-8.527s3.818-8.527,8.527-8.527c0.178,0,0.352,0.016,0.527,0.027v4.202c-0.175-0.021-0.347-0.053-0.527-0.053 c-2.404,0-4.352,1.948-4.352,4.352s1.948,4.352,4.352,4.352s4.527-1.894,4.527-4.298c0-0.095,0.042-19.594,0.042-19.594h4.016 c0.378,3.591,3.277,6.425,6.901,6.685V22.323z"/>
+                </svg>
+            </a>
+            <a
+                    class="flex dark:text-white items-center rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://www.youtube.com/@pythonmalien"
             >
-              <path
-                d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-              ></path>
-            </svg>
-          </a>
-          <a
-            class="flex items-center justify-center border-solid border-2 border-slate-500 dark:border-white dark:hover:bg-slate-600 rounded-full hover:text-teal-600 transition-colors hover:bg-slate-300"
-            href="https://linkedin.com/in/pymalien"
-            style="width: 30px; height: 30px"
-          >
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              stroke-width="0"
-              viewBox="0 0 448 512"
-              class="h-4 w-4"
-              xmlns="http://www.w3.org/2000/svg"
+                <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 576 512"
+                        class="h-8 w-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                            d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+                    ></path>
+                </svg>
+            </a>
+            <a
+                    class="flex m-x-2 items-center dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://x.com/pymalien"
             >
-              <path
-                d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-              ></path>
-            </svg>
-          </a>
-          <a
-            class="mx-2 flex items-center justify-center border-solid border-2 border-slate-500 dark:border-white dark:hover:bg-slate-600 dark:fill-white rounded-full hover:text-teal-600 transition-colors hover:bg-slate-300"
-            href="{% url 'portfolio-index' %}"
-            style="width: 30px; height: 30px"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h4 w-4"
-              id="Filled"
-              viewBox="0 0 24 24"
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="h-6 w-6"
+                        viewBox="0 0 16 16"
+                >
+                    <path
+                            d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
+                    ></path>
+                </svg>
+            </a>
+            <a
+                    class="flex items-center dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
+                    href="https://linkedin.com/in/pymalien"
             >
-              <path
-                d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm3.222,7H8.778A19.614,19.614,0,0,1,12,2.412,19.57,19.57,0,0,1,15.222,7Zm.8,2a10.211,10.211,0,0,1,.476,3,10.211,10.211,0,0,1-.476,3H7.976A10.211,10.211,0,0,1,7.5,12a10.211,10.211,0,0,1,.476-3ZM9.4,2.356A19.676,19.676,0,0,0,6.574,7H3.353A10.031,10.031,0,0,1,9.4,2.356ZM2,12a9.986,9.986,0,0,1,.461-3H5.9a12.016,12.016,0,0,0-.4,3,12.016,12.016,0,0,0,.4,3H2.461A9.986,9.986,0,0,1,2,12Zm1.353,5H6.574A19.676,19.676,0,0,0,9.4,21.644,10.031,10.031,0,0,1,3.353,17Zm5.425,0h6.444A19.614,19.614,0,0,1,12,21.588,19.57,19.57,0,0,1,8.778,17Zm5.827,4.644A19.676,19.676,0,0,0,17.426,17h3.221A10.031,10.031,0,0,1,14.605,21.644ZM22,12a9.986,9.986,0,0,1-.461,3H18.1a12.016,12.016,0,0,0,.4-3,12.016,12.016,0,0,0-.4-3h3.437A9.986,9.986,0,0,1,22,12ZM17.426,7a19.676,19.676,0,0,0-2.821-4.644A10.031,10.031,0,0,1,20.647,7Z"
-              />
-            </svg>
-          </a>
+                <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 448 512"
+                        class="h-7 w-7"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                    ></path>
+                </svg>
+            </a>
+        </div>
+        <div class="flex flex-wrap items-center text-base mx-10">
+          <a
+            href="{% url 'about' %}"
+            class="font-bold text-gray-800 dark:text-white m-5 md:mr-10 hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800"
+            >À propos</a
+          >
+          <a
+            href="#projects"
+            class="mr-5 font-bold text-gray-800 dark:text-white md:mr-10 hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800"
+            >Projets</a
+          >
+          <a
+            href="{% url 'blog-index' %}"
+            target="_blank"
+            class="mr-5 font-bold text-gray-800 dark:text-white md:mr-10 hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800"
+            rel="noreferrer"
+            >Blog</a>
         </div>
       </div>
-      <p
-        class="text-center text-sm text-gray-500 dark:text-white lg:mt-0 lg:text-right py-4"
-      >
+      <p class="text-center text-sm text-gray-500 dark:text-white lg:mt-0 lg:text-right py-4">
         &copy; Made by Konimba Djimiga. All rights reserved.
       </p>
     </footer>

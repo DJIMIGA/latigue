@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="grid grid-cols-1 desktop:grid-cols-3 mx-auto gap-2 w-full h-1/3 tablet:w-2/3">
-    {% for post in post %}
+    {% for post in posts %}
     <div class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
         <a href="{% url 'blog-detail' pk=post.pk %}">
             <img class="rounded-t-lg " src="{{ post.thumbnail.url }}" alt="Post_Thumbnail" />

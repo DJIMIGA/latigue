@@ -8,7 +8,7 @@ from .models import Category, Post
 class blog_index(ListView):
     model = Post
     template_name = "blogpost_index.html"
-    context_object_name = 'post'
+    context_object_name = 'posts'
 
 
 class blog_Detail(DetailView):

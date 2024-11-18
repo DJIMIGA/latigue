@@ -1,10 +1,7 @@
-{% extends "base.html" %}{% load static %} {% block title %}<title xmlns="">
-    konimba . Website</title
->{% endblock %} {% block content %}
-<section
-        id="about"
-        class="shadow-md rounded-md dark:text-white p-2 mx-auto dark:text-slate-300 justify-center items-center"
->
+{% extends "base.html" %}{% load static %} {% block title %}<title xmlns="" xmlns="http://www.w3.org/1999/html">
+    konimba . Website</title>{% endblock %}
+{% block content %}
+<section id="about" class="shadow-md rounded-md dark:text-white p-2 mx-auto dark:text-slate-300 justify-center items-center">
     <div id="profile" class="flex-col justify-center items-center px-50 pt-5">
         <div id="bio" class="text-2xl font-extrabold text-gray-800">
             <span
@@ -39,13 +36,11 @@
             </div>
         </div>
     </div>
-
-    <div id="metier" class="">
+    <div id="metier">
         <p class="text-2xl text-center italic font-bold m-2">Développeur Python</p>
         <p class="text-center dark:text-white text-xl text-gray-600 font-bold italic">
             Je partage mes connaissances<br>et expériences sur :
         </p>
-
         <div id="social-icons">
             <a
                     class="flex dark:text-white items-center rounded px-2 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
@@ -133,9 +128,15 @@
                         d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
                 />
             </svg>
-            <div class="mx-0">
+            <div class="mx-0 dark:text-white">
                 <p class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-2xl font-extrabold text-gray-800">
-                    Projects</p>
+                    Les choses que j'ai faites pour essayer de laisser ma marque sur l'univers.
+                </p>
+                <p>
+                    J'ai réalisé beaucoup de petits projets au fil des années, mais ce sont ceux dont je suis le plus
+                    fier.
+                    S'il vous plaît, laissez-moi savoir si vous avez des idées sur la façon de les améliorer.
+                </p>
             </div>
         </div>
         <div class="projects-container overflow-hidden mt-10">
@@ -147,12 +148,11 @@
                     <div class=" carousel-item flex flex-col items-center bg-white dark:bg-neutral-800 justify-center hidden duration-700 ease-in-out" data-carousel-item>
                         <a href="{{ portfolio.lien }}"
                            class="flex items-center overflow-visible shadow-xl border-2 rounded-xl">
-                            <div class=" w-full">
+                            <div class="w-full">
                                 <img
                                         class="object-cover object-center w-84 h-64 rounded-lg group-hover:opacity-25  transition-transform duration-300 ease-in-out transform hover:scale-105"
                                         src="{{ portfolio.thumbnail.url }}"
                                         alt="Project Thumbnail">
-
                             </div>
                         </a>
                         <div class="flex flex-col max-w-full w-1/2 flex-shrink-0 m-2">
@@ -188,7 +188,7 @@
                 </div>
                 <!-- Slider controls -->
                 <button type="button"
-                        class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none -translate-x-11"
+                        class="absolute top-0 left-0 z-10 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none -translate-x-11"
                         data-carousel-prev>
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-violet-500 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                         <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
@@ -200,7 +200,7 @@
                     </span>
                 </button>
                 <button type="button"
-                        class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none translate-x-11"
+                        class="absolute top-0 right-0 z-10 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none translate-x-11"
                         data-carousel-next>
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-violet-500 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                         <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
@@ -215,14 +215,214 @@
         </div>
     </div>
 </section>
+<div class="tablet:px-8 mt-24 laptop:mt-28">
+    <div class="mx-auto w-full max-w-7xl lg:px-8">
+        <div class="relative px-2 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-4xl tablet:max-w-8xl">
+                <div class="mx-auto grid max-w-4xl grid-cols-1 gap-y-20 md:max-w-none tablet:grid-cols-2">
+                    <div class="flex flex-col gap-16">
+                        {% for post in posts %}
+                        <article class="group relative flex flex-col items-start p-2 rounded bg-slate-50 dark:bg-zinc-800">
+                            <a href="{% url 'blog-detail' pk=post.pk %}" class="relative z-10">
+                            <h2 class="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+                                    <span class="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                                    <span class="relative z-10">{{ post.title }}</span>
+                            </h2>
+                            <time class="relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-white pl-3.5">
+                                <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
+                                    <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                                </span>
+                                {{ post.created_on }}
+                            </time>
+                            <p class="relative z-10">
+                                <span class="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                                <span class="relative z-10">{{ post.body|truncatewords:20|safe }}</span>
+                            </p>
+                            <div aria-hidden="true"
+                                 class="relative z-10 mt-2 flex items-center text-sm font-medium text-teal-500">
+                                <span>Lire l'article</span>
+                                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"
+                                     class="ml-1 h-4 w-4 stroke-current">
+                                    <path d="M6.75 5.75 9.25 8l-2.5 2.25" stroke-width="1.5" stroke-linecap="round"
+                                          stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            </a>
+                        </article>
+                        {% endfor %}
+                    </div>
+                    <div class="space-y-8 lg:pl-16 xl:pl-24">
+                        <div  class="rounded-2xl border border-zinc-100 py-2 px-6 dark:border-zinc-700/40">
+                            <span class="mb-4"><font style="vertical-align: inherit;">Restez informé(e) en vous inscrivant à ma newsletter !</font></span>
+                            <div id="hubspot-form-container">
+                            </div>
+                            <!-- Le formulaire HubSpot s'intègrera ici -->
+                        </div>
+
+                        <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+                        <script>
+                          hbspt.forms.create({
+                            portalId: "48188930",
+                            formId: "ca7f145e-9abe-4711-ac92-f3e5e3bae68c",
+                            target: "#hubspot-form-container"
+                          });
+                        </script>
+
+                        <div class="rounded-2xl border border-zinc-100 px-6 py-2 dark:border-zinc-700/40">
+                            <h2 class="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 flex-none">
+                                    <path d="M2.75 9.75a3 3 0 0 1 3-3h12.5a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5.75a3 3 0 0 1-3-3v-8.5Z"
+                                          class="fill-zinc-100 stroke-zinc-400 dark:fill-zinc-100/10 dark:stroke-zinc-500"></path>
+                                    <path d="M3 14.25h6.249c.484 0 .952-.002 1.316.319l.777.682a.996.996 0 0 0 1.316 0l.777-.682c.364-.32.832-.319 1.316-.319H21M8.75 6.5V4.75a2 2 0 0 1 2-2h2.5a2 2 0 0 1 2 2V6.5"
+                                          class="stroke-zinc-400 dark:stroke-zinc-500"></path>
+                                </svg>
+                                <span class="ml-3"><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">Travail</font></font></span></h2>
+                            <ol class="mt-6 space-y-4">
+                                <li class="flex gap-4">
+                                    <div class="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+                                        <img alt="" loading="lazy" width="32" height="32" decoding="async"
+                                             data-nimg="1" class="h-9 w-9"
+                                             src="../../media/auchan.jpg"
+                                             style="color: transparent;"></div>
+                                    <dl class="flex flex-auto flex-wrap gap-x-2">
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Entreprise</font></font></dt>
+                                        <dd class="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                            <font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Auchan Chambray</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Rôle</font></font></dt>
+                                        <dd class="text-xs text-zinc-500 dark:text-zinc-400"><font
+                                                style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">PRIMEUR</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Date</font></font></dt>
+                                        <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
+                                            aria-label="2020 à aujourd'hui">
+                                            <time datetime="2019"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2020</font></font></time>
+                                            <span aria-hidden="true"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">—</font></font></span>
+                                            <time datetime="2024"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Présent</font></font></time>
+                                        </dd>
+                                    </dl>
+                                </li>
+                                <li class="flex gap-4">
+                                    <div class="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+                                        <img alt="" loading="lazy" width="28" height="28" decoding="async"
+                                             data-nimg="1" class="h-9 w-9"
+                                             src="../../media/auchan.jpg"
+                                             style="color: transparent;"></div>
+                                    <dl class="flex flex-auto flex-wrap gap-x-2">
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Entreprise</font></font></dt>
+                                        <dd class="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                            <font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Auchan Saint-Cyr</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Rôle</font></font></dt>
+                                        <dd class="text-xs text-zinc-500 dark:text-zinc-400"><font
+                                                style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Employé de Commerce</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Date</font></font></dt>
+                                        <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
+                                            aria-label="2018 à 2019">
+                                            <time datetime="2018"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2018</font></font></time>
+                                            <span aria-hidden="true"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">—</font></font></span>
+                                            <time datetime="2019"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2019</font></font></time>
+                                        </dd>
+                                    </dl>
+                                </li>
+                                <li class="flex gap-4">
+                                    <div class="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+                                        <img alt="" loading="lazy" width="28" height="28" decoding="async"
+                                             data-nimg="1" class="h-9 w-9"
+                                             src="../../media/auchan.jpg"
+                                             style="color: transparent;"></div>
+                                    <dl class="flex flex-auto flex-wrap gap-x-2">
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Entreprise</font></font></dt>
+                                        <dd class="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                            <font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Auchan Tours Nord</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Rôle</font></font></dt>
+                                        <dd class="text-xs text-zinc-500 dark:text-zinc-400"><font
+                                                style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Apprenti Bac Pro Commerce</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Date</font></font></dt>
+                                        <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
+                                            aria-label="2016 à 2018">
+                                            <time datetime="2011"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2016</font></font></time>
+                                            <span aria-hidden="true"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">—</font></font></span>
+                                            <time datetime="2014"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2018</font></font></time>
+                                        </dd>
+                                    </dl>
+                                </li>
+                                <li class="flex gap-4">
+                                    <div class="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+                                        <img alt="" loading="lazy" width="28" height="28" decoding="async"
+                                             data-nimg="1" class="h-9 w-9 overflow-hidden"
+                                             src="../../media/netto.png"
+                                             style="color: transparent;"></div>
+                                    <dl class="flex flex-auto flex-wrap gap-x-2">
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Entreprise</font></font></dt>
+                                        <dd class="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                            <font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Netto Bourgueil</font></font></dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Rôle</font></font></dt>
+                                        <dd class="text-xs text-zinc-500 dark:text-zinc-400"><font
+                                                style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Apprenti CAP Vente</font></font>
+                                        </dd>
+                                        <dt class="sr-only"><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Date</font></font></dt>
+                                        <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
+                                            aria-label="2015 à 2016">
+                                            <time datetime="2015"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2015</font></font></time>
+                                            <span aria-hidden="true"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">—</font></font></span>
+                                            <time datetime="2011"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">2016</font></font></time>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </ol>
+                            <a download="konimba.cv.pdf" class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-50 font-medium text-zinc-900 hover:bg-zinc-100 active:bg-zinc-100 active:text-zinc-900/60 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:active:bg-zinc-800/50 dark:active:text-zinc-50/70 group mt-6 w-full"
+                               href="../../media/cv.pdf"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">Télécharger mon CV</font></font>
+                                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"
+                                     class="h-4 w-4 stroke-zinc-400 transition group-active:stroke-zinc-600 dark:group-hover:stroke-zinc-50 dark:group-active:stroke-zinc-50">
+                                    <path d="M4.75 8.75 8 12.25m0 0 3.25-3.5M8 12.25v-8.5" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container w-3/4 mx-auto py-4 mx-auto m-2 text-center">
     <div class="flex flex-col items-center">
-        <svg
-                class="w-14 h-12 text-black dark:fill-white  hover:rotate-45"
+        <svg class="w-14 h-12 text-black dark:fill-white  hover:rotate-45"
                 viewBox="0 0 25 24"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-        >
+                xmlns="http://www.w3.org/2000/svg">
             <path
                     d="M19.2301 12.5502C17.9301 13.8502 16.0901 14.3302 14.4301 13.9402L8.70012 19.6702C7.92012 20.4502 6.65012 20.4502 5.87012 19.6702L4.83012 18.6302C4.05012 17.8502 4.05012 16.5802 4.83012 15.8002L10.5601 10.0702C10.1701 8.40021 10.6501 6.57021 11.9501 5.27021C13.6301 3.59021 16.1501 3.30021 18.1101 4.39021L14.0801 8.42021L16.1301 10.4702L20.1501 6.45021C21.2101 8.40021 20.9001 10.8902 19.2401 12.5502H19.2301Z"
                     stroke="#121331"
