@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-r5e^_f5z5g-l+dy-$p%2n9a%+9*vq@1j(2e!2v=ee8&q!!kuq$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.herokuapp.com',
+    'latigue-9570ef49bb0e.herokuapp.com',
+    'bolibana.net',
+    'www.bolibana.net',
+]
 
 # Application definition
 
@@ -42,7 +49,6 @@ INSTALLED_APPS = [
     'blog',
     'ckeditor',
     'ckeditor_uploader',
-
 
 ]
 
@@ -164,7 +170,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'pymalien1@gmail.com'
 EMAIL_HOST_PASSWORD = """yenr omqi vsgc cizc"""
 
-
 # Configuration de sécurité SSL
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
@@ -173,3 +178,6 @@ SECURE_HSTS_SECONDS = 31536000  # 1 an
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
