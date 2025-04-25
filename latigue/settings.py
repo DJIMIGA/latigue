@@ -20,12 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r5e^_f5z5g-l+dy-$p%2n9a%+9*vq@1j(2e!2v=ee8&q!!kuq$'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-r5e^_f5z5g-l+dy-$p%2n9a%+9*vq@1j(2e!2v=ee8&q!!kuq$')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -96,14 +97,10 @@ WSGI_APPLICATION = 'latigue.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd9msk0jg7kfr3n',
-        'USER': 'udedjcu9r4d76u',
-        'PASSWORD': 'p76df2a46e9f78be771948cc727bc73073856ed6ac582bf8d7a8efac10e50039d',
-        'HOST': 'c9mq4861d16jlm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600
+    )
 }
 
 # Password validation
@@ -175,15 +172,17 @@ EMAIL_HOST_PASSWORD = """yenr omqi vsgc cizc"""
 # ======================================================================
 
 # Forcer HTTPS
-SECURE_SSL_REDIRECT = False  # Désactivé pour éviter la boucle de redirection
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_SSL_REDIRECT = not DEBUG
 
 # Paramètres de cookies sécurisés
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True  # Empêche l'accès aux cookies via JavaScript
-CSRF_COOKIE_HTTPONLY = True    # Empêche l'accès aux cookies CSRF via JavaScript
-SESSION_COOKIE_SAMESITE = 'Lax'  # Protection contre les attaques CSRF
-CSRF_COOKIE_SAMESITE = 'Lax'    # Protection contre les attaques CSRF
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 # HSTS (HTTP Strict Transport Security)
 SECURE_HSTS_SECONDS = 31536000  # 1 an
@@ -202,17 +201,13 @@ SECURE_BROWSER_XSS_FILTER = True
 # Utiliser des en-têtes de sécurité
 SECURE_REFERRER_POLICY = 'same-origin'
 
-# Proxy Heroku
-SECURE_PROXY_SSL_SSL_REDIRECT = False  # Désactivé pour éviter la boucle
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
 # Configuration des cookies
 SESSION_COOKIE_DOMAIN = None
 CSRF_COOKIE_DOMAIN = None
 
 # Protection supplémentaire contre les attaques CSRF
-CSRF_USE_SESSIONS = True  # Utilise les sessions pour stocker le token CSRF
-CSRF_COOKIE_AGE = 31449600  # Durée de vie du cookie CSRF (1 an)
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_AGE = 31449600
 
 # Protection contre les attaques de type "Clickjacking"
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
