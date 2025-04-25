@@ -171,6 +171,10 @@ EMAIL_HOST_USER = 'pymalien1@gmail.com'
 EMAIL_HOST_PASSWORD = """yenr omqi vsgc cizc"""
 
 
+# ======================================================================
+# PARAMÈTRES DE SÉCURITÉ SSL
+# ======================================================================
+
 # Forcer HTTPS
 SECURE_SSL_REDIRECT = False  # Désactivé pour éviter la boucle de redirection
 
@@ -182,3 +186,23 @@ CSRF_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 31536000  # 1 an
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+# Protection contre le clickjacking
+X_FRAME_OPTIONS = 'DENY'
+
+# Protection contre le sniffing de contenu
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Protection XSS
+SECURE_BROWSER_XSS_FILTER = True
+
+# Utiliser des en-têtes de sécurité
+SECURE_REFERRER_POLICY = 'same-origin'
+
+# Proxy Heroku
+SECURE_PROXY_SSL_SSL_REDIRECT = False  # Désactivé pour éviter la boucle
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Configuration des cookies
+SESSION_COOKIE_DOMAIN = None
+CSRF_COOKIE_DOMAIN = None
