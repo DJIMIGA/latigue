@@ -171,3 +171,14 @@ EMAIL_HOST_USER = 'pymalien1@gmail.com'
 EMAIL_HOST_PASSWORD = """yenr omqi vsgc cizc"""
 
 
+# Forcer HTTPS
+SECURE_SSL_REDIRECT = False  # Désactivé pour éviter la boucle de redirection
+
+# Paramètres de cookies sécurisés
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# HSTS (HTTP Strict Transport Security)
+SECURE_HSTS_SECONDS = 31536000  # 1 an
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
