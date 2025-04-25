@@ -146,11 +146,13 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+WHITENOISE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_CONFIGS = {
@@ -212,3 +214,11 @@ CSRF_COOKIE_AGE = 31449600
 # Protection contre les attaques de type "Clickjacking"
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
+
+# Configuration pour servir les fichiers médias en production
+if not DEBUG:
+    WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    WHITENOISE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Ajouter le middleware WhiteNoise pour les fichiers médias
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')

@@ -16,15 +16,11 @@ __pycache__/
 *.sqlite3
 db.json
 
-
-
-
 # Configuration locale de l'environnement
 .env
 
 # Migrations de base de données
 */migrations/*
-
 
 # Logs
 logs
@@ -104,7 +100,6 @@ web_modules
 # Nuxt.js build output
 .nuxt
 
-
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
@@ -124,7 +119,6 @@ web_modules
 
 # TernJS port file
 .tern-port
-
 
 # npm 7+
 node_modules/
