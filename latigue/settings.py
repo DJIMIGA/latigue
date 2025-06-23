@@ -45,16 +45,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     "django.contrib.staticfiles",
+    # Cloudinary pour le stockage externe
+    'cloudinary_storage',
+    'cloudinary',
     "portfolio",
     'livereload',
     'blog',
     'ckeditor',
     'ckeditor_uploader',
-
+    'services',
+    'formations',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -62,8 +67,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
+    # Middleware pour surveiller l'usage Cloudinary
+    'portfolio.middleware.CloudinaryUsageMiddleware',
 ]
 
 ROOT_URLCONF = 'latigue.urls'
@@ -148,13 +153,31 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Configuration Cloudinary pour le stockage externe des images
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
+}
+
+# Configuration conditionnelle du stockage
+if DEBUG:
+    # Stockage local en développement
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+else:
+    # Stockage Cloudinary en production
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    MEDIA_URL = 'https://res.cloudinary.com/' + os.environ.get('CLOUDINARY_CLOUD_NAME', '') + '/image/upload/'
+
+# Configuration CKEditor pour Cloudinary
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 WHITENOISE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
@@ -173,23 +196,40 @@ EMAIL_HOST_PASSWORD = """yenr omqi vsgc cizc"""
 # PARAMÈTRES DE SÉCURITÉ SSL
 # ======================================================================
 
-# Forcer HTTPS
-SECURE_SSL_REDIRECT = not DEBUG
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_PROXY_SSL_SSL_REDIRECT = not DEBUG
+# Vérifier si nous sommes en production (Heroku)
+IS_HEROKU = os.environ.get('HEROKU', '') == 'True'
 
-# Paramètres de cookies sécurisés
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# Configuration de la redirection HTTPS
+if DEBUG:
+    # Configuration pour le développement local
+    SECURE_SSL_REDIRECT = False
+    SECURE_PROXY_SSL_HEADER = None
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_REFERRER_POLICY = None
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+    SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = None
+else:
+    # Configuration pour la production (Heroku)
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 an
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_REFERRER_POLICY = 'same-origin'
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+    SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
+
+# Paramètres de cookies sécurisés (communs aux deux environnements)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
-
-# HSTS (HTTP Strict Transport Security)
-SECURE_HSTS_SECONDS = 31536000  # 1 an
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
 
 # Protection contre le clickjacking
 X_FRAME_OPTIONS = 'DENY'
@@ -200,25 +240,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Protection XSS
 SECURE_BROWSER_XSS_FILTER = True
 
-# Utiliser des en-têtes de sécurité
-SECURE_REFERRER_POLICY = 'same-origin'
-
-# Configuration des cookies
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN = None
-
-# Protection supplémentaire contre les attaques CSRF
-CSRF_USE_SESSIONS = True
-CSRF_COOKIE_AGE = 31449600
-
-# Protection contre les attaques de type "Clickjacking"
-SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
-SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
-
 # Configuration pour servir les fichiers médias en production
 if not DEBUG:
     WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     WHITENOISE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Ajouter le middleware WhiteNoise pour les fichiers médias
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')

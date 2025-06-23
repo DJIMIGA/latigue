@@ -31,3 +31,6 @@ tzdata==2024.1
 watchfiles==0.22.0
 whitenoise==6.6.0
 yarl==1.9.4
+# Cloudinary pour le stockage externe des images
+django-cloudinary-storage==0.3.0
+cloudinary==1.36.0

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ service.title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- En-tête -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold mb-4">{{ service.title }}</h1>
+            <div class="flex items-center gap-4 text-gray-600">
+                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                    {{ service.get_category_display }}
+                </span>
+                <span>{{ service.duration }}</span>
+            </div>
+        </div>
+
+        <!-- Image principale -->
+        {% if service.image %}
+        <div class="mb-8">
+            <img src="{{ service.image.url }}" alt="{{ service.title }}" 
+                 class="w-full h-96 object-cover rounded-lg shadow-lg">
+        </div>
+        {% endif %}
+
+        <!-- Contenu -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <div class="prose max-w-none">
+                {{ service.description|safe }}
+            </div>
+        </div>
+
+        <!-- Prix et CTA -->
+        <div class="bg-gray-50 rounded-lg p-8 text-center">
+            <div class="text-3xl font-bold text-blue-600 mb-4">
+                {{ service.price }} €
+            </div>
+            <p class="text-gray-600 mb-6">
+                Pour toute demande d'information ou de réservation, n'hésitez pas à nous contacter.
+            </p>
+            <a href="{% url 'contact' %}" 
+               class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
+                Nous contacter
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

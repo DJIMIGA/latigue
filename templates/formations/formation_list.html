@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nos Formations{% endblock %}
+
+{% block head_extra %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour formater les nombres avec des espaces
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+    
+    // Trouver tous les éléments contenant des prix et les formater
+    const priceElements = document.querySelectorAll('[data-price]');
+    priceElements.forEach(function(element) {
+        const price = element.getAttribute('data-price');
+        const formattedPrice = formatNumber(price);
+        element.textContent = formattedPrice + ' FCFA';
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Nos Formations</h1>
+
+    <!-- Filtres -->
+    <div class="mb-8">
+        <div class="flex flex-wrap gap-4">
+            <a href="{% url 'formations:formation_list' %}" 
+               class="px-4 py-2 rounded-lg {% if not request.GET.level %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+                Tous les niveaux
+            </a>
+            {% for value, label in levels.items %}
+            <a href="?level={{ value }}" 
+               class="px-4 py-2 rounded-lg {% if request.GET.level == value %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+                {{ label }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Liste des formations -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for formation in formations %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            {% if formation.image %}
+            <img src="{{ formation.image.url }}" alt="{{ formation.title }}" class="w-full h-48 object-cover">
+            {% endif %}
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-xl font-semibold">{{ formation.title }}</h2>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                        {{ formation.get_level_display }}
+                    </span>
+                </div>
+                <div class="prose max-w-none text-gray-600 mb-6 min-h-[4rem]">{{ formation.description|truncatewords_html:30|safe }}</div>
+                <div class="flex justify-between items-center">
+                    <span class="text-blue-600 font-bold" data-price="{{ formation.price|floatformat:0 }}">{{ formation.price|floatformat:0 }} FCFA</span>
+                    <span class="text-gray-500">{{ formation.duration }}</span>
+                </div>
+                <a href="{% url 'formations:formation_detail' formation.slug %}" 
+                   class="mt-4 block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                    En savoir plus
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-8">
+            <p class="text-gray-500">Aucune formation disponible pour le moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="mt-8 flex justify-center">
+        <div class="flex gap-2">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
+               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                Précédent
+            </a>
+            {% endif %}
+
+            <span class="px-4 py-2 bg-gray-200 rounded-lg">
+                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
+               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                Suivant
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
