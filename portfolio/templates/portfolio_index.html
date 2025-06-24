@@ -206,7 +206,7 @@
         <div class="space-y-8">
                         {% for post in posts %}
           <article class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 animate-fade-in-up hover:scale-105" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
-            <a href="{% url 'blog-detail' pk=post.pk %}" class="block">
+            <a href="{% url 'blog-detail' slug=post.slug %}" class="block">
               <!-- Date avec effet de pulse -->
               <time class="text-sm text-neutral-500 dark:text-neutral-300 mb-3 block group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
                 {{ post.created_on|date:"d F Y" }}

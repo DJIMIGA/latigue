@@ -6,11 +6,13 @@
     {{post.title}}
   </h1>
   <p class="text-xs rounded m-2 border">{{post.created_on}}</p>
-  <img
-    class="post-image h-full p-2 max-h-80 mx-auto desktop:float-left rounded"
-    src="{{post.thumbnail.url }}"
-    alt="image de l'article"
-  />
+  {% if post.thumbnail %}
+    <img
+      class="post-image h-full p-2 max-h-80 mx-auto desktop:float-left rounded"
+      src="{{post.thumbnail.url }}"
+      alt="image de l'article"
+    />
+  {% endif %}
   <div>{{ post.body|safe}}</div>
 </article>
 
