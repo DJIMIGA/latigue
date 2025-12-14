@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Profile(models.Model):
@@ -109,10 +111,31 @@ class Portfolio(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order = models.PositiveIntegerField(default=0)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True, help_text="Généré automatiquement à partir du titre si non fourni")
 
     class Meta:
         ordering = ['order', 'created_at']
+        verbose_name = "Projet Portfolio"
+        verbose_name_plural = "Projets Portfolio"
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        # Générer le slug automatiquement s'il n'est pas fourni
+        if not self.slug:
+            self.slug = slugify(self.title)
+            # S'assurer que le slug est unique
+            original_slug = self.slug
+            counter = 1
+            while Portfolio.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
+        super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        """Retourne l'URL de détail du projet (si une vue de détail existe)"""
+        # Pour l'instant, retourne le lien externe ou la page d'accueil
+        if self.lien:
+            return self.lien
+        return reverse('portfolio-index')
