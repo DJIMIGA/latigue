@@ -7,8 +7,5 @@ from . import views
 urlpatterns = [
                   path("", views.portfolio_index, name="portfolio-index"),
                   path("about/", views.about, name="about"),
-                  # URLs de test Cloudinary
-                  path("test-upload/", views.test_cloudinary_upload, name="test-cloudinary-upload"),
-                  path("cloudinary-status/", views.cloudinary_status, name="cloudinary-status"),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                                            document_root=settings.MEDIA_ROOT)

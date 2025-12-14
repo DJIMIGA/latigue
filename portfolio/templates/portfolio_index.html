@@ -23,23 +23,32 @@
                     <!-- Image de profil avec effet de bordure animée -->
                     <div class="relative group">
                         <div class="absolute inset-0 bg-gradient-to-r from-brand-500 to-accent-500 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        {% if profile.profile_image %}
                         <img
-                            alt="Djimi Konimba - Développeur Python"
+                            alt="{{ profile.name }} - {{ profile.title }}"
+                            loading="lazy"
+                            class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full object-cover shadow-xl border-4 border-white dark:border-neutral-800 transition-transform duration-300 group-hover:scale-105"
+                            src="{{ profile.profile_image.url }}"
+                        />
+                        {% else %}
+                        <img
+                            alt="{{ profile.name }} - {{ profile.title }}"
                             loading="lazy"
                             class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full object-cover shadow-xl border-4 border-white dark:border-neutral-800 transition-transform duration-300 group-hover:scale-105"
                             src="{{ MEDIA_URL }}image/IMG-7101.png"
                         />
+                        {% endif %}
                     </div>
                     
                     <!-- Nom et titre -->
                     <div class="space-y-2">
                         <h1 class="text-3xl lg:text-4xl font-extrabold animate-fade-in-up" style="animation-delay: 0.2s;">
                             <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
-                               Djimiga Konimba
+                               {{ profile.name }}
                             </span>
                         </h1>
                         <p class="text-lg lg:text-xl font-semibold text-neutral-600 dark:text-neutral-300 animate-fade-in-up" style="animation-delay: 0.4s;">
-                            AppBuilder with Prompt & Supervision
+                            {{ profile.title }}
                         </p>
                     </div>
                 </div>
@@ -129,18 +138,18 @@
       <div class="text-center mb-8 lg:mb-12 animate-fade-in-up">
         <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
           <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-          </svg>
-        </div>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+            </div>
         <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
-            Mes Projets
-          </span>
-        </h2>
+                    Mes Projets
+                </span>
+            </h2>
         <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-          Découvrez une sélection de mes réalisations qui reflètent mon parcours de développement et ma passion pour créer des solutions innovantes.
-        </p>
-                </div>
+                Découvrez une sélection de mes réalisations qui reflètent mon parcours de développement et ma passion pour créer des solutions innovantes.
+            </p>
+        </div>
 
       <!-- Grille de projets -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -150,7 +159,7 @@
           <div class="relative overflow-hidden">
             <img class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" src="{{ portfolio.thumbnail.url }}" alt="{{ portfolio.title }}">
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </div>
+                    </div>
           <div class="p-6">
             <h3 class="text-xl font-semibold text-neutral-800 dark:text-white mb-3 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
                         {{ portfolio.title }}
@@ -245,7 +254,7 @@
               Inscrivez-vous à ma newsletter pour recevoir mes derniers articles et conseils.
             </p>
             <div id="hubspot-form-container"></div>
-          </div>
+                            </div>
           
           <!-- CTA Formations -->
           <div class="bg-gradient-to-br from-brand-50 to-accent-50 dark:from-brand-900/20 dark:to-accent-900/20 rounded-xl p-6 border border-brand-200 dark:border-brand-800 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in-up">
@@ -264,7 +273,7 @@
               </svg>
               Voir les formations
             </a>
-          </div>
+                        </div>
   
           <!-- CTA Services -->
           <div class="bg-gradient-to-br from-accent-50 to-brand-50 dark:from-accent-900/20 dark:to-brand-900/20 rounded-xl p-6 border border-accent-200 dark:border-accent-800 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in-up">
@@ -308,7 +317,7 @@
         <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
           <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
+                                </svg>
         </div>
         <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
@@ -327,132 +336,48 @@
         
         <!-- Événements timeline -->
         <div class="space-y-8">
-          <!-- 2022 - Présent : AppBuilder with Prompt & Supervision (DROITE) -->
-          <div class="relative flex items-center lg:justify-between lg:flex-row-reverse group animate-fade-in-up" style="animation-delay: 0.1s;">
-            <div class="flex items-center lg:w-5/12 lg:justify-end">
+          {% for experience in experiences %}
+          <div class="relative flex items-center lg:justify-between {% if experience.position == 'right' %}lg:flex-row-reverse{% endif %} group animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.1"|floatformat:1 }}s;">
+            <div class="flex items-center lg:w-5/12 {% if experience.position == 'right' %}lg:justify-end{% endif %}">
               <div class="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-600 hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700 p-1">
-                    <img src="{% static 'portfolio/svg/header_logo.svg' %}" alt="Logo AppBuilder" class="w-full h-full object-contain">
+                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700 {% if not experience.logo %}p-1{% endif %}">
+                    {% if experience.logo %}
+                    <img src="{{ experience.logo.url }}" alt="Logo {{ experience.company|default:experience.title }}" class="w-full h-full object-contain">
+                    {% else %}
+                    <!-- Logo par défaut si aucune image n'est fournie -->
+                    <img src="{% static 'portfolio/svg/header_logo.svg' %}" alt="Logo" class="w-full h-full object-contain">
+                    {% endif %}
                   </div>
                   <div>
-                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">AppBuilder with Prompt & Supervision</h3>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-300">2022 - Présent</p>
+                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">{{ experience.title }}{% if experience.company %} - {{ experience.company }}{% endif %}</h3>
+                    <p class="text-sm text-neutral-500 dark:text-neutral-300">{{ experience.period }}</p>
                   </div>
                 </div>
                 <p class="text-neutral-600 dark:text-neutral-200 text-sm">
-                  Création d'applications web et mobiles avec expertise en IA et supervision de projets.
+                  {{ experience.description }}
                 </p>
               </div>
             </div>
             
             <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 bg-gradient-to-br from-brand-500 to-accent-500 rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 {% if experience.position == 'right' %}bg-gradient-to-br from-accent-500 to-brand-500{% else %}bg-gradient-to-br from-brand-500 to-accent-500{% endif %} rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
           </div>
-          
-          <!-- 2020 - Présent (GAUCHE) -->
-          <div class="relative flex items-center lg:justify-between group animate-fade-in-up" style="animation-delay: 0.2s;">
-            <div class="flex items-center lg:w-5/12">
-              <div class="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-600 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700">
-                    <img src="{{ MEDIA_URL }}auchan.jpg" alt="Logo Auchan" class="w-full h-full object-contain">
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">Primeur - Auchan Chambray</h3>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-300">2020 - Présent</p>
-                  </div>
-                </div>
-                <p class="text-neutral-600 dark:text-neutral-200 text-sm">
-                  Spécialiste des fruits et légumes, conseil client, gestion des rayons . Expertise en nutrition et conseils culinaires.
-                </p>
-              </div>
-            </div>
-            
-            <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 bg-gradient-to-br from-brand-500 to-accent-500 rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
-          </div>
-          
-          <!-- 2018 - 2019 (DROITE) -->
-          <div class="relative flex items-center lg:justify-between lg:flex-row-reverse group animate-fade-in-up" style="animation-delay: 0.4s;">
-            <div class="flex items-center lg:w-5/12 lg:justify-end">
-              <div class="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-600 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700">
-                    <img src="{{ MEDIA_URL }}auchan.jpg" alt="Logo Auchan" class="w-full h-full object-contain">
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">Employé de Commerce - Auchan Saint-Cyr</h3>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-300">2018 - 2019</p>
-                  </div>
-                </div>
-                <p class="text-neutral-600 dark:text-neutral-200 text-sm">
-                  Expérience en vente et service client dans un environnement commercial.
-                </p>
-              </div>
-            </div>
-            
-            <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 bg-gradient-to-br from-accent-500 to-brand-500 rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
-          </div>
-          
-          <!-- 2016 - 2018 (GAUCHE) -->
-          <div class="relative flex items-center lg:justify-between group animate-fade-in-up" style="animation-delay: 0.6s;">
-            <div class="flex items-center lg:w-5/12">
-              <div class="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-600 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700">
-                    <img src="{{ MEDIA_URL }}auchan.jpg" alt="Logo Auchan" class="w-full h-full object-contain">
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">Bac Pro Commerce - Auchan Tours Nord</h3>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-300">2016 - 2018</p>
-                  </div>
-                </div>
-                <p class="text-neutral-600 dark:text-neutral-200 text-sm">
-                  Formation en alternance en commerce et vente.
-                </p>
-              </div>
-            </div>
-            
-            <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 bg-gradient-to-br from-brand-500 to-accent-500 rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
-          </div>
-          
-          <!-- 2015 - 2016 (DROITE) -->
-          <div class="relative flex items-center lg:justify-between lg:flex-row-reverse group animate-fade-in-up" style="animation-delay: 0.8s;">
-            <div class="flex items-center lg:w-5/12 lg:justify-end">
-              <div class="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-600 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700">
-                    <img src="{{ MEDIA_URL }}netto.png" alt="Logo Netto" class="w-full h-full object-contain">
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">CAP Vente - Netto Bourgueil</h3>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-300">2015 - 2016</p>
-                  </div>
-                </div>
-                <p class="text-neutral-600 dark:text-neutral-200 text-sm">
-                  Première formation professionnelle en vente et commerce.
-                </p>
-              </div>
-            </div>
-            
-            <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 bg-gradient-to-br from-accent-500 to-brand-500 rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
-          </div>
+          {% empty %}
+          <p class="text-center text-neutral-600 dark:text-neutral-300">Aucune expérience à afficher pour le moment.</p>
+          {% endfor %}
         </div>
-      </div>
+    </div>
 
       <!-- Bouton CV -->
       <div class="mt-12 text-center animate-fade-in-up">
         <a href="{{ MEDIA_URL }}cv.pdf" download="konimba.cv.pdf" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-1 text-base btn-press">
           <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
+        </svg>
           <span class="whitespace-nowrap">Télécharger mon CV</span>
         </a>
-      </div>
+        </div>
     </div>
   </div>
 </section>
@@ -466,7 +391,7 @@
         <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
           <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.2301 12.5502C17.9301 13.8502 16.0901 14.3302 14.4301 13.9402L8.70012 19.6702C7.92012 20.4502 6.65012 20.4502 5.87012 19.6702L4.83012 18.6302C4.05012 17.8502 4.05012 16.5802 4.83012 15.8002L10.5601 10.0702C10.1701 8.40021 10.6501 6.57021 11.9501 5.27021C13.6301 3.59021 16.1501 3.30021 18.1101 4.39021L14.0801 8.42021L16.1301 10.4702L20.1501 6.45021C21.2101 8.40021 20.9001 10.8902 19.2401 12.5502H19.2301Z"></path>
-                                </svg>
+            </svg>
         </div>
         <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
@@ -491,7 +416,7 @@
             </h3>
             </div>
         </div>
-        
+
         <!-- Django -->
         <div class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.4s;">
           <div class="flex flex-col items-center text-center">
@@ -523,14 +448,14 @@
               <img src="{% static 'portfolio/svg/tailwind.svg' %}" alt="Tailwind CSS" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
     </div>
             <h3 class="text-lg font-semibold text-neutral-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
-              Tailwind
+                Tailwind
             </h3>
 </div>
         </div>
     </div>
 
-      </div>
     </div>
+</div>
 </section>
 
 {% endblock %}

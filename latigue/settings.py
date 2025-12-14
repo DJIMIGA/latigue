@@ -45,9 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     "django.contrib.staticfiles",
-    # Cloudinary pour le stockage externe
-    'cloudinary_storage',
-    'cloudinary',
+    # AWS S3 pour le stockage externe des médias
+    'storages',
     "portfolio",
     'livereload',
     'blog',
@@ -67,8 +66,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
-    # Middleware pour surveiller l'usage Cloudinary
-    'portfolio.middleware.CloudinaryUsageMiddleware',
 ]
 
 ROOT_URLCONF = 'latigue.urls'
@@ -155,25 +152,42 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Configuration Cloudinary pour le stockage externe des images
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
+# ==================================================
+# CONFIGURATION AWS S3 POUR LES FICHIERS MÉDIAS
+# ==================================================
+# Configuration AWS S3
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'eu-west-3')  # Région par défaut
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',  # Cache de 24h
 }
+AWS_DEFAULT_ACL = None  # Laisse S3 gérer les ACL ou défini sur 'public-read' si nécessaire
+AWS_QUERYSTRING_AUTH = True  # Pour générer des URLs signées pour les fichiers médias privés
 
 # Configuration conditionnelle du stockage
 if DEBUG:
     # Stockage local en développement
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    # Stockage Cloudinary en production
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    MEDIA_URL = 'https://res.cloudinary.com/' + os.environ.get('CLOUDINARY_CLOUD_NAME', '') + '/image/upload/'
+    # Stockage S3 en production
+    DEFAULT_FILE_STORAGE = 'latigue.storage_backends.MediaStorage'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
-# Configuration CKEditor pour Cloudinary
+# Configuration CKEditor
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
+
+# Configuration Cloudinary (remplacé par S3 - conservé pour référence)
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
+#     'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
+#     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
+# }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
