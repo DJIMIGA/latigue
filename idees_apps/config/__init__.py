@@ -1,0 +1,1 @@
+# Configuration partagée pour les applications d'idées 
