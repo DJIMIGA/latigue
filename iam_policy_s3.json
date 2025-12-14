@@ -1,0 +1,51 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:PutObject",
+				"s3:GetObject",
+				"s3:DeleteObject",
+				"s3:ListBucket",
+				"s3:PutObjectAcl",
+				"s3:HeadObject"
+			],
+			"Resource": [
+				"arn:aws:s3:::sagakore",
+				"arn:aws:s3:::sagakore/*",
+				"arn:aws:s3:::bolibana-stock",
+				"arn:aws:s3:::bolibana-stock/*",
+				"arn:aws:s3:::personalporfolio",
+				"arn:aws:s3:::personalporfolio/*"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:PutBucketPolicy",
+				"s3:GetBucketPolicy",
+				"s3:DeleteBucketPolicy",
+				"s3:PutBucketPublicAccessBlock",
+				"s3:GetBucketPublicAccessBlock"
+			],
+			"Resource": [
+				"arn:aws:s3:::sagakore",
+				"arn:aws:s3:::bolibana-stock",
+				"arn:aws:s3:::personalporfolio"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"cloudfront:ListDistributions",
+				"cloudfront:GetDistribution",
+				"cloudfront:CreateDistribution",
+				"cloudfront:UpdateDistribution",
+				"cloudfront:DeleteDistribution"
+			],
+			"Resource": "*"
+		}
+	]
+}
+

@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.core.validators import FileExtensionValidator
 from PIL import Image
 import os
+import markdown
+from django.core.files.base import ContentFile
 
 
 class Category(models.Model):
@@ -46,6 +48,13 @@ class Post(models.Model):
         default=False, 
         help_text="Article mis en avant sur la page d'accueil"
     )
+    markdown_file = models.FileField(
+        upload_to='blog/markdown/',
+        blank=True,
+        null=True,
+        help_text="Optionnel : Uploader un fichier Markdown (.md) pour générer automatiquement le contenu de l'article",
+        validators=[FileExtensionValidator(allowed_extensions=['md', 'markdown', 'txt'])]
+    )
     objects = models.Manager()
 
     class Meta:
@@ -59,6 +68,22 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+        
+        # Vérifier si un fichier markdown a été uploadé
+        markdown_uploaded = False
+        if self.pk:
+            try:
+                old_instance = Post.objects.get(pk=self.pk)
+                if old_instance.markdown_file != self.markdown_file:
+                    markdown_uploaded = True
+            except Post.DoesNotExist:
+                markdown_uploaded = bool(self.markdown_file)
+        else:
+            markdown_uploaded = bool(self.markdown_file)
+        
+        # Si un fichier markdown est uploadé, convertir en HTML
+        if markdown_uploaded and self.markdown_file:
+            self.convert_markdown_to_html()
         
         # Vérifier si l'image a changé (nouveau fichier uploadé)
         thumbnail_changed = False
@@ -79,6 +104,44 @@ class Post(models.Model):
         # Optimiser l'image après la sauvegarde si elle a changé
         if thumbnail_changed and self.thumbnail:
             self.optimize_image()
+    
+    def convert_markdown_to_html(self):
+        """Convertit le fichier markdown en HTML et l'injecte dans le body"""
+        try:
+            # Lire le contenu du fichier markdown
+            if self.markdown_file:
+                # Si le fichier est déjà sur S3/local
+                with self.markdown_file.open('r', encoding='utf-8') as f:
+                    markdown_content = f.read()
+                
+                # Convertir markdown en HTML
+                html_content = markdown.markdown(
+                    markdown_content,
+                    extensions=[
+                        'extra',  # Tables, fenced code blocks, etc.
+                        'codehilite',  # Coloration syntaxique
+                        'toc',  # Table of contents
+                    ],
+                    extension_configs={
+                        'codehilite': {
+                            'css_class': 'highlight',
+                            'use_pygments': True,
+                        },
+                        'toc': {
+                            'permalink': True,
+                        }
+                    }
+                )
+                
+                # Injecter le HTML dans le body
+                self.body = html_content
+                print(f"✅ Markdown converti en HTML pour l'article: {self.title}")
+            
+        except Exception as e:
+            print(f"❌ Erreur lors de la conversion du markdown: {e}")
+            import traceback
+            traceback.print_exc()
+            # En cas d'erreur, on continue sans convertir
 
     def optimize_image(self):
         """Optimise l'image de couverture (fonctionne avec S3 et stockage local)"""

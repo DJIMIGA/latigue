@@ -1,6 +1,9 @@
 from storages.backends.s3boto3 import S3Boto3Storage
 from django.conf import settings
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MediaStorage(S3Boto3Storage):
@@ -10,7 +13,7 @@ class MediaStorage(S3Boto3Storage):
     """
     location = 'media'  # Dossier racine dans votre bucket S3 pour les médias
     file_overwrite = False  # Ne pas écraser les fichiers existants par défaut
-    default_acl = None  # Utilise les ACL par défaut du bucket
+    default_acl = 'private'  # Fichiers privés par défaut (nécessite URLs signées)
     bucket_name = settings.AWS_STORAGE_BUCKET_NAME
     region_name = settings.AWS_S3_REGION_NAME
     custom_domain = settings.AWS_S3_CUSTOM_DOMAIN
@@ -18,8 +21,22 @@ class MediaStorage(S3Boto3Storage):
     object_parameters = settings.AWS_S3_OBJECT_PARAMETERS
     access_key = settings.AWS_ACCESS_KEY_ID
     secret_key = settings.AWS_SECRET_ACCESS_KEY
-    auto_create_bucket = True  # Crée le bucket s'il n'existe pas (utile en dev)
-    auto_create_acl = True  # Crée les ACL pour le bucket
+    auto_create_bucket = False  # Ne pas créer automatiquement (sécurité)
+    auto_create_acl = False  # Ne pas créer automatiquement les ACL
+    
+    def save(self, name, content, max_length=None):
+        """Surcharge pour ajouter des logs lors de l'upload"""
+        if settings.DEBUG:
+            print(f"📤 Upload vers S3: {name} (bucket: {self.bucket_name})")
+        try:
+            result = super().save(name, content, max_length)
+            if settings.DEBUG:
+                print(f"✅ Upload réussi vers S3: {result}")
+            return result
+        except Exception as e:
+            if settings.DEBUG:
+                print(f"❌ Erreur lors de l'upload vers S3: {e}")
+            raise
 
 
 class StaticStorage(S3Boto3Storage):

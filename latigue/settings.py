@@ -13,9 +13,24 @@ import os.path
 from pathlib import Path
 import django_heroku
 import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Charger les variables d'environnement depuis .env
+env_path = BASE_DIR / '.env'
+if env_path.exists():
+    load_dotenv(env_path, override=True)  # override=True pour forcer le rechargement
+    print(f"✓ Fichier .env chargé depuis: {env_path}")
+else:
+    # Essayer aussi .env.secrets si .env n'existe pas
+    env_secrets_path = BASE_DIR / '.env.secrets'
+    if env_secrets_path.exists():
+        load_dotenv(env_secrets_path, override=True)
+        print(f"✓ Fichier .env.secrets chargé depuis: {env_secrets_path}")
+    else:
+        print("⚠️  Aucun fichier .env trouvé")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -160,23 +175,46 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'eu-west-3')  # Région par défaut
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# Configuration conditionnelle du stockage
+# Permet de forcer l'utilisation de S3 même en local pour les tests
+USE_S3_STORAGE = os.environ.get('USE_S3_STORAGE', 'False').strip().lower() == 'true'
+
+# Debug: Vérifier si les variables sont chargées (uniquement en développement)
+if DEBUG:
+    print(f"🔍 DEBUG S3 - AWS_ACCESS_KEY_ID: {'✓ Défini' if AWS_ACCESS_KEY_ID else '✗ Non défini'}")
+    print(f"🔍 DEBUG S3 - AWS_SECRET_ACCESS_KEY: {'✓ Défini' if AWS_SECRET_ACCESS_KEY else '✗ Non défini'}")
+    print(f"🔍 DEBUG S3 - AWS_STORAGE_BUCKET_NAME: {'✓ Défini' if AWS_STORAGE_BUCKET_NAME else '✗ Non défini'}")
+    print(f"🔍 DEBUG S3 - USE_S3_STORAGE: {USE_S3_STORAGE}")
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' if AWS_STORAGE_BUCKET_NAME else None
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',  # Cache de 24h
 }
 AWS_DEFAULT_ACL = None  # Laisse S3 gérer les ACL ou défini sur 'public-read' si nécessaire
 AWS_QUERYSTRING_AUTH = True  # Pour générer des URLs signées pour les fichiers médias privés
 
-# Configuration conditionnelle du stockage
-if DEBUG:
-    # Stockage local en développement
+if DEBUG and not USE_S3_STORAGE:
+    # Stockage local en développement (par défaut)
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    # Stockage S3 en production
-    DEFAULT_FILE_STORAGE = 'latigue.storage_backends.MediaStorage'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+    # Stockage S3 en production ou si USE_S3_STORAGE=True
+    # Vérifier que les variables AWS sont configurées
+    if not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY or not AWS_STORAGE_BUCKET_NAME:
+        if DEBUG:
+            # En développement, utiliser le stockage local si S3 n'est pas configuré
+            DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+            MEDIA_URL = '/media/'
+            MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+            print("⚠️  ATTENTION: Variables AWS S3 non configurées. Utilisation du stockage local.")
+        else:
+            # En production, c'est une erreur critique
+            raise ValueError("Variables AWS S3 requises en production: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME")
+    else:
+        DEFAULT_FILE_STORAGE = 'latigue.storage_backends.MediaStorage'
+        MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
 # Configuration CKEditor
 CKEDITOR_UPLOAD_PATH = "uploads/"
