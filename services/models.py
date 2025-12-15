@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.urls import reverse
 from ckeditor.fields import RichTextField
 
 class Service(models.Model):
@@ -70,6 +71,10 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.get_category_display()} - {self.title}"
+
+    def get_absolute_url(self):
+        """Retourne l'URL de détail du service"""
+        return reverse('services:service_detail', kwargs={'slug': self.slug})
 
     def get_features_list(self):
         """Retourne une liste des fonctionnalités activées pour ce service"""

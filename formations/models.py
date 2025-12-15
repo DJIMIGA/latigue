@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.urls import reverse
 from ckeditor.fields import RichTextField
 
 class Formation(models.Model):
@@ -37,4 +38,8 @@ class Formation(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title 
+        return self.title
+
+    def get_absolute_url(self):
+        """Retourne l'URL de détail de la formation"""
+        return reverse('formations:formation_detail', kwargs={'slug': self.slug})

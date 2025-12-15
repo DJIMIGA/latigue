@@ -33,7 +33,8 @@ class BlogPostSitemap(Sitemap):
     priority = 0.8
 
     def items(self):
-        return Post.objects.filter(is_featured=False)
+        # Inclure tous les articles (pas seulement ceux qui ne sont pas featured)
+        return Post.objects.all().order_by('-created_on')
 
     def lastmod(self, obj):
         return obj.last_modified
