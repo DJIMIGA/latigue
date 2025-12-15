@@ -29,7 +29,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=225)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    body = RichTextUploadingField()
+    body = RichTextUploadingField(blank=True, null=True, help_text="Contenu de l'article en HTML. Peut être rempli automatiquement via un fichier Markdown.")
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     categories = models.ManyToManyField("category", related_name="posts")
@@ -74,16 +74,23 @@ class Post(models.Model):
         if self.pk:
             try:
                 old_instance = Post.objects.get(pk=self.pk)
+                # Vérifier si le fichier markdown a changé
                 if old_instance.markdown_file != self.markdown_file:
                     markdown_uploaded = True
             except Post.DoesNotExist:
                 markdown_uploaded = bool(self.markdown_file)
         else:
+            # Nouvelle instance
             markdown_uploaded = bool(self.markdown_file)
         
-        # Si un fichier markdown est uploadé, convertir en HTML
+        # Sauvegarder d'abord pour que le fichier soit disponible sur le storage
+        super().save(*args, **kwargs)
+        
+        # Si un fichier markdown est uploadé, convertir en HTML APRÈS la sauvegarde
         if markdown_uploaded and self.markdown_file:
             self.convert_markdown_to_html()
+            # Sauvegarder à nouveau pour enregistrer le HTML dans body (sans déclencher les autres hooks)
+            super().save(update_fields=['body'])
         
         # Vérifier si l'image a changé (nouveau fichier uploadé)
         thumbnail_changed = False
@@ -98,9 +105,6 @@ class Post(models.Model):
             # Nouvelle instance, l'image est nouvelle
             thumbnail_changed = bool(self.thumbnail)
         
-        # Sauvegarder d'abord pour que l'image soit disponible
-        super().save(*args, **kwargs)
-        
         # Optimiser l'image après la sauvegarde si elle a changé
         if thumbnail_changed and self.thumbnail:
             self.optimize_image()
@@ -109,10 +113,16 @@ class Post(models.Model):
         """Convertit le fichier markdown en HTML et l'injecte dans le body"""
         try:
             # Lire le contenu du fichier markdown
-            if self.markdown_file:
-                # Si le fichier est déjà sur S3/local
-                with self.markdown_file.open('r', encoding='utf-8') as f:
-                    markdown_content = f.read()
+            if self.markdown_file and self.markdown_file.name:
+                # Ouvrir le fichier depuis le storage (S3 ou local)
+                # FieldFile.open ne supporte pas le paramètre "encoding", on lit donc en binaire
+                # puis on décode en UTF-8.
+                with self.markdown_file.open('rb') as f:
+                    markdown_content = f.read().decode('utf-8')
+                
+                if not markdown_content.strip():
+                    print(f"⚠️ Le fichier Markdown est vide pour l'article: {self.title}")
+                    return
                 
                 # Convertir markdown en HTML
                 html_content = markdown.markdown(
@@ -136,6 +146,9 @@ class Post(models.Model):
                 # Injecter le HTML dans le body
                 self.body = html_content
                 print(f"✅ Markdown converti en HTML pour l'article: {self.title}")
+                print(f"📝 Longueur du contenu HTML: {len(html_content)} caractères")
+            else:
+                print(f"⚠️ Aucun fichier Markdown trouvé pour l'article: {self.title}")
             
         except Exception as e:
             print(f"❌ Erreur lors de la conversion du markdown: {e}")

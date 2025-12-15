@@ -196,7 +196,7 @@
     </div>
 </div>
 
-<!-- Custom CSS for better typography -->
+<!-- Custom CSS for better typography & code blocks -->
 <style>
 .prose {
     line-height: 1.75;
@@ -206,6 +206,8 @@
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
     font-weight: 600;
+    /* Permet aux ancres (#introduction, etc.) de ne pas être cachées sous le header fixe */
+    scroll-margin-top: 6rem;
 }
 
 .prose p {
@@ -322,6 +324,75 @@
     .prose th, .prose td {
         padding: 0.75rem;
     }
+}
+
+/* --- Style moderne pour les blocs de code (codehilite / terminal) --- */
+
+/* Conteneur principal généré par l'extension codehilite de Markdown */
+.codehilite {
+    position: relative;
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #020617; /* slate-950 */
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
+}
+
+/* Barre de titre façon fenêtre de terminal */
+.codehilite::before {
+    content: "";
+    display: block;
+    height: 32px;
+    background: linear-gradient(90deg, #0f172a, #020617);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Petits boutons type macOS */
+.codehilite::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    width: 42px;
+    height: 12px;
+    background:
+        radial-gradient(circle at 6px 6px, #f97373 0, #f97373 4px, transparent 4px),
+        radial-gradient(circle at 21px 6px, #facc15 0, #facc15 4px, transparent 4px),
+        radial-gradient(circle at 36px 6px, #22c55e 0, #22c55e 4px, transparent 4px);
+}
+
+/* Zone de code proprement dite */
+.codehilite pre {
+    margin: 0;
+    padding: 0.75rem 1rem 1rem 1rem;
+    background: transparent;
+    color: #e5e7eb; /* text-slate-200 */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.85rem;
+}
+
+.codehilite code {
+    background: transparent;
+    padding: 0;
+}
+
+/* Lignes de code : légère séparation pour la lisibilité */
+.codehilite pre span {
+    line-height: 1.6;
+}
+
+/* Blocs bash / shell : style "terminal" plus marqué */
+.codehilite .language-bash,
+.codehilite .language-shell,
+.codehilite .language-sh {
+    color: #e5e7eb;
+}
+
+/* Optionnel : préfixe visuel pour les lignes de commande (simulé) */
+.codehilite .language-bash span,
+.codehilite .language-shell span,
+.codehilite .language-sh span {
+    /* On garde simple pour ne pas casser la coloration Pygments */
 }
 </style>
 {% endblock %} 
