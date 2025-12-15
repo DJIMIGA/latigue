@@ -23,80 +23,140 @@ document.addEventListener('DOMContentLoaded', function() {
 {% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Nos Formations</h1>
+
+<section class="relative py-12 lg:py-16 font-inter">
+  <!-- Fond décoratif (comme services) -->
+  <div class="absolute inset-0 -z-10 pointer-events-none">
+    <div class="absolute -top-32 -left-32 w-72 h-72 bg-gradient-to-br from-brand-500/10 to-accent-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-32 -right-32 w-72 h-72 bg-gradient-to-tr from-accent-500/10 to-brand-500/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- En-tête harmonisée -->
+    <div class="text-center mb-8 lg:mb-10">
+      <p class="text-xs uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400 mb-2">
+        Formations
+      </p>
+      <h1 class="text-2xl lg:text-3xl font-extrabold text-neutral-900 dark:text-white mb-3">
+        Montez en compétence avec des parcours structurés
+      </h1>
+      <p class="text-sm lg:text-base text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+        Choisissez la formation adaptée à votre niveau et avancez étape par étape,
+        avec une approche pragmatique et orientée projets.
+      </p>
+    </div>
 
     <!-- Filtres -->
     <div class="mb-8">
-        <div class="flex flex-wrap gap-4">
-            <a href="{% url 'formations:formation_list' %}" 
-               class="px-4 py-2 rounded-lg {% if not request.GET.level %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
-                Tous les niveaux
-            </a>
-            {% for value, label in levels.items %}
-            <a href="?level={{ value }}" 
-               class="px-4 py-2 rounded-lg {% if request.GET.level == value %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
-                {{ label }}
-            </a>
-            {% endfor %}
-        </div>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="{% url 'formations:formation_list' %}" 
+           class="px-4 py-2 rounded-full text-xs font-semibold
+                  {% if not request.GET.level %}
+                    bg-gradient-to-r from-brand-500 to-accent-500 text-white shadow-md
+                  {% else %}
+                    bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700
+                  {% endif %}">
+          Tous les niveaux
+        </a>
+        {% for value, label in levels.items %}
+        <a href="?level={{ value }}" 
+           class="px-4 py-2 rounded-full text-xs font-semibold
+                  {% if request.GET.level == value %}
+                    bg-gradient-to-r from-brand-500 to-accent-500 text-white shadow-md
+                  {% else %}
+                    bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700
+                  {% endif %}">
+          {{ label }}
+        </a>
+        {% endfor %}
+      </div>
     </div>
 
-    <!-- Liste des formations -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for formation in formations %}
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            {% if formation.image %}
-            <img src="{{ formation.image.url }}" alt="{{ formation.title }}" class="w-full h-48 object-cover">
-            {% endif %}
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-xl font-semibold">{{ formation.title }}</h2>
-                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                        {{ formation.get_level_display }}
-                    </span>
-                </div>
-                <div class="prose max-w-none text-gray-600 mb-6 min-h-[4rem]">{{ formation.description|truncatewords_html:30|safe }}</div>
-                <div class="flex justify-between items-center">
-                    <span class="text-blue-600 font-bold" data-price="{{ formation.price|floatformat:0 }}">{{ formation.price|floatformat:0 }} FCFA</span>
-                    <span class="text-gray-500">{{ formation.duration }}</span>
-                </div>
-                <a href="{% url 'formations:formation_detail' formation.slug %}" 
-                   class="mt-4 block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-                    En savoir plus
-                </a>
+    <!-- Liste des formations harmonisée avec services -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {% for formation in formations %}
+      <article class="group bg-white dark:bg-neutral-900 rounded-xl shadow-md hover:shadow-2xl border border-neutral-200 dark:border-neutral-800 transition-all duration-300 overflow-hidden flex flex-col">
+        {% if formation.image %}
+        <div class="relative h-44 overflow-hidden bg-neutral-900 dark:bg-neutral-900">
+          <img
+            src="{{ formation.image.url }}"
+            alt="{{ formation.title }}"
+            class="w-full h-full object-cover object-top"
+            loading="lazy"
+          />
+        </div>
+        {% endif %}
+
+        <div class="p-5 lg:p-6 flex flex-col flex-1">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold
+                          bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200 border border-blue-100 dark:border-blue-800">
+              {{ formation.get_level_display }}
+            </span>
+            <span class="text-xs text-neutral-500 dark:text-neutral-400">
+              {{ formation.duration }}
+            </span>
+          </div>
+
+          <h2 class="text-base lg:text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+            {{ formation.title }}
+          </h2>
+
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4 line-clamp-4">
+            {{ formation.description|striptags|truncatewords:25 }}
+          </p>
+
+          <div class="mt-auto flex items-center justify-between pt-2">
+            <div class="text-xs text-neutral-500 dark:text-neutral-400">
+              À partir de
+              <span class="font-semibold text-brand-600 dark:text-brand-400" data-price="{{ formation.price|floatformat:0 }}">
+                {{ formation.price|floatformat:0 }} FCFA
+              </span>
             </div>
+            <a
+              href="{% url 'formations:formation_detail' formation.slug %}" 
+              class="inline-flex items-center text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300"
+            >
+              En savoir plus
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
         </div>
-        {% empty %}
-        <div class="col-span-3 text-center py-8">
-            <p class="text-gray-500">Aucune formation disponible pour le moment.</p>
-        </div>
-        {% endfor %}
+      </article>
+      {% empty %}
+      <div class="col-span-full text-center py-8">
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">Aucune formation disponible pour le moment.</p>
+      </div>
+      {% endfor %}
     </div>
 
     <!-- Pagination -->
     {% if is_paginated %}
     <div class="mt-8 flex justify-center">
-        <div class="flex gap-2">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
-               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                Précédent
-            </a>
-            {% endif %}
+      <div class="flex gap-2">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
+           class="px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-xs font-semibold">
+          Précédent
+        </a>
+        {% endif %}
 
-            <span class="px-4 py-2 bg-gray-200 rounded-lg">
-                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
-            </span>
+        <span class="px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-semibold text-neutral-700 dark:text-neutral-200">
+          Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+        </span>
 
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
-               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                Suivant
-            </a>
-            {% endif %}
-        </div>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
+           class="px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-xs font-semibold">
+          Suivant
+        </a>
+        {% endif %}
+      </div>
     </div>
     {% endif %}
-</div>
+  </div>
+</section>
+
 {% endblock %} 

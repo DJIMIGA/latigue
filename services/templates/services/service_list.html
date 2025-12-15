@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Services - Konimba Djimiga{% endblock %}
+
+{% block content %}
+
+<section class="relative py-12 lg:py-16 font-inter">
+  <!-- Fond décoratif -->
+  <div class="absolute inset-0 -z-10 pointer-events-none">
+    <div class="absolute -top-32 -left-32 w-72 h-72 bg-gradient-to-br from-brand-500/10 to-accent-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-32 -right-32 w-72 h-72 bg-gradient-to-tr from-accent-500/10 to-brand-500/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- En-tête -->
+    <div class="text-center mb-10 lg:mb-14">
+      <p class="text-xs uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400 mb-2">
+        Services
+      </p>
+      <h1 class="text-2xl lg:text-3xl font-extrabold text-neutral-900 dark:text-white mb-3">
+        Ce que je peux faire pour votre projet
+      </h1>
+      <p class="text-sm lg:text-base text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+        De l'application mobile à l'application web, en passant par la maintenance et l’optimisation
+        de vos projets existants, je vous accompagne de l’idée à la mise en production.
+      </p>
+    </div>
+
+    <!-- Grille de services -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {% for service in services %}
+      <article class="group bg-white dark:bg-neutral-900 rounded-xl shadow-md hover:shadow-2xl border border-neutral-200 dark:border-neutral-800 transition-all duration-300 overflow-hidden flex flex-col">
+        {% if service.image %}
+        <div class="relative h-44 overflow-hidden bg-neutral-900 dark:bg-neutral-900">
+          <img
+            src="{{ service.image.url }}"
+            alt="{{ service.title }}"
+            class="w-full h-full object-cover object-top"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none"></div>
+        </div>
+        {% endif %}
+
+        <div class="p-4 lg:p-5 flex flex-col flex-1 items-center text-center">
+          <h2 class="text-base lg:text-lg font-bold text-neutral-900 dark:text-white mb-3 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+            {{ service.title }}
+          </h2>
+
+          <a
+            href="{% url 'services:service_detail' slug=service.slug %}"
+            class="mt-auto inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-full bg-neutral-100 dark:bg-neutral-800 text-brand-600 dark:text-brand-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+          >
+            Voir le détail
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </article>
+      {% empty %}
+      <p class="col-span-full text-center text-sm text-neutral-500 dark:text-neutral-400">
+        Aucun service n’est encore configuré. Ajoutez-en depuis l’admin.
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+

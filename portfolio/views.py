@@ -24,14 +24,14 @@ def about(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["name"]
             email = form.cleaned_data["email"]
+            sujet = form.cleaned_data["sujet"]
             message = form.cleaned_data["message"]
             
             # Envoyer l'email
             send_mail(
-                f"Nouveau message de {name}",
-                f"Nom: {name}\nEmail: {email}\nMessage: {message}",
+                f"Nouveau message : {sujet}",
+                f"Email: {email}\nSujet: {sujet}\nMessage: {message}",
                 email,
                 [settings.EMAIL_HOST_USER],
                 fail_silently=False,

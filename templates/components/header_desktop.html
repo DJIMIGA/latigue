@@ -17,16 +17,17 @@
                 <a href="{% url 'about' %}" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
                     À propos
                 </a>
-                <a href="#projects" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
-                    Projets
-                </a>
                 <a href="{% url 'blog-index' %}" target="_blank" rel="noreferrer" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
                     Blog
                 </a>
                 <a href="{% url 'services:service_list' %}" target="_blank" rel="noreferrer" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
                     Services
                 </a>
-                <a href="{% url 'formations:formation_index' %}" target="_blank" rel="noreferrer" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
+                <!-- CTA Formations mis en avant depuis la suppression du bouton dark-mode -->
+                <a href="{% url 'formations:formation_index' %}"
+                   target="_blank"
+                   rel="noreferrer"
+                   class="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-brand-500 to-accent-500 text-white font-semibold shadow-md hover:from-brand-600 hover:to-accent-600 hover:shadow-lg transition-all duration-200">
                     Formations
                 </a>
             </nav>

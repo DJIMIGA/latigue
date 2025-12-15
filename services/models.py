@@ -4,7 +4,6 @@ from ckeditor.fields import RichTextField
 
 class Service(models.Model):
     CATEGORY_CHOICES = [
-        ('ecommerce', 'E-commerce'),
         ('web_app', 'Application Web'),
         ('maintenance', 'Maintenance & Optimisation'),
     ]
@@ -23,7 +22,14 @@ class Service(models.Model):
     description = RichTextField(verbose_name="Description")
     features = RichTextField(verbose_name="Fonctionnalités incluses")
     technical_stack = models.TextField(verbose_name="Stack technique", help_text="Liste des technologies utilisées")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Prix de base")
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Prix de base",
+        null=True,
+        blank=True,
+        help_text="Optionnel. Laissez vide si le tarif dépend du projet."
+    )
     duration = models.CharField(max_length=100, verbose_name="Durée estimée")
     image = models.ImageField(upload_to='services/', verbose_name="Image", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="Actif")
