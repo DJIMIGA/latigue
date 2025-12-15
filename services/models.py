@@ -58,6 +58,10 @@ class Service(models.Model):
         verbose_name = "Service"
         verbose_name_plural = "Services"
         ordering = ['category', 'type', 'price']
+        indexes = [
+            models.Index(fields=['is_active', 'category']),  # Index composite pour les filtres
+            models.Index(fields=['slug']),  # Index pour les recherches par slug
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:

@@ -2,9 +2,53 @@
 {% load static %}
 {% load blog_filters %}
 
-{% block head_extra %}
-<title>{{ post.title }} - Blog</title>
-<meta name="description" content="{{ post.body|striptags|truncatewords:30 }}">
+{% block title %}{{ post.title }} - Blog | Konimba Djimiga{% endblock %}
+
+{% block meta_description %}{{ post.body|striptags|truncatewords:30 }}{% endblock %}
+
+{% block og_title %}{{ post.title }} - Blog | Konimba Djimiga{% endblock %}
+{% block og_description %}{{ post.body|striptags|truncatewords:30 }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}
+{% if post.thumbnail %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}{% endblock %}
+{% endif %}
+
+{% block twitter_title %}{{ post.title }}{% endblock %}
+{% block twitter_description %}{{ post.body|striptags|truncatewords:30 }}{% endblock %}
+{% if post.thumbnail %}
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}{% endblock %}
+{% endif %}
+
+{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title|escapejs }}",
+  "description": "{{ post.body|striptags|truncatewords:30|escapejs }}",
+  "image": {% if post.thumbnail %}"{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}"{% else %}null{% endif %},
+  "datePublished": "{{ post.created_on|date:'c' }}",
+  "dateModified": "{{ post.last_modified|date:'c' }}",
+  "author": {
+    "@type": "Person",
+    "name": "Konimba Djimiga",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'about' %}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Konimba Djimiga",
+    "url": "{{ request.scheme }}://{{ request.get_host }}"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.build_absolute_uri }}"
+  }{% if post.categories.all %},
+  "articleSection": "{{ post.categories.first.name|escapejs }}"{% endif %}
+}
+</script>
 {% endblock %}
 
 {% block content %}

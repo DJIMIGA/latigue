@@ -11,7 +11,8 @@ class ServiceListView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        queryset = Service.objects.filter(is_active=True)
+        # Optimisation : order_by pour un ordre cohérent
+        queryset = Service.objects.filter(is_active=True).order_by('category', 'type', 'price')
         category = self.request.GET.get('category')
         if category:
             queryset = queryset.filter(category=category)

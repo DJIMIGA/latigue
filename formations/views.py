@@ -8,7 +8,8 @@ class FormationListView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        queryset = Formation.objects.filter(is_active=True)
+        # Optimisation : order_by pour un ordre cohérent
+        queryset = Formation.objects.filter(is_active=True).order_by('level', '-created_at')
         level = self.request.GET.get('level')
         if level:
             queryset = queryset.filter(level=level)

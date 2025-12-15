@@ -26,6 +26,10 @@ class Formation(models.Model):
         verbose_name = "Formation"
         verbose_name_plural = "Formations"
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['is_active', 'level']),  # Index composite pour les filtres
+            models.Index(fields=['slug']),  # Index pour les recherches par slug
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:

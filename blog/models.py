@@ -10,8 +10,13 @@ from django.core.files.base import ContentFile
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=20)
-    slug = models.SlugField(max_length=50, unique=True, blank=True)
+    name = models.CharField(max_length=20, db_index=True)  # Index pour les recherches
+    slug = models.SlugField(max_length=50, unique=True, blank=True, db_index=True)
+
+    class Meta:
+        verbose_name = "Catégorie"
+        verbose_name_plural = "Catégories"
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -61,6 +66,10 @@ class Post(models.Model):
         ordering = ['-created_on']
         verbose_name = "Article"
         verbose_name_plural = "Articles"
+        indexes = [
+            models.Index(fields=['-created_on', 'is_featured']),  # Index composite pour les listes
+            models.Index(fields=['slug']),  # Index pour les recherches par slug
+        ]
 
     def __str__(self):
         return self.title

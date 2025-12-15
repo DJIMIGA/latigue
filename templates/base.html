@@ -3,19 +3,87 @@
 <!doctype html>
 <html lang="fr">
   <head>
-    <title>{% block title %}portfolio home{% endblock %}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}Konimba Djimiga - Développeur Python & Django | Portfolio{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles sur les technologies.{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}Développeur Python, Django, développement web, formation Python, tutoriels Django, Konimba Djimiga{% endblock %}" />
+    <meta name="author" content="Konimba Djimiga" />
+    <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}Konimba Djimiga - Développeur Python & Django{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles.{% endblock %}" />
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'portfolio/svg/djimi.svg' %}{% endblock %}" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Konimba Djimiga - Portfolio" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <meta name="twitter:title" content="{% block twitter_title %}Konimba Djimiga - Développeur Python & Django{% endblock %}" />
+    <meta name="twitter:description" content="{% block twitter_description %}Développeur Python & Django, créateur de contenu pédagogique.{% endblock %}" />
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'portfolio/svg/djimi.svg' %}{% endblock %}" />
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'portfolio/icons/favicon.ico' %}" type="icon" />
+    <link rel="apple-touch-icon" href="{% static 'portfolio/icons/favicon.ico' %}" />
+    
+    <!-- Stylesheets -->
     <link href=" {% static 'dist/css/output.css' %} " rel="stylesheet" />
+    
+    <!-- Scripts -->
     <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/header.js' %}"></script>
-    <link
-      rel="shortcut icon"
-      href="{% static 'portfolio/icons/favicon.ico' %}"
-      type="icon"
-    />
+    
+    <!-- Structured Data (JSON-LD) - Block pour permettre l'override dans les pages -->
+    {% block structured_data %}
+    <!-- Organization Schema (Person) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Konimba Djimiga",
+      "jobTitle": "Développeur Python & Django",
+      "description": "Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles sur les technologies.",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "sameAs": [
+        "https://www.tiktok.com/@djimiga1",
+        "https://www.youtube.com/@pythonmalien",
+        "https://x.com/pymalien",
+        "https://linkedin.com/in/pymalien"
+      ],
+      "knowsAbout": ["Python", "Django", "Développement Web", "Formation", "Tutoriels"],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tours",
+        "addressCountry": "FR"
+      }
+    }
+    </script>
+    {% endblock %}
+    
+    <!-- Extra head content (pour les pages spécifiques) -->
     {% block head_extra %}{% endblock %}
+    
+    <!-- Google Analytics (si configuré) -->
+    {% if GOOGLE_ANALYTICS_ID %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+    </script>
+    {% endif %}
+    
     <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

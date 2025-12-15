@@ -1,0 +1,12 @@
+# robots.txt pour bolibana.net / latigue
+# Permet aux moteurs de recherche d'indexer le site
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /ckeditor/
+Disallow: /staticfiles/
+
+# Sitemap
+Sitemap: https://bolibana.net/sitemap.xml
+
