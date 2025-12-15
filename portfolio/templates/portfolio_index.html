@@ -157,7 +157,15 @@
         <!-- Carte projet avec effets améliorés -->
         <div class="group bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-neutral-200 dark:border-neutral-600 mx-auto w-full max-w-sm animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
           <div class="relative overflow-hidden">
+            {% if portfolio.thumbnail %}
             <img class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" src="{{ portfolio.thumbnail.url }}" alt="{{ portfolio.title }}">
+            {% else %}
+            <div class="w-full h-48 bg-gradient-to-br from-brand-500/20 to-accent-500/20 flex items-center justify-center">
+              <svg class="w-16 h-16 text-neutral-400 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            {% endif %}
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
           <div class="p-6">
@@ -168,17 +176,21 @@
               {{ portfolio.description|truncatewords:20 }}
             </p>
             <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-              <a href="{{ portfolio.lien }}" class="w-full sm:flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 text-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
+              {% if portfolio.lien %}
+              <a href="{{ portfolio.lien }}" target="_blank" rel="noopener noreferrer" class="w-full sm:flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 text-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                             </svg>
                             Voir le projet
                         </a>
-              <a href="{{ portfolio.lien_github }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-3 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+              {% endif %}
+              {% if portfolio.lien_github %}
+              <a href="{{ portfolio.lien_github }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-3 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.239 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                             </svg>
                         </a>
+              {% endif %}
                     </div>
                 </div>
         </div>
@@ -209,17 +221,17 @@
         </p>
       </div>
       
-      <!-- Grille d'articles -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        <!-- Colonne des articles -->
-        <div class="space-y-8">
-                        {% for post in posts %}
+      <!-- Contenu principal du blog -->
+      <div class="space-y-10">
+        <!-- Grille des articles (plein largeur) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+          {% for post in posts %}
           <article class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 animate-fade-in-up hover:scale-105" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
             <a href="{% url 'blog-detail' slug=post.slug %}" class="block">
               <!-- Date avec effet de pulse -->
               <time class="text-sm text-neutral-500 dark:text-neutral-300 mb-3 block group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
                 {{ post.created_on|date:"d F Y" }}
-                            </time>
+              </time>
               
               <!-- Titre avec effet de soulignement -->
               <h3 class="text-xl font-semibold text-neutral-800 dark:text-white mb-3 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300 hover-underline">
@@ -233,29 +245,18 @@
               
               <!-- Lien de lecture avec animation -->
               <div class="inline-flex items-center text-brand-600 dark:text-brand-300 font-medium group-hover:text-brand-700 dark:group-hover:text-brand-200 transition-colors duration-300">
-                                <span>Lire l'article</span>
+                <span>Lire l'article</span>
                 <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                            </a>
-                        </article>
-                        {% endfor %}
-                    </div>
-        
-        <!-- Colonne sidebar -->
-        <div class="space-y-8">
-          <!-- Newsletter avec effet glassmorphism -->
-          <div class="bg-gradient-to-br from-brand-50 to-accent-50 dark:from-brand-900/20 dark:to-accent-900/20 rounded-xl p-6 border border-brand-200 dark:border-brand-800 backdrop-blur-sm animate-fade-in-up" style="animation-delay: 0.4s;">
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white mb-3">
-              Restez informé(e) !
-            </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 mb-4">
-              Inscrivez-vous à ma newsletter pour recevoir mes derniers articles et conseils.
-            </p>
-            <div id="hubspot-form-container"></div>
-                            </div>
-          
+                </svg>
+              </div>
+            </a>
+          </article>
+          {% endfor %}
+        </div>
+
+        <!-- Bloc Formations + Services sous les articles -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           <!-- CTA Formations -->
           <div class="bg-gradient-to-br from-brand-50 to-accent-50 dark:from-brand-900/20 dark:to-accent-900/20 rounded-xl p-6 border border-brand-200 dark:border-brand-800 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in-up">
             <h3 class="text-lg font-semibold text-neutral-800 dark:text-white mb-3 flex items-center">
@@ -267,13 +268,13 @@
             <p class="text-neutral-600 dark:text-neutral-200 mb-4">
               Découvrez mes formations en développement Python et Django pour progresser rapidement.
             </p>
-            <a href="{% url 'formations:formation_list' %}" class="inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 btn-press">
+            <a href="{% url 'formations:formation_list' %}" class="mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 btn-press">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
               Voir les formations
             </a>
-                        </div>
+          </div>
   
           <!-- CTA Services -->
           <div class="bg-gradient-to-br from-accent-50 to-brand-50 dark:from-accent-900/20 dark:to-brand-900/20 rounded-xl p-6 border border-accent-200 dark:border-accent-800 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in-up">
@@ -286,7 +287,7 @@
             <p class="text-neutral-600 dark:text-neutral-200 mb-4">
               Besoin d'un développeur Python pour votre projet ? Découvrez mes services de développement.
             </p>
-            <a href="{% url 'services:service_list' %}" class="inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-accent-500 to-brand-500 text-white rounded-lg hover:from-accent-600 hover:to-brand-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 btn-press">
+            <a href="{% url 'services:service_list' %}" class="mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-accent-500 to-brand-500 text-white rounded-lg hover:from-accent-600 hover:to-brand-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 btn-press">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
@@ -369,15 +370,6 @@
         </div>
     </div>
 
-      <!-- Bouton CV -->
-      <div class="mt-12 text-center animate-fade-in-up">
-        <a href="{{ MEDIA_URL }}cv.pdf" download="konimba.cv.pdf" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-1 text-base btn-press">
-          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-        </svg>
-          <span class="whitespace-nowrap">Télécharger mon CV</span>
-        </a>
-        </div>
     </div>
   </div>
 </section>
