@@ -239,12 +239,22 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     },
 }
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'pymalien1@gmail.com'
-EMAIL_HOST_PASSWORD = """yenr omqi vsgc cizc"""
+
+# ======================================================================
+# EMAIL
+# ======================================================================
+# En développement : on affiche les emails dans la console pour éviter
+# les erreurs SMTP (et pour ne pas utiliser de vraies identifiants).
+# En production : on utilise SMTP avec des variables d'environnement.
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # ======================================================================
 # PARAMÈTRES DE SÉCURITÉ SSL

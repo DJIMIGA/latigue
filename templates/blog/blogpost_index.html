@@ -8,29 +8,29 @@
 
 {% block content %}
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-    <!-- Header Section -->
-    <div class="container mx-auto px-4 py-12">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+    <!-- Header Section (version compacte) -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Centre d'<span class="text-blue-600 dark:text-blue-400">Information</span>
             </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
                 Découvrez nos articles sur le développement web, les technologies et les bonnes pratiques
             </p>
         </div>
 
-        <!-- Categories Section -->
+        <!-- Categories Section (compacte) -->
         {% if categories_with_count %}
-        <div class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Catégories</h2>
-            <div class="flex flex-wrap justify-center gap-4">
+        <div class="mb-4">
+            <h2 class="text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 mb-2 text-center uppercase">Catégories</h2>
+            <div class="flex flex-wrap justify-center gap-2">
                 {% for category in categories_with_count %}
                 <a href="{{ category.get_absolute_url }}" 
-                   class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-300 group">
+                   class="inline-flex items-center px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-300 group text-xs md:text-sm">
                     <span class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
                         {{ category.name }}
                     </span>
-                    <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                    <span class="ml-2 px-2 py-0.5 text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
                         {{ category.post_count }}
                     </span>
                 </a>
@@ -39,14 +39,14 @@
         </div>
         {% endif %}
 
-        <!-- Search and Filter Section -->
-        <div class="mb-12">
-            <div class="max-w-md mx-auto">
+        <!-- Search and Filter Section (compacte) -->
+        <div class="mb-6">
+            <div class="max-w-lg mx-auto">
                 <div class="relative">
                     <input type="text" 
                            id="searchInput"
                            placeholder="Rechercher un article..." 
-                           class="w-full px-4 py-3 pl-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white transition-all duration-300">
+                           class="w-full px-3 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white text-sm md:text-base transition-all duration-300">
                     <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -55,18 +55,18 @@
         </div>
 
         <!-- Articles Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="articlesGrid">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16" id="articlesGrid">
             {% for post in posts %}
-            <article class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-200 dark:border-gray-700">
-                <!-- Image Container -->
+            <article class="group bg-white dark:bg-neutral-900 rounded-xl shadow-md hover:shadow-2xl border border-neutral-200 dark:border-neutral-800 transition-all duration-300 overflow-hidden flex flex-col">
+                <!-- Image Container (style aligné sur les services) -->
                 {% if post.thumbnail %}
-                <div class="relative overflow-hidden h-48">
+                <div class="relative h-44 overflow-hidden bg-neutral-900 dark:bg-neutral-900">
                     <a href="{{ post.get_absolute_url }}">
-                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                        <img class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" 
                              src="{{ post.thumbnail.url }}" 
                              alt="{{ post.title }}" 
                              loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none"></div>
                     </a>
                     <!-- Category Badge -->
                     {% if post.categories.all %}
@@ -79,53 +79,23 @@
                 </div>
                 {% endif %}
 
-                <!-- Content -->
-                <div class="p-6">
-                    <!-- Date -->
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        {{ post.created_on|smart_date }}
-                    </div>
-
-                    <!-- Title -->
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                        <a href="{{ post.get_absolute_url }}" class="hover:underline">
-                            {{ post.title }}
-                        </a>
+                <!-- Contenu aligné sur la carte service -->
+                <div class="p-4 lg:p-5 flex flex-col flex-1 items-center text-center">
+                    <h2 class="text-base lg:text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                        {{ post.title }}
                     </h2>
-
-                    <!-- Excerpt -->
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                        {{ post.body|safe_excerpt:25 }}
+                    <p class="text-gray-600 dark:text-gray-300 text-xs lg:text-sm leading-relaxed mb-3 line-clamp-3">
+                        {{ post.body|safe_excerpt:8 }}
                     </p>
-
-                    <!-- Read More Button -->
-                    <div class="flex items-center justify-between">
-                        <a href="{{ post.get_absolute_url }}" 
-                           class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium text-sm hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-300 group">
-                            Lire la suite
-                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                        
-                        <!-- Reading Time Estimate -->
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
-                            {% with word_count=post.body|wordcount %}
-                                {% if word_count < 200 %}
-                                    ~1 min
-                                {% elif word_count < 500 %}
-                                    ~2 min
-                                {% elif word_count < 1000 %}
-                                    ~4 min
-                                {% else %}
-                                    ~6 min
-                                {% endif %}
-                            {% endwith %}
-                        </span>
-                    </div>
+                    <a
+                      href="{{ post.get_absolute_url }}"
+                      class="mt-auto inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-full bg-neutral-100 dark:bg-neutral-800 text-brand-600 dark:text-brand-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                      Lire l’article
+                      <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
                 </div>
             </article>
             {% empty %}

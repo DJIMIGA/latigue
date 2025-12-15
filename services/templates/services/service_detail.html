@@ -94,6 +94,31 @@
               {{ service.features|safe }}
             </div>
           </section>
+
+          <!-- Bloc contextuel supplémentaire selon le type de service -->
+          <section class="bg-neutral-50 dark:bg-neutral-800/60 rounded-lg border border-neutral-200 dark:border-neutral-700 p-4 sm:p-5">
+            {% if service.category == 'web_app' %}
+              <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-300 mb-2">
+                Ce que vous obtenez concrètement
+              </h2>
+              <ul class="text-sm text-neutral-700 dark:text-neutral-200 space-y-1.5 list-disc list-inside">
+                <li>Une application web pensée pour vos usages réels (back‑office, clients, collaborateurs).</li>
+                <li>Une base de code structurée (Django) facile à faire évoluer dans le temps.</li>
+                <li>Une architecture prête pour l’hébergement (PostgreSQL, S3, déploiement cloud).</li>
+                <li>Une interface responsive utilisable sur ordinateur, tablette et mobile.</li>
+              </ul>
+            {% elif service.category == 'maintenance' %}
+              <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-300 mb-2">
+                Ce qui est pris en charge
+              </h2>
+              <ul class="text-sm text-neutral-700 dark:text-neutral-200 space-y-1.5 list-disc list-inside">
+                <li>Analyse de l’existant et priorisation des correctifs les plus critiques.</li>
+                <li>Mises à jour régulières de Django, des dépendances et de l’infrastructure.</li>
+                <li>Optimisations ciblées sur les performances (requêtes, stockage, assets).</li>
+                <li>Accompagnement pour faire évoluer progressivement votre application.</li>
+              </ul>
+            {% endif %}
+          </section>
         </div>
 
         <!-- Colonne latérale -->

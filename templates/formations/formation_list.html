@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </h2>
 
           <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4 line-clamp-4">
-            {{ formation.description|striptags|truncatewords:25 }}
+            {{ formation.description|truncatewords_html:25|safe }}
           </p>
 
           <div class="mt-auto flex items-center justify-between pt-2">

@@ -133,10 +133,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     Contactez-nous pour vous inscrire à cette formation et commencer votre parcours d'apprentissage.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <span class="text-4xl font-extrabold text-white" data-price="{{ formation.price }}">
+                    <span class="text-4xl font-extrabold text-white" data-price="{{ formation.price|floatformat:0 }}">
                         {{ formation.price|floatformat:0 }} FCFA
                     </span>
-                    <a href="#" 
+                    <a href="{% url 'about' %}#contact" 
                        class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-transform transform hover:scale-105 duration-300">
                         Inscrivez-vous
                     </a>
