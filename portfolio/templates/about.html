@@ -25,31 +25,9 @@
 
     <!-- Carte principale À propos -->
     <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-6 lg:p-10 mb-10">
-      <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-        <!-- Photo / avatar -->
-        <div class="flex-shrink-0 relative">
-          <div class="relative w-40 h-40 lg:w-52 lg:h-52 rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800 bg-neutral-200 dark:bg-neutral-700">
-            {% if profile.profile_image %}
-            <img
-              alt="{{ profile.name }}"
-              src="{{ profile.profile_image.url }}"
-              class="w-full h-full object-cover"
-            />
-            {% else %}
-            <img
-              alt="Photo de profil par défaut"
-              src="{% static 'portfolio/svg/default-profile.svg' %}"
-              class="w-full h-full object-cover"
-            />
-            {% endif %}
-          </div>
-          <div class="absolute -bottom-3 -right-3 px-4 py-1 rounded-full bg-gradient-to-r from-brand-500 to-accent-500 text-white text-xs font-semibold shadow-lg">
-            Développeur Python
-          </div>
-        </div>
-
+      <div class="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
         <!-- Texte de présentation -->
-        <div class="flex-1 space-y-5 lg:space-y-6">
+        <div class="flex-1 space-y-5 lg:space-y-6 order-2 lg:order-1">
           <div>
             <h1 class="text-3xl lg:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
               Konimba Djimiga
@@ -127,6 +105,28 @@
                   <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
                 </svg>
               </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo / avatar (en haut à droite sur grand écran) -->
+        <div class="flex-shrink-0 relative lg:self-start order-1 lg:order-2">
+          <div class="relative group">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-500 to-accent-500 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-xl border-4 border-white dark:border-neutral-800 bg-neutral-200 dark:bg-neutral-700">
+              {% if profile.profile_image %}
+              <img
+                alt="{{ profile.name }}"
+                src="{{ profile.profile_image.url }}"
+                class="w-full h-full object-cover"
+              />
+              {% else %}
+              <img
+                alt="Photo de profil par défaut"
+                src="{% static 'portfolio/svg/default-profile.svg' %}"
+                class="w-full h-full object-cover"
+              />
+              {% endif %}
             </div>
           </div>
         </div>
