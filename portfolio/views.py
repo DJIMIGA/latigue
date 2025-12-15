@@ -20,6 +20,7 @@ def portfolio_index(request):
 
 
 def about(request):
+    profile = Profile.get_profile()
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -40,5 +41,9 @@ def about(request):
             return redirect("about")
     else:
         form = ContactForm()
-    
-    return render(request, "about.html", {"form": form})
+
+    context = {
+        "form": form,
+        "profile": profile,
+    }
+    return render(request, "about.html", context)

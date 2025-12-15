@@ -1,128 +1,181 @@
-{% extends "base.html" %}{% load static %} {% block title %}<title xmlns="">
-    konimba . Website</title
->{% endblock %} {% block content %}
-<section class="w-full p-2">
-<div class="flex flex-col mx-auto tablet:flex-row justify-center items-center mx-auto dark:text-white">
-    <div class="flex tablet:p-4 m-4 items-center justify-center">
-        <img
-                alt=""
-                src="{{ MEDIA_URL }}image/about.png"
-                class="h-auto w-96 object-cover duration-200 rounded hover:scale-105"
-        />
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>À propos - Konimba Djimiga</title>
+{% endblock %}
+
+{% block content %}
+
+<section class="relative py-12 lg:py-16">
+  <!-- Fond décoratif -->
+  <div class="absolute inset-0 pointer-events-none -z-10">
+    <div class="absolute -top-40 -right-40 w-72 h-72 bg-gradient-to-br from-brand-500/10 to-accent-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-72 h-72 bg-gradient-to-tr from-accent-500/10 to-brand-500/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 font-inter">
+    <!-- Titre de page -->
+    <div class="mb-6 lg:mb-8 text-center">
+      <p class="text-xs uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400 mb-1">
+        À propos
+      </p>
+      <h1 class="text-2xl lg:text-3xl font-extrabold text-neutral-900 dark:text-white">
+        En savoir plus sur moi
+      </h1>
     </div>
 
-
-    <div class=" flex flex-col justify-center tablet:w-1/2">
-        <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-800">DJIMIGA konimba</h1>
-        <h2 class="text-3xl mb-2 bg-clip-text text-transparent bg-gradient-to-r from-slate-500 to-violet-500">Développeur Python</h2>
-
-        <p>Bonjour, je m'appelle konimba, un Malien vivant à Tours,<br> en France depuis 2013.</p>
-
-        <p>Je suis passionné par la technologie et la programmation,<br> et je cherche toujours à améliorer mes
-            compétences.
-            Je
-            m'intéresse également au développement web,<br> à l'innovation et aux fruits et legumes (oui, les fruis et
-            legumes!)</p>
-
-        <p>Lorsque je ne code pas ou n'explore pas les dernières tendances technologiques,<br> vous pouvez me trouver
-            dans la mosquée où je me ressource et avoir l'amour d'Allah</p>
-
-
-        <div id="social-icon" class="flex ">
-            <a
-                    class="flex items-center justify-center dark:text-white items-center rounded px-2 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
-                    href="https://www.tiktok.com/@djimiga55?is_from_webapp=1&sender_device=pc"
-            >
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 50 50"
-                        class="h-7 w-7"
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                >
-                    <path d="M41,4H9C6.243,4,4,6.243,4,9v32c0,2.757,2.243,5,5,5h32c2.757,0,5-2.243,5-5V9C46,6.243,43.757,4,41,4z M37.006,22.323 c-0.227,0.021-0.457,0.035-0.69,0.035c-2.623,0-4.928-1.349-6.269-3.388c0,5.349,0,11.435,0,11.537c0,4.709-3.818,8.527-8.527,8.527 s-8.527-3.818-8.527-8.527s3.818-8.527,8.527-8.527c0.178,0,0.352,0.016,0.527,0.027v4.202c-0.175-0.021-0.347-0.053-0.527-0.053 c-2.404,0-4.352,1.948-4.352,4.352s1.948,4.352,4.352,4.352s4.527-1.894,4.527-4.298c0-0.095,0.042-19.594,0.042-19.594h4.016 c0.378,3.591,3.277,6.425,6.901,6.685V22.323z"/>
-                </svg>
-            </a>
-            <a
-                    class="flex dark:text-white items-center rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
-                    href="https://www.youtube.com/@pythonmalien"
-            >
-                <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 576 512"
-                        class="h-8 w-8"
-                        xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                            d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                    ></path>
-                </svg>
-            </a>
-            <a
-                    class="flex m-x-2 items-center dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
-                    href="https://x.com/pymalien"
-            >
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="h-6 w-6"
-                        viewBox="0 0 16 16"
-                >
-                    <path
-                            d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
-                    ></path>
-                </svg>
-            </a>
-            <a
-                    class="flex items-center dark:text-white rounded px-3 py-2 font-mono text-sm font-semibold hover:text-teal-600 transition-colors"
-                    href="https://linkedin.com/in/pymalien"
-            >
-                <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 448 512"
-                        class="h-7 w-7"
-                        xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-                    ></path>
-                </svg>
-            </a>
+    <!-- Carte principale À propos -->
+    <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-6 lg:p-10 mb-10">
+      <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <!-- Photo / avatar -->
+        <div class="flex-shrink-0 relative">
+          <div class="relative w-40 h-40 lg:w-52 lg:h-52 rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-neutral-800 bg-neutral-200 dark:bg-neutral-700">
+            {% if profile.profile_image %}
+            <img
+              alt="{{ profile.name }}"
+              src="{{ profile.profile_image.url }}"
+              class="w-full h-full object-cover"
+            />
+            {% else %}
+            <img
+              alt="Photo de profil par défaut"
+              src="{% static 'portfolio/svg/default-profile.svg' %}"
+              class="w-full h-full object-cover"
+            />
+            {% endif %}
+          </div>
+          <div class="absolute -bottom-3 -right-3 px-4 py-1 rounded-full bg-gradient-to-r from-brand-500 to-accent-500 text-white text-xs font-semibold shadow-lg">
+            Développeur Python
+          </div>
         </div>
+
+        <!-- Texte de présentation -->
+        <div class="flex-1 space-y-5 lg:space-y-6">
+          <div>
+            <h1 class="text-3xl lg:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
+              Konimba Djimiga
+            </h1>
+            <p class="mt-1 text-base lg:text-lg font-semibold text-neutral-600 dark:text-neutral-300">
+              Développeur Python & créateur de contenu pédagogique
+            </p>
+          </div>
+
+          <p class="text-sm lg:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            Bonjour, je m'appelle Konimba, un Malien vivant à Tours en France depuis 2013.
+            Passionné par la technologie, la programmation et l'enseignement, je construis des projets
+            autour de Django, Python et de l'automatisation, tout en partageant ce que j'apprends via des contenus pédagogiques.
+          </p>
+
+          <p class="text-sm lg:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            Mon parcours mêle développement web, innovation et expérience dans le commerce de grande distribution,
+            ce qui me donne une vision très concrète des besoins métiers. J'aime transformer des idées en outils
+            simples, utiles et maintenables.
+          </p>
+
+          <p class="text-sm lg:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            En dehors du code, je me ressource à la mosquée et j'attache une grande importance aux valeurs,
+            à la transmission et à la bienveillance dans tout ce que j'entreprends.
+          </p>
+
+          <!-- Badges et réseaux sociaux -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200 border border-brand-100 dark:border-brand-800">
+                Python & Django
+              </span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-accent-50 text-accent-700 dark:bg-accent-900/40 dark:text-accent-200 border border-accent-100 dark:border-accent-800">
+                Contenu pédagogique
+              </span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900">
+                S3 · DevOps léger
+              </span>
+            </div>
+
+            <div id="social-icon" class="flex items-center gap-2">
+              <a
+                class="flex items-center justify-center rounded-full p-2 text-neutral-700 dark:text-neutral-200 hover:text-brand-500 dark:hover:text-brand-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                href="https://www.tiktok.com/@djimiga1"
+                aria-label="TikTok"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" class="h-6 w-6" stroke="currentColor" fill="currentColor" stroke-width="0">
+                  <path d="M41,4H9C6.243,4,4,6.243,4,9v32c0,2.757,2.243,5,5,5h32c2.757,0,5-2.243,5-5V9C46,6.243,43.757,4,41,4z M37.006,22.323 c-0.227,0.021-0.457,0.035-0.69,0.035c-2.623,0-4.928-1.349-6.269-3.388c0,5.349,0,11.435,0,11.537c0,4.709-3.818,8.527-8.527,8.527 s-8.527-3.818-8.527-8.527s3.818-8.527,8.527-8.527c0.178,0,0.352,0.016,0.527,0.027v4.202c-0.175-0.021-0.347-0.053-0.527-0.053 c-2.404,0-4.352,1.948-4.352,4.352s1.948,4.352,4.352,4.352s4.527-1.894,4.527-4.298c0-0.095,0.042-19.594,0.042-19.594h4.016 c0.378,3.591,3.277,6.425,6.901,6.685V22.323z"/>
+                </svg>
+              </a>
+              <a
+                class="flex items-center justify-center rounded-full p-2 text-neutral-700 dark:text-neutral-200 hover:text-red-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                href="https://www.youtube.com/@pythonmalien"
+                aria-label="YouTube"
+              >
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path>
+                </svg>
+              </a>
+              <a
+                class="flex items-center justify-center rounded-full p-2 text-neutral-700 dark:text-neutral-200 hover:text-accent-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                href="https://x.com/pymalien"
+                aria-label="X (Twitter)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-5 w-5" viewBox="0 0 16 16">
+                  <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"></path>
+                </svg>
+              </a>
+              <a
+                class="flex items-center justify-center rounded-full p-2 text-neutral-700 dark:text-neutral-200 hover:text-blue-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                href="https://linkedin.com/in/pymalien"
+                aria-label="LinkedIn"
+              >
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-</div>
-<div class="dark:bg-gray-900 dark:text-white tablet:w-5/6 mx-auto">
-    <div class="py-4 lg:py-16 mx-auto">
-        <h2 class="mb-4 tablet:text-center text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Contacter
-            Moi</h2>
-        <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">Envie de discuter de
-            technologie, de partager des idées sur l'innovation ou simplement de discuter de la vie et de la foi ?
-            N'hésitez pas à me contacter !</p>
-        {% if messages %}
-        <ul class="text-green-500">
-            {% for message in messages %}
-            <li
-            {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        <form action="{% url 'about' %}" method="post" onsubmit="aler('Le message est envoyé avec succès !')" class="space-y-8">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit"
-                    class="py-3 px-5 font-bold rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white m-5 shadow-md md:mr-10 hover:text-teal-600 hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800">
-                Envoyer votre message
-            </button>
-        </form>
+    <!-- Bloc contact moderne -->
+    <div class="max-w-4xl mx-auto bg-white dark:bg-neutral-900 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-800 p-6 lg:p-10">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl lg:text-3xl font-bold text-neutral-900 dark:text-white mb-2">
+          Me contacter
+        </h2>
+        <p class="text-sm lg:text-base text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+          Envie de discuter de technologie, de formation, d’un projet Django ou simplement d’échanger
+          autour de la foi et du quotidien ? Laissez-moi un message, je réponds dès que possible.
+        </p>
+      </div>
+
+      {% if messages %}
+      <ul class="mb-6 space-y-2">
+        {% for message in messages %}
+          <li class="text-sm px-4 py-2 rounded-lg
+                     {% if message.tags == 'success' %}bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-200 dark:border-emerald-800
+                     {% elif message.tags == 'error' %}bg-red-50 text-red-700 border border-red-100 dark:bg-red-900/30 dark:text-red-200 dark:border-red-800
+                     {% else %}bg-neutral-50 text-neutral-700 border border-neutral-100 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700{% endif %}">
+            {{ message }}
+          </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form action="{% url 'about' %}" method="post" class="space-y-6">
+        {% csrf_token %}
+        <div class="space-y-4">
+          {{ form.as_p }}
+        </div>
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-gradient-to-r from-brand-500 to-accent-500 text-white font-semibold shadow-lg hover:from-brand-600 hover:to-accent-600 transform hover:scale-105 transition-all duration-200"
+          >
+            Envoyer votre message
+          </button>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 </section>
+
 {% endblock %}
