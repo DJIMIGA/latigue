@@ -124,16 +124,23 @@
             >À propos</a
           >
           <a
-            href="#projects"
-            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
-            >Projets</a
-          >
-          <a
             href="{% url 'blog-index' %}"
             target="_blank"
-            class="font-semibold text-neutral-800 dark:text-white hover:text-accent-600 dark:hover:text-accent-400 transition-colors duration-300"
             rel="noreferrer"
+            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
             >Blog</a>
+          <a
+            href="{% url 'services:service_list' %}"
+            target="_blank"
+            rel="noreferrer"
+            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+            >Services</a>
+          <a
+            href="{% url 'formations:formation_index' %}"
+            target="_blank"
+            rel="noreferrer"
+            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+            >Formations</a>
         </div>
       </div>
       <p class="text-center text-xs lg:text-sm text-neutral-500 dark:text-neutral-400 py-4 px-4 border-t border-neutral-200 dark:border-neutral-700">

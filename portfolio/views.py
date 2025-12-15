@@ -28,16 +28,51 @@ def about(request):
             sujet = form.cleaned_data["sujet"]
             message = form.cleaned_data["message"]
             
-            # Envoyer l'email
-            send_mail(
-                f"Nouveau message : {sujet}",
-                f"Email: {email}\nSujet: {sujet}\nMessage: {message}",
-                email,
-                [settings.EMAIL_HOST_USER],
-                fail_silently=False,
-            )
+            # Préparer le contenu de l'email
+            email_subject = f"Nouveau message depuis le site : {sujet}"
+            email_body = f"""Nouveau message reçu depuis le formulaire de contact :
+
+De : {email}
+Sujet : {sujet}
+
+Message :
+{message}
+
+---
+Ce message a été envoyé depuis le site web de Djimiga Tech.
+"""
             
-            messages.success(request, "Votre message a été envoyé avec succès!")
+            # Déterminer le destinataire
+            recipient_email = getattr(settings, 'CONTACT_EMAIL', None)
+            if not recipient_email:
+                recipient_email = getattr(settings, 'EMAIL_HOST_USER', None)
+            
+            if not recipient_email:
+                messages.error(request, "Erreur de configuration : l'adresse email de contact n'est pas configurée.")
+                return redirect("about")
+            
+            try:
+                # Envoyer l'email
+                send_mail(
+                    email_subject,
+                    email_body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [recipient_email],
+                    fail_silently=False,
+                )
+                
+                messages.success(request, "Votre message a été envoyé avec succès! Je vous répondrai dans les plus brefs délais.")
+            except Exception as e:
+                # Logger l'erreur pour le débogage
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Erreur lors de l'envoi de l'email : {e}")
+                
+                if settings.DEBUG:
+                    messages.error(request, f"Erreur lors de l'envoi de l'email (mode debug) : {e}")
+                else:
+                    messages.error(request, "Une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer plus tard ou me contacter directement.")
+            
             return redirect("about")
     else:
         form = ContactForm()
