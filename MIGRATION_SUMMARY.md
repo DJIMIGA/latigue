@@ -179,8 +179,8 @@ crontab -e
 - `DEFAULT_FROM_EMAIL=pymalien@gmail.com`
 
 ### AWS S3
-- `AWS_ACCESS_KEY_ID=AKIAUYKKDFWD245H5OMM`
-- `AWS_SECRET_ACCESS_KEY=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`
+- `AWS_ACCESS_KEY_ID=""
+- `AWS_SECRET_ACCESS_KEY=""
 - `AWS_STORAGE_BUCKET_NAME=personalporfolio`
 - `AWS_S3_REGION_NAME=eu-north-1`
 - `AWS_S3_CUSTOM_DOMAIN=d3tcb6ounmojtn.cloudfront.net`
