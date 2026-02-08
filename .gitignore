@@ -18,12 +18,14 @@ db.json
 
 # Configuration locale de l'environnement
 .env
+.env.production
+.env.secrets
 
 # Migrations de base de données
 */migrations/*
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 
@@ -122,3 +124,19 @@ web_modules
 
 # npm 7+
 node_modules/
+
+# Docker et SSL
+certbot/
+staticfiles/
+
+# Database dumps
+*.dump
+*.sql
+*.sql.gz
+
+# Media uploads
+media/
+
+# Test files
+test_s3_connection.py
+nul

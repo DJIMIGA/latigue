@@ -214,3 +214,4 @@ def get_categories():
 
 **Toutes les optimisations de code sont terminées ! Il reste à appliquer les migrations.**
 
+

@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os.path
 from pathlib import Path
-import django_heroku
 import dj_database_url
 from dotenv import load_dotenv
 
@@ -22,21 +21,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env_path = BASE_DIR / '.env'
 if env_path.exists():
     load_dotenv(env_path, override=True)  # override=True pour forcer le rechargement
-    print(f"✓ Fichier .env chargé depuis: {env_path}")
+    print(f"[OK] Fichier .env charge depuis: {env_path}")
 else:
     # Essayer aussi .env.secrets si .env n'existe pas
     env_secrets_path = BASE_DIR / '.env.secrets'
     if env_secrets_path.exists():
         load_dotenv(env_secrets_path, override=True)
-        print(f"✓ Fichier .env.secrets chargé depuis: {env_secrets_path}")
+        print(f"[OK] Fichier .env.secrets charge depuis: {env_secrets_path}")
     else:
-        print("⚠️  Aucun fichier .env trouvé")
+        print("[WARNING] Aucun fichier .env trouve")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+print(f"[DEBUG CHECK] DJANGO_DEBUG from env: {os.environ.get('DJANGO_DEBUG', 'False')}")
+print(f"[DEBUG CHECK] DEBUG value: {DEBUG}")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-r5e^_f5z5g-l+dy-$p%2n9a%+9*vq@1j(2e!2v=ee8&q!!kuq$')
@@ -47,6 +48,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '.herokuapp.com',
     'latigue-9570ef49bb0e.herokuapp.com',
+    'postgres-u67346.vm.elestio.app',  # URL Elestio
     'bolibana.net',
     'www.bolibana.net',
 ]
@@ -81,7 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'livereload.middleware.LiveReloadScript',
+    # 'livereload.middleware.LiveReloadScript',  # Desactive temporairement
 ]
 
 ROOT_URLCONF = 'latigue.urls'
@@ -109,18 +111,22 @@ WSGI_APPLICATION = 'latigue.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600
-    )
-}
+if DEBUG:
+    # SQLite pour le developpement local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    # PostgreSQL pour la production
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -204,10 +210,10 @@ USE_S3_STORAGE = os.environ.get('USE_S3_STORAGE', 'False').strip().lower() == 't
 
 # Debug: Vérifier si les variables sont chargées (uniquement en développement)
 if DEBUG:
-    print(f"🔍 DEBUG S3 - AWS_ACCESS_KEY_ID: {'✓ Défini' if AWS_ACCESS_KEY_ID else '✗ Non défini'}")
-    print(f"🔍 DEBUG S3 - AWS_SECRET_ACCESS_KEY: {'✓ Défini' if AWS_SECRET_ACCESS_KEY else '✗ Non défini'}")
-    print(f"🔍 DEBUG S3 - AWS_STORAGE_BUCKET_NAME: {'✓ Défini' if AWS_STORAGE_BUCKET_NAME else '✗ Non défini'}")
-    print(f"🔍 DEBUG S3 - USE_S3_STORAGE: {USE_S3_STORAGE}")
+    print(f"[DEBUG] S3 - AWS_ACCESS_KEY_ID: {'Defini' if AWS_ACCESS_KEY_ID else 'Non defini'}")
+    print(f"[DEBUG] S3 - AWS_SECRET_ACCESS_KEY: {'Defini' if AWS_SECRET_ACCESS_KEY else 'Non defini'}")
+    print(f"[DEBUG] S3 - AWS_STORAGE_BUCKET_NAME: {'Defini' if AWS_STORAGE_BUCKET_NAME else 'Non defini'}")
+    print(f"[DEBUG] S3 - USE_S3_STORAGE: {USE_S3_STORAGE}")
 
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' if AWS_STORAGE_BUCKET_NAME else None
 AWS_S3_OBJECT_PARAMETERS = {
@@ -230,7 +236,7 @@ else:
             DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
             MEDIA_URL = '/media/'
             MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-            print("⚠️  ATTENTION: Variables AWS S3 non configurées. Utilisation du stockage local.")
+            print("[WARNING] ATTENTION: Variables AWS S3 non configurees. Utilisation du stockage local.")
         else:
             # En production, c'est une erreur critique
             raise ValueError("Variables AWS S3 requises en production: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME")
@@ -250,7 +256,6 @@ CKEDITOR_IMAGE_BACKEND = "pillow"
 # }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-django_heroku.settings(locals())
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Google Analytics ID (optionnel - à configurer dans les variables d'environnement)
@@ -292,9 +297,6 @@ CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', EMAIL_HOST_USER if not DEBUG els
 # ======================================================================
 # PARAMÈTRES DE SÉCURITÉ SSL
 # ======================================================================
-
-# Vérifier si nous sommes en production (Heroku)
-IS_HEROKU = os.environ.get('HEROKU', '') == 'True'
 
 # Configuration de la redirection HTTPS
 if DEBUG:
@@ -341,3 +343,48 @@ SECURE_BROWSER_XSS_FILTER = True
 if not DEBUG:
     WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     WHITENOISE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ======================================================================
+# CSRF TRUSTED ORIGINS (pour nginx reverse proxy)
+# ======================================================================
+CSRF_TRUSTED_ORIGINS = [
+    'https://postgres-u67346.vm.elestio.app',
+    'https://bolibana.net',
+    'https://www.bolibana.net',
+]
+
+# ======================================================================
+# LOGGING CONFIGURATION
+# ======================================================================
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

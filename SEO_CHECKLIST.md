@@ -205,3 +205,4 @@
 - [Django SEO Best Practices](https://docs.djangoproject.com/en/stable/topics/performance/)
 - [Open Graph Protocol](https://ogp.me/)
 
+

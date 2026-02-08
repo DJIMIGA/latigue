@@ -121,3 +121,4 @@ Si vous avez besoin de servir un fichier HTML pour la vérification Google :
 
 Mais la méthode DNS est plus simple et ne nécessite pas de code supplémentaire.
 
+

@@ -13,3 +13,4 @@ def seo_context(request):
         'SITE_URL': request.build_absolute_uri('/')[:-1],  # URL du site sans le slash final
     }
 
+
