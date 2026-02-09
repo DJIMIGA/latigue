@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'services',
     'formations',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
