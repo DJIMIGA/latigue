@@ -1,108 +1,40 @@
 import json
-import asyncio
 import os
+import urllib.request
+import urllib.error
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-# WebSocket client pour communiquer avec le gateway OpenClaw
-try:
-    import websockets
-    HAS_WEBSOCKETS = True
-except ImportError:
-    HAS_WEBSOCKETS = False
+
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+
+SYSTEM_PROMPT = """Tu es Nour ✨, l'assistant IA du portfolio de Konimba Djimiga (bolibana.net).
+
+Ton rôle :
+- Répondre aux questions des visiteurs sur les services, formations, le blog et les compétences de Konimba
+- Être sympathique, concis et chaleureux
+- Parler français par défaut, mais t'adapter si le visiteur parle une autre langue
+
+Konimba est développeur Python & Django basé à Tours, France. Il propose :
+- Des services de développement web (Python, Django, APIs)
+- Des formations Python et Django
+- Des articles de blog sur le développement et les technologies
+- Du contenu pédagogique (TikTok @djimiga1, YouTube @pythonmalien)
+
+Sois concis (2-3 phrases max sauf si on te demande des détails). Si on te pose des questions hors sujet, ramène gentiment vers le portfolio."""
 
 
-GATEWAY_URL = os.environ.get('OPENCLAW_GATEWAY_URL', 'ws://127.0.0.1:18789')
-GATEWAY_TOKEN = os.environ.get('OPENCLAW_GATEWAY_TOKEN', '')
-
-# Contexte système pour Nour quand il parle aux visiteurs du portfolio
-SYSTEM_CONTEXT = (
-    "Tu es Nour ✨, l'assistant IA du portfolio de Konimba Djimiga (bolibana.net). "
-    "Tu es sympathique, utile et tu parles français. "
-    "Tu peux répondre aux questions sur les services, formations, le blog, "
-    "et les compétences de Konimba (Python, Django, développement web). "
-    "Sois concis et chaleureux. Si on te pose des questions hors sujet, "
-    "ramène gentiment la conversation vers le portfolio."
-)
-
-
-async def _send_to_gateway(message: str, session_id: str) -> str:
-    """Envoie un message au gateway OpenClaw via WebSocket et attend la réponse."""
-    if not HAS_WEBSOCKETS:
-        return "Le chat est temporairement indisponible. Contactez-nous via WhatsApp !"
-
-    try:
-        connect_params = {
-            "auth": {"token": GATEWAY_TOKEN}
-        }
-
-        async with websockets.connect(
-            GATEWAY_URL,
-            additional_headers={},
-            open_timeout=10,
-            close_timeout=5,
-        ) as ws:
-            # Handshake avec auth
-            connect_msg = {
-                "id": 1,
-                "method": "connect",
-                "params": connect_params,
-            }
-            await ws.send(json.dumps(connect_msg))
-            
-            # Attendre la réponse de connexion
-            response = await asyncio.wait_for(ws.recv(), timeout=10)
-            connect_result = json.loads(response)
-            
-            if "error" in connect_result:
-                return "Connexion échouée. Réessayez plus tard."
-
-            # Envoyer le message
-            chat_msg = {
-                "id": 2,
-                "method": "chat.send",
-                "params": {
-                    "message": message,
-                    "sessionKey": f"visitor:{session_id}",
-                },
-            }
-            await ws.send(json.dumps(chat_msg))
-
-            # Collecter la réponse (streaming)
-            full_response = ""
-            while True:
-                try:
-                    raw = await asyncio.wait_for(ws.recv(), timeout=60)
-                    data = json.loads(raw)
-                    
-                    # Réponse directe
-                    if data.get("id") == 2 and "result" in data:
-                        result = data["result"]
-                        if isinstance(result, dict) and result.get("text"):
-                            return result["text"]
-                    
-                    # Événements de streaming
-                    if "method" in data and data["method"] == "chat":
-                        params = data.get("params", {})
-                        if params.get("type") == "text":
-                            full_response += params.get("data", "")
-                        elif params.get("type") == "done":
-                            return full_response or "..."
-                            
-                except asyncio.TimeoutError:
-                    return full_response or "Désolé, la réponse a pris trop de temps."
-
-    except Exception as e:
-        print(f"[Chatbot] Erreur gateway: {e}")
-        return "Oups, je suis temporairement indisponible. Essayez via WhatsApp ! 📱"
+# Stockage simple des conversations en mémoire (reset au restart)
+_conversations = {}
+MAX_HISTORY = 10
 
 
 @csrf_exempt
 @require_POST
 def chat_api(request):
-    """API endpoint pour le chatbot."""
+    """API endpoint pour le chatbot Nour."""
     try:
         body = json.loads(request.body)
         message = body.get('message', '').strip()
@@ -114,13 +46,29 @@ def chat_api(request):
         if len(message) > 1000:
             return JsonResponse({'error': 'Message trop long (max 1000 caractères)'}, status=400)
 
-        # Envoyer au gateway OpenClaw
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        try:
-            response_text = loop.run_until_complete(_send_to_gateway(message, session_id))
-        finally:
-            loop.close()
+        if not ANTHROPIC_API_KEY:
+            return JsonResponse({
+                'response': "Je suis temporairement hors ligne. Contactez Konimba via WhatsApp ! 📱"
+            })
+
+        # Récupérer ou créer l'historique
+        if session_id not in _conversations:
+            _conversations[session_id] = []
+        history = _conversations[session_id]
+
+        # Ajouter le message utilisateur
+        history.append({"role": "user", "content": message})
+
+        # Garder seulement les N derniers messages
+        if len(history) > MAX_HISTORY:
+            history = history[-MAX_HISTORY:]
+            _conversations[session_id] = history
+
+        # Appeler l'API Anthropic
+        response_text = _call_anthropic(history)
+
+        # Ajouter la réponse à l'historique
+        history.append({"role": "assistant", "content": response_text})
 
         return JsonResponse({
             'response': response_text,
@@ -132,5 +80,41 @@ def chat_api(request):
     except Exception as e:
         print(f"[Chatbot] Erreur: {e}")
         return JsonResponse({
-            'response': "Désolé, une erreur est survenue. Réessayez ! 🙏",
+            'response': "Oups, une erreur est survenue. Réessayez ! 🙏",
         })
+
+
+def _call_anthropic(messages):
+    """Appelle l'API Anthropic Claude directement via urllib (pas de dépendance externe)."""
+    url = "https://api.anthropic.com/v1/messages"
+
+    payload = json.dumps({
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": 512,
+        "system": SYSTEM_PROMPT,
+        "messages": messages,
+    }).encode('utf-8')
+
+    headers = {
+        "Content-Type": "application/json",
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+    }
+
+    req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
+
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            # Extraire le texte de la réponse
+            content = data.get("content", [])
+            if content and content[0].get("type") == "text":
+                return content[0]["text"]
+            return "..."
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode('utf-8') if e.fp else ''
+        print(f"[Chatbot] API Anthropic error {e.code}: {error_body[:200]}")
+        return "Désolé, je rencontre un problème technique. Réessayez dans un instant ! 🙏"
+    except Exception as e:
+        print(f"[Chatbot] Erreur appel API: {e}")
+        return "Désolé, je suis temporairement indisponible. Contactez-nous via WhatsApp ! 📱"
