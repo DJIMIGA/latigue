@@ -1,4 +1,4 @@
-FROM python:3.9.4-slim
+FROM python:3.11-slim-bookworm
 
 # Variables d'environnement Python
 ENV PYTHONUNBUFFERED=1 \
