@@ -13,6 +13,47 @@ from django.views.decorators.http import require_POST
 
 ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
 
+# ─── Tokens d'accès ──────────────────────────────────────────────────────────
+# Les tokens permettent de bypasser le rate limit.
+# Format dans .env : CHATBOT_TOKENS=token1:label1,token2:label2
+# Exemple : CHATBOT_TOKENS=abc123:bolibana,def456:partenaire
+_RAW_TOKENS = os.environ.get('CHATBOT_TOKENS', '')
+VALID_TOKENS = {}
+if _RAW_TOKENS:
+    for entry in _RAW_TOKENS.split(','):
+        entry = entry.strip()
+        if ':' in entry:
+            token, label = entry.split(':', 1)
+            VALID_TOKENS[token.strip()] = label.strip()
+        elif entry:
+            VALID_TOKENS[entry] = 'anonymous'
+
+
+def _check_token(request):
+    """Vérifie si la requête contient un token valide.
+    Retourne (is_valid, label) ou (False, None).
+    Le token peut être passé via :
+      - Header: Authorization: Bearer <token>
+      - Body JSON: { "token": "<token>" }
+    """
+    # Header Authorization
+    auth = request.META.get('HTTP_AUTHORIZATION', '')
+    if auth.startswith('Bearer '):
+        token = auth[7:].strip()
+        if token in VALID_TOKENS:
+            return True, VALID_TOKENS[token]
+
+    # Body JSON (vérifié plus tard dans chat_api)
+    return False, None
+
+
+def _check_token_from_body(body):
+    """Vérifie le token depuis le body JSON."""
+    token = body.get('token', '').strip()
+    if token and token in VALID_TOKENS:
+        return True, VALID_TOKENS[token]
+    return False, None
+
 SYSTEM_PROMPT = """Tu es Nour ✨, l'assistant IA du portfolio de Konimba Djimiga (bolibana.net).
 
 Ton rôle :
@@ -144,7 +185,10 @@ def _get_session_key(session_id, ip):
 def chat_api(request):
     """API endpoint pour le chatbot Nour — sécurisé."""
 
-    # Vérifier l'origin (basique CORS)
+    # Vérifier le token (header)
+    has_token, token_label = _check_token(request)
+
+    # Vérifier l'origin (basique CORS) — skip si token valide
     origin = request.META.get('HTTP_ORIGIN', '')
     allowed_origins = [
         'https://bolibana.net',
@@ -153,22 +197,29 @@ def chat_api(request):
         'http://127.0.0.1:8000',
     ]
 
-    # En production, vérifier l'origin
-    if origin and origin not in allowed_origins:
+    if not has_token and origin and origin not in allowed_origins:
         return JsonResponse({'error': 'Origin non autorisé'}, status=403)
-
-    # Rate limiting
-    ip = _get_client_ip(request)
-    is_limited, limit_msg = _is_rate_limited(ip)
-    if is_limited:
-        response = JsonResponse({'response': limit_msg, 'limited': True})
-        response['Retry-After'] = '30'
-        return response
 
     try:
         body = json.loads(request.body)
         message = body.get('message', '')
         session_id = body.get('session_id', 'anonymous')
+
+        # Vérifier le token (body) si pas trouvé dans le header
+        if not has_token:
+            has_token, token_label = _check_token_from_body(body)
+
+        # Rate limiting — seulement si pas de token valide
+        if not has_token:
+            ip = _get_client_ip(request)
+            is_limited, limit_msg = _is_rate_limited(ip)
+            if is_limited:
+                response = JsonResponse({'response': limit_msg, 'limited': True})
+                response['Retry-After'] = '30'
+                return response
+        else:
+            ip = f"token:{token_label}"
+            print(f"[Chatbot] 🔑 Requête avec token: {token_label}")
 
         # Sanitize
         message = _sanitize_message(message)
