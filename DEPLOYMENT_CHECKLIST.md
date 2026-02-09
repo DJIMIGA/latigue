@@ -237,7 +237,7 @@ Utilisez cette checklist pour suivre votre progression durant la migration.
   ```bash
   docker compose run --rm certbot certonly --webroot \
     --webroot-path=/var/www/certbot \
-    --email pymalien@gmail.com \
+    --email <VOTRE_EMAIL> \
     --agree-tos \
     --no-eff-email \
     -d postgres-u67346.vm.elestio.app
@@ -346,7 +346,7 @@ Utilisez cette checklist pour suivre votre progression durant la migration.
 
 - [ ] **Formulaire de Contact**
   - [ ] Remplir et envoyer le formulaire
-  - [ ] Vérifier réception email sur `pymalien@gmail.com`
+  - [ ] Vérifier réception email sur `<VOTRE_EMAIL>`
   - [ ] Confirmation affichée à l'utilisateur
 
 - [ ] **Certificat SSL**
@@ -433,7 +433,7 @@ Si quelque chose ne fonctionne pas:
 
 ## 📞 Contacts et Ressources
 
-- **Email**: pymalien@gmail.com
+- **Email**: <VOTRE_EMAIL>
 - **Documentation**: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
 - **Support Elestio**: https://elest.io/docs
 - **Docker Docs**: https://docs.docker.com/

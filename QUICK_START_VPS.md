@@ -49,7 +49,7 @@ docker compose exec web python manage.py createsuperuser
 # 8. Configurer SSL
 docker compose run --rm certbot certonly --webroot \
   --webroot-path=/var/www/certbot \
-  --email pymalien@gmail.com --agree-tos \
+  --email <VOTRE_EMAIL> --agree-tos \
   -d postgres-u67346.vm.elestio.app
 
 # Activer HTTPS dans nginx/conf.d/default.conf puis:

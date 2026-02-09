@@ -72,14 +72,14 @@ DB_PASSWORD=<PASSWORD_ELESTIO>
 DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
 
 # Email Gmail
-EMAIL_HOST_USER=pymalien@gmail.com
-EMAIL_HOST_PASSWORD=""
-CONTACT_EMAIL=pymalien@gmail.com
-DEFAULT_FROM_EMAIL=pymalien@gmail.com
+EMAIL_HOST_USER=<VOTRE_EMAIL>
+EMAIL_HOST_PASSWORD=<VOTRE_MOT_DE_PASSE_APP>
+CONTACT_EMAIL=<VOTRE_EMAIL>
+DEFAULT_FROM_EMAIL=<VOTRE_EMAIL>
 
 # AWS S3
-AWS_ACCESS_KEY_ID=""AKIAUYKKDFWD245H5OMM""
-AWS_SECRET_ACCESS_KEY=""
+AWS_ACCESS_KEY_ID=<VOTRE_AWS_ACCESS_KEY>
+AWS_SECRET_ACCESS_KEY=<VOTRE_AWS_SECRET_KEY>
 AWS_STORAGE_BUCKET_NAME=personalporfolio
 AWS_S3_REGION_NAME=eu-north-1
 AWS_S3_CUSTOM_DOMAIN=d3tcb6ounmojtn.cloudfront.net
@@ -146,7 +146,7 @@ curl -I http://postgres-u67346.vm.elestio.app
 # Obtenir le certificat SSL
 docker compose run --rm certbot certonly --webroot \
   --webroot-path=/var/www/certbot \
-  --email pymalien@gmail.com \
+  --email <VOTRE_EMAIL> \
   --agree-tos \
   --no-eff-email \
   -d postgres-u67346.vm.elestio.app
@@ -252,7 +252,7 @@ Type A: www.bolibana.net → <IP_VPS>
 ```bash
 docker compose run --rm certbot certonly --webroot \
   --webroot-path=/var/www/certbot \
-  --email pymalien@gmail.com \
+  --email <VOTRE_EMAIL> \
   --agree-tos \
   -d bolibana.net \
   -d www.bolibana.net

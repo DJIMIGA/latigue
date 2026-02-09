@@ -258,7 +258,7 @@ docker compose restart nginx
 
 ## 📞 Contact
 
-- **Email**: pymalien@gmail.com
+- **Email**: <VOTRE_EMAIL>
 - **Site**: https://bolibana.net
 
 ## 📄 License

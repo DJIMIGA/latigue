@@ -119,7 +119,7 @@ docker compose logs -f web
 ```bash
 docker compose run --rm certbot certonly --webroot \
   --webroot-path=/var/www/certbot \
-  --email pymalien@gmail.com \
+  --email <VOTRE_EMAIL> \
   --agree-tos \
   -d postgres-u67346.vm.elestio.app
 
@@ -173,14 +173,14 @@ crontab -e
 - `DATABASE_URL=postgresql://...`
 
 ### Email (Gmail)
-- `EMAIL_HOST_USER=pymalien@gmail.com`
-- `EMAIL_HOST_PASSWORD=kqfo ywzb egig yzev`
-- `CONTACT_EMAIL=pymalien@gmail.com`
-- `DEFAULT_FROM_EMAIL=pymalien@gmail.com`
+- `EMAIL_HOST_USER=<VOTRE_EMAIL>`
+- `EMAIL_HOST_PASSWORD=<VOTRE_MOT_DE_PASSE_APP>`
+- `CONTACT_EMAIL=<VOTRE_EMAIL>`
+- `DEFAULT_FROM_EMAIL=<VOTRE_EMAIL>`
 
 ### AWS S3
-- `AWS_ACCESS_KEY_ID=""
-- `AWS_SECRET_ACCESS_KEY=""
+- `AWS_ACCESS_KEY_ID=<VOTRE_AWS_ACCESS_KEY>`
+- `AWS_SECRET_ACCESS_KEY=<VOTRE_AWS_SECRET_KEY>`
 - `AWS_STORAGE_BUCKET_NAME=personalporfolio`
 - `AWS_S3_REGION_NAME=eu-north-1`
 - `AWS_S3_CUSTOM_DOMAIN=d3tcb6ounmojtn.cloudfront.net`
@@ -250,7 +250,7 @@ docker compose exec web python manage.py shell
 ## 📞 Contact
 
 En cas de problème durant la migration:
-- Email: pymalien@gmail.com
+- Email: <VOTRE_EMAIL>
 - GitHub Issues: (lien vers votre repo)
 
 ---
