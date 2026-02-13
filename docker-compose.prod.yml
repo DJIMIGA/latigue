@@ -12,6 +12,10 @@ services:
     container_name: latigue_web
     restart: unless-stopped
 
+    # Permettre l'accès au host pour PostgreSQL
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
     # Expose uniquement le port 8000 (OpenResty proxy vers ce port)
     ports:
       - "8000:8000"
