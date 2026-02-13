@@ -1,0 +1,73 @@
+# Docker Compose pour développement local
+# Usage: docker compose -f docker-compose.dev.yml up
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: latigue_web_dev
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+    environment:
+      - DJANGO_DEBUG=True
+      - DJANGO_SECRET_KEY=dev-secret-key-change-in-production
+      - DJANGO_SETTINGS_MODULE=latigue.settings
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=latigue
+      - DB_USER=latigue
+      - DB_PASSWORD=latigue
+      - DATABASE_URL=postgresql://latigue:latigue@db:5432/latigue
+      - USE_S3_STORAGE=False
+
+    volumes:
+      - .:/app  # Hot reload pour développement
+      - staticfiles:/app/staticfiles
+      - media:/app/media
+      - logs:/app/logs
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    networks:
+      - app_network
+
+  # PostgreSQL local pour développement
+  db:
+    image: postgres:15-alpine
+    container_name: latigue_db_dev
+    restart: unless-stopped
+
+    environment:
+      - POSTGRES_DB=latigue
+      - POSTGRES_USER=latigue
+      - POSTGRES_PASSWORD=latigue
+
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U latigue"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - app_network
+
+volumes:
+  postgres_data_dev:
+  staticfiles:
+  media:
+  logs:
+
+networks:
+  app_network:
+    driver: bridge

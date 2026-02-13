@@ -1,0 +1,125 @@
+================================================================================
+CONTENU À COPIER DANS L'INTERFACE ELESTIO
+================================================================================
+
+Si vous choisissez "Custom docker-compose", copiez le bloc ci-dessous :
+
+────────────────────────────────────────────────────────────────────────────────
+DOCKER-COMPOSE.YML POUR ELESTIO :
+────────────────────────────────────────────────────────────────────────────────
+
+services:
+  web:
+    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
+    container_name: latigue_web
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-latigue.settings}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-25432}
+      - DB_NAME=${DB_NAME:-postgres}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - CONTACT_EMAIL=${CONTACT_EMAIL}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME:-personalporfolio}
+      - AWS_S3_REGION_NAME=${AWS_S3_REGION_NAME:-eu-north-1}
+      - AWS_S3_CUSTOM_DOMAIN=${AWS_S3_CUSTOM_DOMAIN}
+      - USE_S3_STORAGE=${USE_S3_STORAGE:-True}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+
+    volumes:
+      - staticfiles:/app/staticfiles
+      - media:/app/media
+      - logs:/app/logs
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    networks:
+      - app_network
+
+volumes:
+  staticfiles:
+    driver: local
+  media:
+    driver: local
+  logs:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
+
+
+────────────────────────────────────────────────────────────────────────────────
+VARIABLES D'ENVIRONNEMENT À DÉFINIR DANS ELESTIO :
+────────────────────────────────────────────────────────────────────────────────
+
+Allez dans Settings → Environment Variables et ajoutez :
+
+DJANGO_DEBUG=False
+DJANGO_SECRET_KEY=REMPLACER_PAR_VOTRE_SECRET_KEY
+DJANGO_SETTINGS_MODULE=latigue.settings
+DB_HOST=postgres-u67346.vm.elestio.app
+DB_PORT=25432
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASSWORD=REMPLACER_PAR_VOTRE_MOT_DE_PASSE_POSTGRESQL
+EMAIL_HOST_USER=REMPLACER_PAR_VOTRE_EMAIL
+EMAIL_HOST_PASSWORD=REMPLACER_PAR_VOTRE_MOT_DE_PASSE
+CONTACT_EMAIL=contact@bolibana.net
+DEFAULT_FROM_EMAIL=noreply@bolibana.net
+AWS_ACCESS_KEY_ID=REMPLACER_PAR_VOTRE_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY=REMPLACER_PAR_VOTRE_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME=personalporfolio
+AWS_S3_REGION_NAME=eu-north-1
+AWS_S3_CUSTOM_DOMAIN=d3tcb6ounmojtn.cloudfront.net
+USE_S3_STORAGE=True
+CLOUDINARY_CLOUD_NAME=REMPLACER_SI_UTILISE
+CLOUDINARY_API_KEY=REMPLACER_SI_UTILISE
+CLOUDINARY_API_SECRET=REMPLACER_SI_UTILISE
+
+
+────────────────────────────────────────────────────────────────────────────────
+NOTES IMPORTANTES :
+────────────────────────────────────────────────────────────────────────────────
+
+1. Si vous utilisez Github CI/CD, utilisez plutôt docker-compose.prod.yml
+   (image avec build au lieu de CI_REGISTRY_IMAGE)
+
+2. Les variables ${CI_REGISTRY_IMAGE} et ${CI_COMMIT_REF_SLUG} sont
+   automatiquement fournies par Elestio lors du build CI/CD
+
+3. Le port 8000 doit correspondre à votre configuration OpenResty
+
+4. Le healthcheck vérifie que l'application répond toutes les 30s
+
+
+────────────────────────────────────────────────────────────────────────────────
+VÉRIFICATION POST-DÉPLOIEMENT :
+────────────────────────────────────────────────────────────────────────────────
+
+1. Dans Elestio → Logs, vérifiez que l'application démarre correctement
+2. Testez : curl -I https://votre-domaine.vm.elestio.app
+3. Vérifiez le healthcheck : Interface Elestio → Monitoring
+
+
+================================================================================
