@@ -49,6 +49,8 @@ ALLOWED_HOSTS = [
     '.herokuapp.com',
     'latigue-9570ef49bb0e.herokuapp.com',
     'postgres-u67346.vm.elestio.app',  # URL Elestio
+    'cicd-xbhk2-u67346.vm.elestio.app',  # Ancien CI/CD Elestio
+    'customdocker-u67346.vm.elestio.app',  # Custom Docker Compose Elestio
     'bolibana.net',
     'www.bolibana.net',
 ]
