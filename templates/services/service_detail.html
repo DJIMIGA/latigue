@@ -1,7 +1,38 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ service.title }}{% endblock %}
+{% block title %}{{ service.title }} | Services | Konimba Djimiga{% endblock %}
+{% block meta_description %}{{ service.description|striptags|truncatewords:30 }}{% endblock %}
+{% block meta_keywords %}{{ service.title }}, développement web, Python, Django, Konimba Djimiga{% endblock %}
+
+{% block og_title %}{{ service.title }} | Konimba Djimiga{% endblock %}
+{% block og_description %}{{ service.description|striptags|truncatewords:30 }}{% endblock %}
+{% if service.image %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}{% endblock %}
+{% endif %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "{{ service.title|escapejs }}",
+  "description": "{{ service.description|striptags|truncatewords:30|escapejs }}",
+  "provider": {
+    "@type": "Person",
+    "name": "Konimba Djimiga",
+    "url": "https://bolibana.net"
+  },
+  {% if service.price %}"offers": {
+    "@type": "Offer",
+    "price": "{{ service.price }}",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  },{% endif %}
+  "areaServed": ["FR", "ML", "SN", "CI"]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">

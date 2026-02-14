@@ -1,7 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Formations - Centre de Formation{% endblock %}
+{% block title %}Formations Python, Django & IA | Apprenez à coder avec l'IA | Konimba Djimiga{% endblock %}
+{% block meta_description %}Formations en développement Python & Django avec IA locale. Apprenez 3x plus vite grâce à une supervision intelligente. Parcours débutant à avancé, à partir de 50 000 FCFA.{% endblock %}
+{% block meta_keywords %}formation Python, formation Django, apprendre à coder, IA locale, développement web, formation en ligne, FCFA, Afrique francophone{% endblock %}
+
+{% block og_title %}Formations Python & Django avec IA | Konimba Djimiga{% endblock %}
+{% block og_description %}Apprenez le code avec l'IA locale. Formations Python & Django, du débutant à l'avancé. Supervision intelligente et coaching personnalisé.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Formations Python & Django",
+  "description": "Formations en développement Python & Django avec IA locale",
+  "provider": {
+    "@type": "Person",
+    "name": "Konimba Djimiga",
+    "url": "https://bolibana.net"
+  },
+  "numberOfItems": {{ total_formations }},
+  "itemListElement": [
+    {% for plan in formation_plans %}
+    {
+      "@type": "Course",
+      "position": {{ forloop.counter }},
+      "name": "{{ plan.title|escapejs }}",
+      "description": "{{ plan.description|striptags|truncatewords:20|escapejs }}",
+      "provider": {
+        "@type": "Person",
+        "name": "Konimba Djimiga"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "{{ plan.price|floatformat:0 }}",
+        "priceCurrency": "XOF",
+        "availability": "https://schema.org/InStock"
+      }
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
 
 {% block head_extra %}
 <script>

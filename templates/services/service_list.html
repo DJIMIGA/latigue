@@ -1,7 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Nos Services{% endblock %}
+{% block title %}Services de Développement Web Python & Django | Konimba Djimiga{% endblock %}
+{% block meta_description %}Développement d'applications web et mobiles sur-mesure, maintenance et optimisation. Services professionnels Python & Django par Konimba Djimiga, développeur à Tours.{% endblock %}
+{% block meta_keywords %}développement web, application mobile, Python, Django, React Native, maintenance, optimisation, développeur freelance, Tours{% endblock %}
+
+{% block og_title %}Services de Développement Web | Konimba Djimiga{% endblock %}
+{% block og_description %}Applications web et mobiles sur-mesure, maintenance et optimisation. Développeur Python & Django à Tours.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "provider": {
+    "@type": "Person",
+    "name": "Konimba Djimiga",
+    "jobTitle": "Développeur Python & Django",
+    "url": "https://bolibana.net"
+  },
+  "serviceType": "Développement Web et Mobile",
+  "areaServed": ["FR", "ML", "SN", "CI"],
+  "description": "Développement d'applications web et mobiles sur-mesure avec Python, Django et React Native.",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
