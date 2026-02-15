@@ -46,6 +46,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-r5e^_f5z5g-l+d
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '159.195.104.193',  # IP du VPS Elestio (accès direct ou Host header du proxy)
     '.herokuapp.com',
     'latigue-9570ef49bb0e.herokuapp.com',
     'postgres-u67346.vm.elestio.app',  # URL Elestio PostgreSQL
