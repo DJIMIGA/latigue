@@ -9,7 +9,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: latigue_web
     restart: unless-stopped
 
     # Permettre l'accès au host pour PostgreSQL
@@ -86,7 +85,6 @@ services:
   # PostgreSQL local pour Elestio
   db:
     image: postgres:15-alpine
-    container_name: latigue_db
     restart: unless-stopped
 
     environment:
@@ -109,7 +107,6 @@ services:
   # MinIO - Stockage S3 compatible pour médias/vidéos
   minio:
     image: minio/minio:latest
-    container_name: latigue_minio
     restart: unless-stopped
 
     ports:
