@@ -45,6 +45,8 @@ Dans l'interface Elestio, section **Environment Variables**, ajoutez :
 DJANGO_DEBUG=False
 DJANGO_SECRET_KEY=votre_secret_key_ici
 DJANGO_SETTINGS_MODULE=latigue.settings
+# Optionnel : hôtes supplémentaires (évite 502 si accès par IP ou autre domaine)
+# ALLOWED_HOSTS_EXTRA=159.195.104.193,autre-domaine.com
 
 # Database (votre PostgreSQL Elestio existant)
 DB_HOST=postgres-u67346.vm.elestio.app

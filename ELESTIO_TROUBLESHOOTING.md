@@ -221,6 +221,23 @@ networks:
 
 ---
 
+## Erreur 502 / DisallowedHost
+
+**Symptome :** 502 Bad Gateway ou dans les logs Django :
+```
+Invalid HTTP_HOST header: '159.195.104.193:8000'. You may need to add '159.195.104.193' to ALLOWED_HOSTS.
+```
+
+**Cause :** Une requete arrive avec un Host (IP ou domaine) qui n'est pas dans `ALLOWED_HOSTS`.
+
+**Solution :** Dans **Elestio Dashboard → Environment Variables**, ajouter :
+```
+ALLOWED_HOSTS_EXTRA=159.195.104.193
+```
+(valeur = IP ou domaine, plusieurs valeurs separees par des virgules). Pas besoin de modifier le code ni de redepoyer : Elestio reinjecte les variables au demarrage du conteneur.
+
+---
+
 ## Checklist pour futurs deploiements
 
 - [ ] Modifier le code et pousser sur `main`
