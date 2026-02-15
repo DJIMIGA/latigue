@@ -1,7 +1,7 @@
 # Docker Compose principal - Latigue (VPS, Elestio ou local)
 # Stack : web (Django), db (PostgreSQL), nginx, certbot, MinIO (optionnel pour marketing)
-# Usage : cp .env.vps.example .env (ou .env.production.example .env.production) puis docker compose up -d
-# Elestio crée .env depuis les variables du dashboard → on utilise .env
+# Variables : depuis le host (export ou .env chargé par docker compose). Elestio injecte via son .env.
+# Usage local : cp .env.vps.example .env && docker compose up -d
 
 name: latigue
 
@@ -14,8 +14,6 @@ services:
     restart: unless-stopped
     ports:
       - "8000:8000"
-    env_file:
-      - .env
     environment:
       - DB_HOST=db
       - DB_PORT=5432
