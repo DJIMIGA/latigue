@@ -127,6 +127,38 @@ rm -rf /var/www/latigue
 
 ---
 
+## Probleme 6 : 502 Bad Gateway
+
+**Symptome :** La page affiche « 502 Bad Gateway » ou « Oops! Bad Gateway ».
+
+**Cause :** Le reverse proxy (OpenResty) ne recoit pas de reponse valide du conteneur `web`. Souvent :
+- Le conteneur redémarre en boucle (migrations, `collectstatic` ou npm qui échouent avec `set -e` → le script s’arrête avant de lancer Gunicorn).
+- Gunicorn n’écoute pas encore (démarrage lent).
+- Variables d’environnement manquantes (DB, SECRET_KEY).
+
+**Solution appliquée dans le repo :**
+- `docker-entrypoint.sh` : **plus de `set -e`** ; migrations et collectstatic sont **non bloquants**. En cas d’échec, on logue un avertissement et on lance quand même Gunicorn (évite le 502 ; les erreurs DB donneront des 500 à corriger côté env).
+- Endpoint **`/health/`** pour le healthcheck Docker.
+- Healthcheck sur le service `web` dans `docker-compose.yml` (avec `start_period: 90s`).
+
+**Diagnostic sur le VPS (SSH) :**
+```bash
+cd /opt/app/latigue   # ou le chemin du projet sur Elestio
+
+# Voir si le conteneur web tourne et redémarre
+docker compose ps
+
+# Logs du service web (migrations, collectstatic, Gunicorn, erreurs Python)
+docker compose logs web --tail 200
+
+# Tester Gunicorn depuis l’hôte (doit répondre "ok")
+curl -s http://localhost:8000/health/
+```
+
+Si `curl http://localhost:8000/health/` renvoie `ok` mais le site en HTTPS reste en 502, le problème vient du reverse proxy Elestio (port ou host). Si le conteneur redémarre sans cesse, corriger les erreurs affichées dans `docker compose logs web`.
+
+---
+
 ## Architecture finale sur Elestio
 
 ```

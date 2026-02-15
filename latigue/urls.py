@@ -19,6 +19,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 from .sitemaps import (
     StaticViewSitemap,
     BlogPostSitemap,
@@ -36,7 +37,13 @@ sitemaps = {
     'formations': FormationSitemap,
 }
 
+def health_view(request):
+    """Vue légère pour healthcheck Docker / reverse proxy (pas de DB)."""
+    return HttpResponse("ok", content_type="text/plain")
+
+
 urlpatterns = [
+    path('health/', health_view),
     path('admin/', admin.site.urls),
     path('', include('portfolio.urls')),
     path('blog/', include('blog.urls')),

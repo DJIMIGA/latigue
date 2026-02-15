@@ -21,23 +21,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env_path = BASE_DIR / '.env'
 if env_path.exists():
     load_dotenv(env_path, override=True)  # override=True pour forcer le rechargement
-    print(f"[OK] Fichier .env charge depuis: {env_path}")
+    print("[OK] Fichier .env chargé")
 else:
-    # Essayer aussi .env.secrets si .env n'existe pas
     env_secrets_path = BASE_DIR / '.env.secrets'
     if env_secrets_path.exists():
         load_dotenv(env_secrets_path, override=True)
-        print(f"[OK] Fichier .env.secrets charge depuis: {env_secrets_path}")
+        print("[OK] Fichier .env.secrets chargé")
     else:
-        print("[WARNING] Aucun fichier .env trouve")
+        # En Docker/Elestio les variables sont souvent injectées ; ne pas alarmer en prod
+        if os.environ.get('DJANGO_SECRET_KEY'):
+            pass  # En prod avec env injecté, pas de .env attendu
+        else:
+            print("[WARNING] Aucun fichier .env trouvé (et DJANGO_SECRET_KEY non défini)")
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
-print(f"[DEBUG CHECK] DJANGO_DEBUG from env: {os.environ.get('DJANGO_DEBUG', 'False')}")
-print(f"[DEBUG CHECK] DEBUG value: {DEBUG}")
+if DEBUG:
+    print(f"[DEBUG] DJANGO_DEBUG=True")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-r5e^_f5z5g-l+dy-$p%2n9a%+9*vq@1j(2e!2v=ee8&q!!kuq$')
@@ -52,6 +52,7 @@ ALLOWED_HOSTS = [
     'latigue-u67346.vm.elestio.app',  # CI/CD Pipeline Elestio
     'cicd-xbhk2-u67346.vm.elestio.app',  # Ancien CI/CD Elestio
     'customdocker-u67346.vm.elestio.app',  # Custom Docker Compose Elestio
+    '159.195.104.193',  # IP du VPS Elestio (accès direct par IP)
     'bolibana.net',
     'www.bolibana.net',
 ]
