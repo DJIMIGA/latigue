@@ -29,7 +29,7 @@ Guide rapide pour générer ta première vidéo en 5 minutes.
 
 4. **MinIO démarré**
    ```bash
-   docker compose -f docker-compose.prod.yml up -d minio
+   # MinIO : service Elestio séparé. En local : lancer MinIO puis définir MINIO_ENDPOINT dans .env
    ```
 
 ---

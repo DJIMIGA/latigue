@@ -36,7 +36,7 @@ pg_restore --clean --no-acl --no-owner \
 
 # 5. Lancer l'application
 mkdir -p nginx/conf.d certbot/conf certbot/www logs staticfiles media
-cp docker-compose.external-db.yml docker-compose.yml  # Si DB externe
+# Utiliser docker-compose.yml (DB dans le compose). Pour DB externe, définir DB_HOST dans .env
 docker compose build && docker compose up -d
 
 # 6. Vérifier

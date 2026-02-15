@@ -102,7 +102,8 @@ CLOUDINARY_API_SECRET=REMPLACER_SI_UTILISE
 NOTES IMPORTANTES :
 ────────────────────────────────────────────────────────────────────────────────
 
-1. Si vous utilisez Github CI/CD, utilisez plutôt docker-compose.prod.yml
+1. Si vous utilisez Github CI/CD, le pipeline utilise docker-compose.yml
+   (à configurer aussi dans le Dashboard Elestio → Docker Compose)
    (image avec build au lieu de CI_REGISTRY_IMAGE)
 
 2. Les variables ${CI_REGISTRY_IMAGE} et ${CI_COMMIT_REF_SLUG} sont

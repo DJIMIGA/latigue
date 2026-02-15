@@ -6,6 +6,15 @@ Migration de l'ancien deploiement manuel (`/var/www/latigue/`) vers le pipeline 
 
 ---
 
+## Fichiers docker-compose (apres nettoyage)
+
+- **`docker-compose.yml`** : utilise par le pipeline Elestio (web + db). Son contenu est ecrase par la config du Dashboard Elestio a chaque build.
+- **`docker-compose.dev.yml`** : developpement local avec hot reload (web + db). Usage : `docker compose -f docker-compose.dev.yml up --build`.
+
+Les anciens fichiers `docker-compose.prod.yml` et `docker-compose.external-db.yml` ont ete supprimes (redundants / obsoletes).
+
+---
+
 ## Probleme 1 : `.env.production not found`
 
 **Erreur :**

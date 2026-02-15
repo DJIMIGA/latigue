@@ -62,7 +62,7 @@ chmod -R 755 staticfiles media logs
 
 Le projet contient deux fichiers docker-compose :
 - `docker-compose.yml` : avec PostgreSQL local + Nginx + Certbot
-- `docker-compose.external-db.yml` : sans DB locale, sans Nginx
+- `docker-compose.yml` : web + db (Nginx/SSL gérés par Elestio)
 
 **On utilise ni l'un ni l'autre tel quel.** Puisque Elestio gere le proxy et qu'on a PostgreSQL externe, le `docker-compose.yml` final est **minimal** :
 

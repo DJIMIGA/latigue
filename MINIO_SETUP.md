@@ -12,29 +12,14 @@ MinIO est un stockage objet S3-compatible, self-hosted. Il remplace AWS S3 pour 
 
 ## 🚀 Déploiement
 
-### 1. Configuration déjà ajoutée
+### 1. MinIO sur Elestio
 
-Le service MinIO est déjà configuré dans `docker-compose.prod.yml` :
-
-```yaml
-services:
-  minio:
-    image: minio/minio:latest
-    container_name: latigue_minio
-    ports:
-      - "9000:9000"  # API S3
-      - "9001:9001"  # Console Web
-    environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin123
-    volumes:
-      - minio_data:/data
-    command: server /data --console-address ":9001"
-```
+MinIO tourne comme **service séparé** sur Elestio (pas dans le docker-compose de latigue).  
+Utilisez l’URL du service MinIO Elestio (ex. `http://172.17.0.1:9000` ou l’URL fournie par Elestio).
 
 ### 2. Variables d'environnement
 
-Ajouter dans `.env.production` :
+Ajouter dans `.env` (ou Environment Variables Elestio) :
 
 ```bash
 # === MinIO (Stockage S3-compatible) ===
@@ -51,11 +36,13 @@ AWS_SECRET_ACCESS_KEY=changeme_production_password
 
 **⚠️ IMPORTANT : Change le mot de passe en production !**
 
-### 3. Démarrer MinIO
+### 3. MinIO
+
+MinIO est géré par Elestio. Si vous déployez en local avec MinIO dans un autre conteneur :
 
 ```bash
-cd /opt/app/latigue
-docker compose -f docker-compose.prod.yml up -d minio
+# MinIO déjà lancé côté Elestio ou manuellement sur le host
+# Définir MINIO_ENDPOINT dans .env (ex. http://172.17.0.1:9000)
 ```
 
 ### 4. Accéder à la Console Web

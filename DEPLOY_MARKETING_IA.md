@@ -11,7 +11,7 @@
 - `README.md` — Documentation complète
 
 **Docker & Config :**
-- `docker-compose.prod.yml` — Service MinIO ajouté (ports 9000/9001)
+- MinIO : service Elestio séparé (ports 9000/9001) ou `MINIO_ENDPOINT` dans .env
 - `.env.production.example` — Variables MinIO + APIs IA ajoutées
 - `requirements-marketing.txt` — Dépendances IA (OpenAI, ElevenLabs, MoviePy, Whisper, Celery)
 - `MINIO_SETUP.md` — Guide complet MinIO
@@ -33,7 +33,7 @@ cd /home/node/.openclaw/workspace/latigue
 git status
 
 # Ajouter fichiers
-git add marketing/ MINIO_SETUP.md DEPLOY_MARKETING_IA.md requirements-marketing.txt docker-compose.prod.yml .env.production.example
+git add marketing/ MINIO_SETUP.md DEPLOY_MARKETING_IA.md requirements-marketing.txt .env.production.example
 
 # Commit
 git commit -m "feat: Pipeline Marketing IA - Phase 1 MVP (MinIO + script generator)"
@@ -125,11 +125,11 @@ CELERY_RESULT_BACKEND=redis://localhost:6379/0
 cd /opt/app/latigue
 
 # Rebuild avec nouvelles dépendances
-docker compose -f docker-compose.prod.yml build web
+docker compose build web
 
 # Redémarrer tous les services
-docker compose -f docker-compose.prod.yml down
-docker compose -f docker-compose.prod.yml up -d
+docker compose down
+docker compose up -d
 ```
 
 ### 8. Faire les migrations Django
@@ -270,7 +270,7 @@ docker network inspect latigue_app_network
 ```bash
 docker exec -it latigue_web pip install -r requirements.txt
 # Ou rebuild l'image
-docker compose -f docker-compose.prod.yml build web
+docker compose build web
 ```
 
 ### DALL-E 3 "Insufficient quota"

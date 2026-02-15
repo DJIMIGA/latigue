@@ -26,7 +26,7 @@ Si vous choisissez **Github** :
 1. **Source** :
    - Repository : `votre-username/latigue`
    - Branch : `main`
-   - Path to docker-compose : `docker-compose.prod.yml`
+   - Path to docker-compose : `docker-compose.yml`
 
 2. **Target** :
    - Region : Choisissez votre région (ex: eu-central)
@@ -124,7 +124,7 @@ git push origin main
 # ✅ Détecte le push
 # ✅ Clone le repo
 # ✅ Build l'image Docker
-# ✅ Lance docker-compose.prod.yml
+# ✅ Lance docker-compose.yml (contenu pris depuis la config Elestio Dashboard)
 # ✅ Vérifie le healthcheck
 # ✅ Bascule le trafic (zero-downtime)
 # ✅ Rollback automatique si échec

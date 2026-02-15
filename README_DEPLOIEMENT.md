@@ -35,7 +35,7 @@ git push origin main
 2. **Source** :
    - Repository : `votre-username/latigue`
    - Branch : `main`
-   - Docker Compose file : `docker-compose.prod.yml`
+   - Docker Compose file : `docker-compose.yml` (à configurer aussi dans le Dashboard Elestio)
 3. **Target** :
    - Region : eu-central (ou votre choix)
    - VPS Size : 2GB minimum
@@ -52,7 +52,7 @@ Dans Elestio UI → Environment Variables, ajoutez toutes les variables de `.env
 ### Option B : Custom Docker Compose (Upload manuel)
 
 1. **Create CI/CD pipeline** → Choisir **Custom docker-compose**
-2. Copier le contenu de `docker-compose.prod.yml`
+2. Copier le contenu de `docker-compose.yml`
 3. Coller dans l'éditeur Elestio
 4. Ajouter les variables d'environnement
 5. Deploy !
@@ -81,7 +81,7 @@ Ces fichiers sont déjà dans `.gitignore` ✅
 
 ```bash
 # Build local avec la config production
-docker compose -f docker-compose.prod.yml build
+docker compose build
 
 # Vérifier que l'image se build correctement
 docker images | grep latigue
@@ -93,9 +93,8 @@ docker images | grep latigue
 
 ```
 latigue/
-├── docker-compose.prod.yml    # Production Elestio (CI/CD)
-├── docker-compose.dev.yml     # Développement local
-├── docker-compose.yml         # Ancien (à supprimer après migration)
+├── docker-compose.yml         # Production Elestio (CI/CD) + local avec DB
+├── docker-compose.dev.yml     # Développement local (hot reload)
 ├── Dockerfile                 # Image Docker avec healthcheck
 ├── docker-entrypoint.sh       # Script de démarrage
 ├── .env.production.example    # Template (PAS de secrets)

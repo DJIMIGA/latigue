@@ -163,18 +163,8 @@ Utilisez cette checklist pour suivre votre progression durant la migration.
   chmod -R 755 staticfiles media logs
   ```
 
-- [ ] **Choisir le docker-compose**
-
-  **Option A - PostgreSQL EXTERNE (Recommandé):**
-  ```bash
-  cp docker-compose.external-db.yml docker-compose.yml
-  ```
-
-  **Option B - PostgreSQL LOCAL:**
-  ```bash
-  # Utiliser le docker-compose.yml par défaut
-  # Modifier .env.production: DB_HOST=db
-  ```
+- [ ] **Docker Compose** : utiliser `docker-compose.yml` (web + db).  
+  Sur Elestio, le contenu doit aussi être copié dans le Dashboard → Docker Compose.
 
 - [ ] **Build les images**
   ```bash
