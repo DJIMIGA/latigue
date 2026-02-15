@@ -48,7 +48,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '.herokuapp.com',
     'latigue-9570ef49bb0e.herokuapp.com',
-    'postgres-u67346.vm.elestio.app',  # URL Elestio
+    'postgres-u67346.vm.elestio.app',  # URL Elestio PostgreSQL
     'latigue-u67346.vm.elestio.app',  # CI/CD Pipeline Elestio
     'cicd-xbhk2-u67346.vm.elestio.app',  # Ancien CI/CD Elestio
     'customdocker-u67346.vm.elestio.app',  # Custom Docker Compose Elestio
@@ -116,6 +116,7 @@ WSGI_APPLICATION = 'latigue.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 if DEBUG and not os.environ.get('DATABASE_URL'):
+    # SQLite pour le developpement local (uniquement si pas de DATABASE_URL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -123,6 +124,7 @@ if DEBUG and not os.environ.get('DATABASE_URL'):
         }
     }
 else:
+    # PostgreSQL pour la production (ou dev avec DATABASE_URL)
     DATABASE_URL = os.environ.get('DATABASE_URL')
     if DATABASE_URL:
         DATABASES = {
@@ -132,6 +134,7 @@ else:
             )
         }
     else:
+        # Fallback : construction de la connexion depuis les variables DB_*
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.postgresql',
