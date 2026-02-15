@@ -49,6 +49,7 @@ ALLOWED_HOSTS = [
     '.herokuapp.com',
     'latigue-9570ef49bb0e.herokuapp.com',
     'postgres-u67346.vm.elestio.app',  # URL Elestio
+    'latigue-u67346.vm.elestio.app',  # CI/CD Pipeline Elestio
     'cicd-xbhk2-u67346.vm.elestio.app',  # Ancien CI/CD Elestio
     'customdocker-u67346.vm.elestio.app',  # Custom Docker Compose Elestio
     'bolibana.net',
@@ -114,8 +115,7 @@ WSGI_APPLICATION = 'latigue.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
-    # SQLite pour le developpement local
+if DEBUG and not os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -123,13 +123,26 @@ if DEBUG:
         }
     }
 else:
-    # PostgreSQL pour la production
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600
-        )
-    }
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    if DATABASE_URL:
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=DATABASE_URL,
+                conn_max_age=600
+            )
+        }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': os.environ.get('DB_NAME', 'postgres'),
+                'USER': os.environ.get('DB_USER', 'postgres'),
+                'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+                'HOST': os.environ.get('DB_HOST', 'db'),
+                'PORT': os.environ.get('DB_PORT', '5432'),
+                'CONN_MAX_AGE': 600,
+            }
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -352,6 +365,8 @@ if not DEBUG:
 # ======================================================================
 CSRF_TRUSTED_ORIGINS = [
     'https://postgres-u67346.vm.elestio.app',
+    'https://latigue-u67346.vm.elestio.app',
+    'http://latigue-u67346.vm.elestio.app',
     'https://bolibana.net',
     'https://www.bolibana.net',
 ]
