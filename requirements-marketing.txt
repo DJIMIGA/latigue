@@ -1,0 +1,67 @@
+# ===================================
+# Requirements Marketing IA Pipeline
+# ===================================
+# Ajouter ces dépendances au requirements.txt principal
+
+# === Génération de scripts ===
+openai==1.52.0              # GPT-4 + DALL-E 3
+anthropic==0.39.0           # Claude (si besoin, sinon via OpenClaw)
+
+# === Génération d'images ===
+# (OpenAI DALL-E 3 inclus dans openai package)
+
+# === Voix-off (TTS) ===
+elevenlabs==1.13.1          # ElevenLabs TTS (voix réalistes)
+
+# === Montage vidéo ===
+moviepy==1.0.3              # Montage vidéo Python
+imageio==2.36.1             # Backend pour MoviePy
+imageio-ffmpeg==0.5.1       # FFmpeg pour MoviePy
+
+# === Sous-titres automatiques ===
+openai-whisper==20240930    # Transcription audio → texte
+# torch==2.2.0              # PyTorch (requis par Whisper, ~2GB)
+# torchaudio==2.2.0         # Audio processing pour Whisper
+
+# === Traitement d'images ===
+Pillow==10.3.0              # Déjà dans requirements.txt
+
+# === Async tasks (production) ===
+celery==5.4.0               # Tasks asynchrones
+redis==5.2.1                # Backend Celery
+
+# === Stockage cloud ===
+# boto3==1.34.34            # AWS S3 - Déjà dans requirements.txt
+# cloudflare==3.2.0         # Cloudflare R2 (optionnel, compatible S3)
+
+# === APIs réseaux sociaux ===
+# TikTok-Api==6.3.2         # TikTok unofficial (risqué, utiliser API officielle)
+requests==2.32.3            # HTTP client pour APIs custom
+requests-oauthlib==2.0.0    # OAuth pour Instagram/Facebook
+
+# === Utilitaires ===
+python-magic==0.4.27        # Détection type MIME
+python-slugify==8.0.4       # Génération de slugs
+
+# ===================================
+# NOTES D'INSTALLATION
+# ===================================
+
+# Whisper nécessite PyTorch (~2GB). Si espace limité, utiliser l'API OpenAI Whisper:
+# openai.Audio.transcribe(model="whisper-1", file=audio)
+
+# FFmpeg doit être installé au niveau système (pas Python):
+# apt-get install ffmpeg  (Debian/Ubuntu)
+# brew install ffmpeg     (macOS)
+
+# Pour le container Docker, ajouter dans Dockerfile:
+# RUN apt-get update && apt-get install -y ffmpeg libmagic1
+
+# ===================================
+# COÛTS ESTIMÉS (par vidéo)
+# ===================================
+# - Script (Claude Sonnet): ~$0.01
+# - Images DALL-E 3 (x8): ~$0.32
+# - Voix ElevenLabs: ~$0.02
+# - Montage (local): gratuit
+# - Total: ~$0.35/vidéo
