@@ -34,9 +34,14 @@ redis==5.2.1                # Backend Celery
 # boto3==1.34.34            # AWS S3 - Déjà dans requirements.txt
 # cloudflare==3.2.0         # Cloudflare R2 (optionnel, compatible S3)
 
+# === Génération vidéo par IA ===
+# Aucune lib spécifique, juste requests pour appels API
+# Providers supportés: Luma AI, Runway, Pika, Stability AI
+# Configuration via .env (voir .env.video-providers.example)
+
 # === APIs réseaux sociaux ===
 # TikTok-Api==6.3.2         # TikTok unofficial (risqué, utiliser API officielle)
-requests==2.32.3            # HTTP client pour APIs custom
+requests==2.32.3            # HTTP client pour APIs custom + video providers
 requests-oauthlib==2.0.0    # OAuth pour Instagram/Facebook
 
 # === Utilitaires ===
@@ -58,10 +63,28 @@ python-slugify==8.0.4       # Génération de slugs
 # RUN apt-get update && apt-get install -y ffmpeg libmagic1
 
 # ===================================
-# COÛTS ESTIMÉS (par vidéo)
+# COÛTS ESTIMÉS (par vidéo 30 sec)
 # ===================================
-# - Script (Claude Sonnet): ~$0.01
-# - Images DALL-E 3 (x8): ~$0.32
-# - Voix ElevenLabs: ~$0.02
-# - Montage (local): gratuit
-# - Total: ~$0.35/vidéo
+# ARCHITECTURE SEGMENTS (6 segments de 5 sec):
+#
+# Luma AI (recommandé):
+#   - Script (Claude): $0.01
+#   - Segments vidéo (6x): $0.90 (6 × $0.15)
+#   - Voix-off (ElevenLabs): $0.02
+#   - Montage (local): gratuit
+#   - Total: ~$0.93/vidéo
+#
+# Runway (qualité premium):
+#   - Total: ~$1.53/vidéo (segments à $0.25/5sec)
+#
+# Stability (économique):
+#   - Total: ~$0.48/vidéo (segments à $0.075/5sec)
+#
+# Production 100 vidéos/mois:
+#   - Luma: ~$93/mois
+#   - Runway: ~$153/mois
+#   - Stability: ~$48/mois
+#
+# LEGACY (images animées, obsolète):
+#   - Images DALL-E 3 (x8): $0.32
+#   - Total: ~$0.35/vidéo

@@ -2,9 +2,28 @@
 
 App Django pour automatiser la création de contenu vidéo (Reels/TikTok) de bout en bout avec l'IA.
 
-## 🎯 Objectif
+## ⚡ NOUVEAU : Architecture Vidéo par Segments (v2.0)
 
-Pipeline complet : **Script → Images → Voix-off → Montage → Stockage → Publication**
+**Vraies vidéos IA au lieu d'images enchaînées !**
+
+✅ **Providers supportés:** Luma AI, Runway, Pika Labs, Stability AI  
+✅ **Architecture modulaire:** Switch provider en 1 ligne de config  
+✅ **Contrôle éditorial:** Édite/régénère chaque segment de 5 sec  
+✅ **Coût optimisé:** $0.48-1.53 par vidéo 30 sec (selon provider)
+
+📖 **[Documentation complète →](VIDEO_SEGMENTS_WORKFLOW.md)**
+
+```bash
+# Génération vidéo complète en 1 commande
+python manage.py generate_video_segments \
+    --theme "Python tips" --pillar tips --provider luma --parallel
+```
+
+---
+
+## 🎯 Objectif (Legacy)
+
+Pipeline complet : **Script → ~~Images~~ Vidéos IA → Voix-off → Montage → Stockage → Publication**
 
 ## 📊 Architecture
 

@@ -100,11 +100,11 @@ server {
 
 ### Étape 5 : Domaine personnalisé
 
-1. **DNS (chez Gandi)** :
-   ```
-   Type A    @ → IP_DU_VPS_ELESTIO
-   Type CNAME www → votre-service.vm.elestio.app
-   ```
+1. **DNS (chez Gandi)** — pour Latigue :
+   - **A** `@` → `159.195.104.193` (IP du VPS Elestio)
+   - **CNAME** `www` → `latigue-u67346.vm.elestio.app.`
+   - Ne pas modifier : MX, TXT, SRV, _domainkey, webmail (config email Gandi).
+   - Référence complète : voir `DEPLOIEMENT_VPS_ELESTIO.md` § 11.1.
 
 2. **Dans Elestio** → Settings → Custom Domain :
    - Ajoutez `bolibana.net` et `www.bolibana.net`

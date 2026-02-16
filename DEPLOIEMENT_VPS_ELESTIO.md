@@ -6,7 +6,7 @@ Ce document retrace toutes les etapes realisees pour deployer le projet **Latigu
 
 ## Contexte
 
-- **VPS Elestio** : `cicd-xbhk2-u67346.vm.elestio.app` (IP: `159.195.104.193`)
+- **VPS Elestio** : `latigue-u67346.vm.elestio.app` (IP: `159.195.104.193`)
 - **PostgreSQL Elestio** : `postgres-u67346.vm.elestio.app:25432`
 - **Autre projet sur le meme VPS** : `openclaw` (port 18789)
 - **Reverse proxy** : OpenResty (gere par Elestio, ports 80/443, SSL automatique)
@@ -233,7 +233,7 @@ server {
   http2 on;
   ssl_certificate /etc/nginx/certs/cert.pem;
   ssl_certificate_key /etc/nginx/certs/key.pem;
-  server_name cicd-xbhk2-u67346.vm.elestio.app bolibana.net www.bolibana.net;
+  server_name latigue-u67346.vm.elestio.app bolibana.net www.bolibana.net;
 
   client_header_buffer_size 32k;
   large_client_header_buffers 4 64k;
@@ -271,7 +271,7 @@ nano /opt/elestio/nginx/.env
 Ajouter le domaine a `ALLOWED_DOMAINS` :
 
 ```
-ALLOWED_DOMAINS=openclaw-u67346.vm.elestio.app|postgres-u67346.vm.elestio.app|cicd-xbhk2-u67346.vm.elestio.app|bolibana.net|www.bolibana.net
+ALLOWED_DOMAINS=openclaw-u67346.vm.elestio.app|postgres-u67346.vm.elestio.app|latigue-u67346.vm.elestio.app|bolibana.net|www.bolibana.net
 ```
 
 ### 7.3 Redemarrer OpenResty
@@ -287,7 +287,7 @@ cd /opt/elestio/nginx && docker compose restart
 Le `settings.py` doit inclure le hostname du VPS :
 
 ```bash
-sed -i "s/'postgres-u67346.vm.elestio.app',/'postgres-u67346.vm.elestio.app','cicd-xbhk2-u67346.vm.elestio.app',/" /var/www/latigue/latigue/settings.py
+sed -i "s/'postgres-u67346.vm.elestio.app',/'postgres-u67346.vm.elestio.app','latigue-u67346.vm.elestio.app',/" /var/www/latigue/latigue/settings.py
 ```
 
 Puis rebuild :
@@ -309,7 +309,7 @@ django.setup()
 from django.conf import settings
 print('ALLOWED_HOSTS:', settings.ALLOWED_HOSTS)
 "
-# Doit contenir 'cicd-xbhk2-u67346.vm.elestio.app'
+# Doit contenir 'latigue-u67346.vm.elestio.app'
 ```
 
 ---
@@ -324,14 +324,14 @@ curl -I -H "X-Forwarded-Proto: https" http://localhost:8000
 # Attendu : HTTP/1.1 200 OK
 
 # Test via le proxy
-curl -I https://cicd-xbhk2-u67346.vm.elestio.app
+curl -I https://latigue-u67346.vm.elestio.app
 # Attendu : HTTP/2 200
 ```
 
 ### Test navigateur
 
-- Page d'accueil : https://cicd-xbhk2-u67346.vm.elestio.app/
-- Admin Django : https://cicd-xbhk2-u67346.vm.elestio.app/admin/
+- Page d'accueil : https://latigue-u67346.vm.elestio.app/
+- Admin Django : https://latigue-u67346.vm.elestio.app/admin/
 
 ### Creer un superutilisateur
 
@@ -388,11 +388,11 @@ DJANGO_SECRET_KEY='84(-9azqu=@n*cr!$buhd-jalv%*(j-mdsql*b6b*bz0g%cd8t'
 
 ### 5. DisallowedHost
 
-**Erreur** : `Invalid HTTP_HOST header: 'cicd-xbhk2-u67346.vm.elestio.app'. You may need to add it to ALLOWED_HOSTS.`
+**Erreur** : `Invalid HTTP_HOST header: 'latigue-u67346.vm.elestio.app'. You may need to add it to ALLOWED_HOSTS.`
 
 **Cause** : Le hostname du VPS n'etait pas dans `ALLOWED_HOSTS` de Django
 
-**Solution** : Ajouter `'cicd-xbhk2-u67346.vm.elestio.app'` dans la liste `ALLOWED_HOSTS` du `settings.py`
+**Solution** : Ajouter `'latigue-u67346.vm.elestio.app'` dans la liste `ALLOWED_HOSTS` du `settings.py`
 
 ---
 
@@ -589,27 +589,44 @@ cd /var/www/latigue && docker compose restart
 
 ### 11.1 DNS chez Gandi
 
-Modifier ces enregistrements DNS :
+Référence des enregistrements DNS (valeurs par défaut Gandi ; pour Latigue, modifier uniquement **A** et **CNAME www** comme indiqué ci-dessous) :
 
-| Type | Nom | Valeur |
-|------|-----|--------|
-| A | `@` | `159.195.104.193` |
-| CNAME | `www` | `cicd-xbhk2-u67346.vm.elestio.app.` |
+| Nom | Type | TTL | Valeur |
+|-----|------|-----|--------|
+| @ | A | 10800 | 217.70.184.38 |
+| @ | MX | 10800 | 10 spool.mail.gandi.net. |
+| @ | MX | 10800 | 50 fb.mail.gandi.net. |
+| @ | TXT | 10800 | "v=spf1 include:_mailcust.gandi.net ?all" |
+| @ | TXT | 10800 | "google-site-verification=7lliWyH2WrbnUHOrTUGBLqLDuMyQa5Fei79eFA_TXMk" |
+| _imap._tcp | SRV | 10800 | 0 0 0 . |
+| _imaps._tcp | SRV | 10800 | 0 1 993 mail.gandi.net. |
+| _pop3._tcp | SRV | 10800 | 0 0 0 . |
+| _pop3s._tcp | SRV | 10800 | 10 1 995 mail.gandi.net. |
+| _submission._tcp | SRV | 10800 | 0 1 465 mail.gandi.net. |
+| gm1._domainkey | CNAME | 10800 | gm1.gandimail.net. |
+| gm2._domainkey | CNAME | 10800 | gm2.gandimail.net. |
+| gm3._domainkey | CNAME | 10800 | gm3.gandimail.net. |
+| webmail | CNAME | 10800 | webmail.gandi.net. |
+| www | CNAME | 10800 | webredir.vip.gandi.net. |
 
-> **Ne pas toucher** aux enregistrements MX, TXT, SRV (config email Gandi).
+Pour pointer le site Latigue vers Elestio, modifier **uniquement** :
+- **A** `@` → `159.195.104.193` (IP du VPS Elestio)
+- **CNAME** `www` → `latigue-u67346.vm.elestio.app.`
+
+> **Ne pas toucher** aux enregistrements MX, TXT, SRV et _domainkey (config email et vérification Google Gandi).
 
 ### 11.2 Ajouter les domaines dans OpenResty
 
 Modifier `/opt/elestio/nginx/conf.d/latigue.conf` :
 
 ```nginx
-server_name cicd-xbhk2-u67346.vm.elestio.app bolibana.net www.bolibana.net;
+server_name latigue-u67346.vm.elestio.app bolibana.net www.bolibana.net;
 ```
 
 Modifier `/opt/elestio/nginx/.env` :
 
 ```
-ALLOWED_DOMAINS=openclaw-u67346.vm.elestio.app|postgres-u67346.vm.elestio.app|cicd-xbhk2-u67346.vm.elestio.app|bolibana.net|www.bolibana.net
+ALLOWED_DOMAINS=openclaw-u67346.vm.elestio.app|postgres-u67346.vm.elestio.app|latigue-u67346.vm.elestio.app|bolibana.net|www.bolibana.net
 ```
 
 Redemarrer OpenResty :

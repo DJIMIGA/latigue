@@ -15,6 +15,8 @@ from django.views.decorators.http import require_POST
 
 
 ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+OLLAMA_BASE_URL = os.environ.get('OLLAMA_BASE_URL', 'http://172.16.0.1:11434')
+OLLAMA_MODEL = os.environ.get('OLLAMA_MODEL', 'qwen2.5-coder:3b')
 
 SYSTEM_PROMPT = """Tu es Nour ✨, l'assistant IA du portfolio de Konimba Djimiga (bolibana.net).
 
@@ -383,16 +385,33 @@ def chat_api(request):
 
 
 def _call_anthropic(messages):
-    """Appelle Claude. Retourne (text, usage_dict)."""
-    url = "https://api.anthropic.com/v1/messages"
-
+    """Appelle Claude, fallback sur Ollama si échec. Retourne (text, usage_dict)."""
     clean = [{"role": m["role"], "content": m["content"]} for m in messages]
+
+    # ── Essai 1: Claude (Anthropic) ──
+    if ANTHROPIC_API_KEY:
+        text, usage = _call_claude(clean)
+        if text:
+            return text, usage
+        print("[Chatbot] ⚠️ Claude failed, falling back to Ollama")
+
+    # ── Essai 2: Ollama (local, gratuit) ──
+    text, usage = _call_ollama(clean)
+    if text:
+        return text, usage
+
+    return "Temporairement indisponible. Contactez-nous via WhatsApp ! 📱", None
+
+
+def _call_claude(messages):
+    """Appelle l'API Anthropic Claude. Retourne (text, usage) ou (None, None)."""
+    url = "https://api.anthropic.com/v1/messages"
 
     payload = json.dumps({
         "model": "claude-sonnet-4-20250514",
-        "max_tokens": 300,      # Réduit de 512 à 300 (économie)
+        "max_tokens": 300,
         "system": SYSTEM_PROMPT,
-        "messages": clean,
+        "messages": messages,
     }).encode('utf-8')
 
     headers = {
@@ -408,14 +427,46 @@ def _call_anthropic(messages):
             data = json.loads(resp.read().decode('utf-8'))
             content = data.get("content", [])
             usage = data.get("usage", {})
-            text = content[0]["text"] if content and content[0].get("type") == "text" else "..."
+            text = content[0]["text"] if content and content[0].get("type") == "text" else None
             return text, usage
     except urllib.error.HTTPError as e:
         body = e.read().decode('utf-8')[:200] if e.fp else ''
-        print(f"[Chatbot] API error {e.code}: {body}")
+        print(f"[Chatbot] Claude API error {e.code}: {body}")
         if e.code == 429:
-            return "Je suis un peu débordé ! Réessayez dans quelques secondes 😅", None
-        return "Problème technique. Réessayez ! 🙏", None
+            # Rate limited → fallback
+            return None, None
+        return None, None
     except Exception as e:
-        print(f"[Chatbot] Erreur: {e}")
-        return "Temporairement indisponible. Contactez-nous via WhatsApp ! 📱", None
+        print(f"[Chatbot] Claude erreur: {e}")
+        return None, None
+
+
+def _call_ollama(messages):
+    """Appelle Ollama (OpenAI-compatible API). Retourne (text, usage) ou (None, None)."""
+    url = f"{OLLAMA_BASE_URL}/v1/chat/completions"
+
+    payload = json.dumps({
+        "model": OLLAMA_MODEL,
+        "max_tokens": 300,
+        "messages": [{"role": "system", "content": SYSTEM_PROMPT}] + messages,
+    }).encode('utf-8')
+
+    headers = {
+        "Content-Type": "application/json",
+    }
+
+    req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
+
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            choices = data.get("choices", [])
+            usage = data.get("usage", {})
+            if choices and choices[0].get("message", {}).get("content"):
+                text = choices[0]["message"]["content"]
+                print(f"[Chatbot] 🦙 Ollama response OK (model={OLLAMA_MODEL})")
+                return text, usage
+            return None, None
+    except Exception as e:
+        print(f"[Chatbot] Ollama erreur: {e}")
+        return None, None
