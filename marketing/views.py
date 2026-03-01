@@ -406,3 +406,149 @@ def api_segment_retry(request, job_pk, segment_index):
         'success': True,
         'message': f'Segment {segment_index} re-queued'
     })
+
+
+# =============================================================================
+# ASSETS LIBRARY (Placeholders)
+# =============================================================================
+
+@login_required
+def assets_library_view(request):
+    """Liste des assets uploadés"""
+    assets = SegmentAsset.objects.filter(created_by=request.user).order_by('-created_at')
+    return render(request, 'marketing/assets_library.html', {'assets': assets})
+
+
+@login_required
+def assets_upload_view(request):
+    """Upload d'assets"""
+    if request.method == 'POST':
+        form = SegmentAssetUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            asset = form.save(commit=False)
+            asset.created_by = request.user
+            asset.save()
+            messages.success(request, f"Asset '{asset.name}' uploadé avec succès!")
+            return redirect('marketing:assets_library')
+    else:
+        form = SegmentAssetUploadForm()
+    return render(request, 'marketing/assets_upload.html', {'form': form})
+
+
+@login_required
+def asset_delete_view(request, pk):
+    """Suppression d'un asset"""
+    asset = get_object_or_404(SegmentAsset, pk=pk, created_by=request.user)
+    if request.method == 'POST':
+        asset.delete()
+        messages.success(request, "Asset supprimé!")
+        return redirect('marketing:assets_library')
+    return render(request, 'marketing/asset_confirm_delete.html', {'asset': asset})
+
+
+# =============================================================================
+# AI ASSISTANT (Placeholders)
+# =============================================================================
+
+@login_required
+def ai_assistant_view(request):
+    """Interface conversationnelle AI Assistant"""
+    return render(request, 'marketing/ai_assistant.html')
+
+
+@login_required
+def ai_chat_view(request):
+    """API chat avec Claude"""
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        user_message = data.get('message', '')
+        
+        # TODO: Intégrer vraie API Claude
+        response = {
+            'message': f"Assistant IA (placeholder) : Vous avez dit '{user_message}'. Fonctionnalité en cours de développement.",
+            'suggestions': [
+                'Créer une vidéo TikTok sur le thème IA',
+                'Montrer les assets disponibles',
+                'Générer 5 vidéos pour la semaine'
+            ]
+        }
+        return JsonResponse(response)
+    return JsonResponse({'error': 'POST required'}, status=400)
+
+
+@login_required
+def ai_generate_job_view(request):
+    """Génération de job via prompts IA"""
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        prompt = data.get('prompt', '')
+        
+        # TODO: Parser le prompt et créer un VideoProductionJob
+        return JsonResponse({
+            'success': True,
+            'job_id': 1,  # Placeholder
+            'message': 'Job créé (placeholder)'
+        })
+    return JsonResponse({'error': 'POST required'}, status=400)
+
+
+# =============================================================================
+# USER SETTINGS (Placeholder)
+# =============================================================================
+
+@login_required
+def user_settings_view(request):
+    """Paramètres utilisateur (API keys, préférences)"""
+    return render(request, 'marketing/user_settings.html')
+
+
+# =============================================================================
+# JOB ACTIONS (Placeholders manquants)
+# =============================================================================
+
+@login_required
+def job_start_generation(request, pk):
+    """Démarrer la génération d'un job"""
+    job = get_object_or_404(VideoProductionJob, pk=pk)
+    
+    # TODO: Lancer la génération réelle
+    job.status = 'processing'
+    job.save()
+    
+    messages.success(request, f"Génération de '{job.title}' démarrée!")
+    return redirect('marketing:job_detail', pk=pk)
+
+
+@login_required
+def job_cancel(request, pk):
+    """Annuler un job"""
+    job = get_object_or_404(VideoProductionJob, pk=pk)
+    job.status = 'failed'
+    job.save()
+    messages.warning(request, f"Job '{job.title}' annulé.")
+    return redirect('marketing:dashboard')
+
+
+@login_required
+def api_job_status(request, pk):
+    """API: Status d'un job (polling temps réel)"""
+    job = get_object_or_404(VideoProductionJob, pk=pk)
+    return JsonResponse({
+        'status': job.status,
+        'progress': job.progress_percent,
+        'current_step': job.current_step or '',
+    })
+
+
+@login_required
+def api_segment_retry(request, job_pk, segment_index):
+    """API: Retry d'un segment spécifique"""
+    job = get_object_or_404(VideoProductionJob, pk=job_pk)
+    
+    # TODO: Implémenter retry segment
+    return JsonResponse({
+        'success': True,
+        'message': f'Segment {segment_index} en cours de régénération'
+    })
