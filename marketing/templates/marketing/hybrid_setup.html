@@ -91,24 +91,19 @@
                     
                     <!-- Toggle source -->
                     <div class="flex gap-2">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="source_{{ seg.index }}" value="uploaded_clip"
-                                {% if seg.suggested_source == 'uploaded_clip' %}checked{% endif %}
-                                class="peer hidden"
-                                onchange="toggleSegment({{ seg.index }}, 'clip')">
-                            <span class="peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-500 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 inline-block transition-all">
-                                📱 Mon clip
-                            </span>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="source_{{ seg.index }}" value="ai_generated"
-                                {% if seg.suggested_source == 'ai_generated' %}checked{% endif %}
-                                class="peer hidden"
-                                onchange="toggleSegment({{ seg.index }}, 'ai')">
-                            <span class="peer-checked:bg-green-600 peer-checked:text-white peer-checked:border-green-500 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 inline-block transition-all">
-                                🤖 IA
-                            </span>
-                        </label>
+                        <button type="button" 
+                            id="btn-clip-{{ seg.index }}"
+                            onclick="toggleSegment({{ seg.index }}, 'clip')"
+                            class="rounded-lg px-3 py-1.5 text-sm font-medium border transition-all {% if seg.suggested_source == 'uploaded_clip' %}bg-blue-600 text-white border-blue-500{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600{% endif %}">
+                            📱 Mon clip
+                        </button>
+                        <button type="button"
+                            id="btn-ai-{{ seg.index }}"
+                            onclick="toggleSegment({{ seg.index }}, 'ai')"
+                            class="rounded-lg px-3 py-1.5 text-sm font-medium border transition-all {% if seg.suggested_source == 'ai_generated' %}bg-green-600 text-white border-green-500{% else %}bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600{% endif %}">
+                            🤖 IA
+                        </button>
+                        <input type="hidden" name="source_{{ seg.index }}" id="source-{{ seg.index }}" value="{{ seg.suggested_source }}">
                     </div>
                 </div>
                 
@@ -166,13 +161,28 @@
 function toggleSegment(index, type) {
     const clipZone = document.getElementById('clip-zone-' + index);
     const aiZone = document.getElementById('ai-zone-' + index);
+    const btnClip = document.getElementById('btn-clip-' + index);
+    const btnAi = document.getElementById('btn-ai-' + index);
+    const sourceInput = document.getElementById('source-' + index);
+    
+    // Active/inactive styles
+    const activeClip = 'bg-blue-600 text-white border-blue-500';
+    const activeAi = 'bg-green-600 text-white border-green-500';
+    const inactive = 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600';
     
     if (type === 'clip') {
         clipZone.classList.remove('hidden');
         aiZone.classList.add('hidden');
+        sourceInput.value = 'uploaded_clip';
+        // Style buttons
+        btnClip.className = 'rounded-lg px-3 py-1.5 text-sm font-medium border transition-all ' + activeClip;
+        btnAi.className = 'rounded-lg px-3 py-1.5 text-sm font-medium border transition-all ' + inactive;
     } else {
         clipZone.classList.add('hidden');
         aiZone.classList.remove('hidden');
+        sourceInput.value = 'ai_generated';
+        btnAi.className = 'rounded-lg px-3 py-1.5 text-sm font-medium border transition-all ' + activeAi;
+        btnClip.className = 'rounded-lg px-3 py-1.5 text-sm font-medium border transition-all ' + inactive;
     }
     
     updateCostEstimate();
@@ -181,10 +191,8 @@ function toggleSegment(index, type) {
 function updateCostEstimate() {
     let aiCount = 0;
     for (let i = 0; i < 6; i++) {
-        const radios = document.querySelectorAll('input[name="source_' + i + '"]');
-        radios.forEach(r => {
-            if (r.checked && r.value === 'ai_generated') aiCount++;
-        });
+        const input = document.getElementById('source-' + i);
+        if (input && input.value === 'ai_generated') aiCount++;
     }
     const cost = (aiCount * 5 * 0.03).toFixed(2);
     document.getElementById('cost-estimate').textContent = '~$' + cost;
