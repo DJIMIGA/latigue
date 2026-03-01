@@ -543,7 +543,8 @@ def api_segment_retry(request, job_pk, segment_index):
 @login_required
 def assets_library_view(request):
     """Liste des assets uploadés"""
-    assets = SegmentAsset.objects.filter(created_by=request.user).order_by('-created_at')
+    # SegmentAsset n'a pas de created_by - on récupère via job.created_by
+    assets = SegmentAsset.objects.filter(job__created_by=request.user).order_by('-created_at')
     return render(request, 'marketing/assets_library.html', {'assets': assets})
 
 
@@ -553,10 +554,8 @@ def assets_upload_view(request):
     if request.method == 'POST':
         form = SegmentAssetUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            asset = form.save(commit=False)
-            asset.created_by = request.user
-            asset.save()
-            messages.success(request, f"Asset '{asset.name}' uploadé avec succès!")
+            asset = form.save()
+            messages.success(request, "Asset uploadé avec succès!")
             return redirect('marketing:assets_library')
     else:
         form = SegmentAssetUploadForm()
@@ -566,7 +565,7 @@ def assets_upload_view(request):
 @login_required
 def asset_delete_view(request, pk):
     """Suppression d'un asset"""
-    asset = get_object_or_404(SegmentAsset, pk=pk, created_by=request.user)
+    asset = get_object_or_404(SegmentAsset, pk=pk, job__created_by=request.user)
     if request.method == 'POST':
         asset.delete()
         messages.success(request, "Asset supprimé!")
