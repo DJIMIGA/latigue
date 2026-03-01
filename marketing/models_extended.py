@@ -34,6 +34,141 @@ class ContentPillar(models.TextChoices):
     TIPS = 'tips', 'Tips & Astuces'
 
 
+class VideoTheme(models.TextChoices):
+    """Thèmes de scripts vidéo"""
+    ARGENT = 'argent', 'Argent'
+    TEMPS = 'temps', 'Temps'
+    TRANQUILLITE = 'tranquillite', 'Tranquillité'
+    CROISSANCE = 'croissance', 'Croissance'
+    IA = 'ia', 'Intelligence Artificielle'
+    FIDELITE = 'fidelite', 'Fidélité'
+    MOBILE = 'mobile', 'Mobile'
+    IMPRESSION = 'impression', 'Impression Pro'
+    CUSTOM = 'custom', 'Personnalisé'
+
+
+class ClientLevel(models.TextChoices):
+    """Niveau de maturité du client cible"""
+    AUCUN_SYSTEME = 'niveau1', 'Niveau 1 - Aucun système'
+    PAPIER = 'niveau2', 'Niveau 2 - Gestion papier'
+    OUTILS_COMPLEXES = 'niveau3', 'Niveau 3 - Outils complexes'
+    TOUS = 'tous', 'Tous niveaux'
+
+
+class Platform(models.TextChoices):
+    """Plateformes de diffusion"""
+    TIKTOK = 'tiktok', 'TikTok'
+    INSTAGRAM = 'instagram', 'Instagram Reels'
+    YOUTUBE = 'youtube', 'YouTube Shorts'
+    FACEBOOK = 'facebook', 'Facebook'
+    LINKEDIN = 'linkedin', 'LinkedIn'
+    WHATSAPP = 'whatsapp', 'WhatsApp'
+    EMAIL = 'email', 'Email'
+    ALL = 'all', 'Toutes plateformes'
+
+
+class VideoScript(models.Model):
+    """
+    Bibliothèque de scripts vidéo pour réseaux sociaux.
+    Source : VIDEOS_RESEAUX_SOCIAUX.html
+    """
+    # Métadonnées
+    title = models.CharField(max_length=200)
+    code = models.CharField(max_length=50, unique=True, help_text="Ex: A1, T2, IA3")
+    theme = models.CharField(max_length=50, choices=VideoTheme.choices)
+    client_level = models.CharField(
+        max_length=20, 
+        choices=ClientLevel.choices, 
+        default=ClientLevel.TOUS
+    )
+    platform = models.CharField(
+        max_length=20, 
+        choices=Platform.choices, 
+        default=Platform.ALL
+    )
+    
+    # Durée recommandée
+    duration_min = models.IntegerField(
+        default=30, 
+        validators=[MinValueValidator(10), MaxValueValidator(120)],
+        help_text="Durée minimale en secondes"
+    )
+    duration_max = models.IntegerField(
+        default=60, 
+        validators=[MinValueValidator(10), MaxValueValidator(120)],
+        help_text="Durée maximale en secondes"
+    )
+    
+    # Structure du script (segments)
+    hook = models.TextField(help_text="0-3s : Accroche")
+    hook_timing = models.CharField(max_length=20, default="0-3s")
+    
+    problem = models.TextField(help_text="3-8s : Problème identifié")
+    problem_timing = models.CharField(max_length=20, default="3-8s")
+    
+    micro_revelation = models.TextField(help_text="8-12s : Micro-révélation")
+    micro_revelation_timing = models.CharField(max_length=20, default="8-12s")
+    
+    solution = models.TextField(help_text="12-25s : Solution proposée")
+    solution_timing = models.CharField(max_length=20, default="12-25s")
+    solution_hint = models.TextField(
+        blank=True, 
+        help_text="Indication visuelle pour le tournage"
+    )
+    
+    proof = models.TextField(help_text="25-35s : Preuve sociale / Résultat")
+    proof_timing = models.CharField(max_length=20, default="25-35s")
+    
+    cta = models.TextField(help_text="35-40s : Call to Action")
+    cta_timing = models.CharField(max_length=20, default="35-40s")
+    
+    # Métadonnées supplémentaires
+    tags = models.JSONField(
+        default=list, 
+        blank=True,
+        help_text="Tags pour recherche : ['scanner', 'mobile', 'offline']"
+    )
+    hooks_alternatives = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="Hooks alternatifs pour A/B testing"
+    )
+    cta_alternatives = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="CTA alternatifs pour A/B testing"
+    )
+    
+    # Tracking
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    usage_count = models.IntegerField(default=0, help_text="Nb de fois utilisé")
+    
+    class Meta:
+        ordering = ['theme', 'code']
+        verbose_name = "Script Vidéo"
+        verbose_name_plural = "Scripts Vidéo"
+    
+    def __str__(self):
+        return f"{self.code} - {self.title}"
+    
+    def get_full_script(self):
+        """Retourne le script complet formaté"""
+        return {
+            'hook': {'text': self.hook, 'timing': self.hook_timing},
+            'problem': {'text': self.problem, 'timing': self.problem_timing},
+            'micro_revelation': {'text': self.micro_revelation, 'timing': self.micro_revelation_timing},
+            'solution': {'text': self.solution, 'timing': self.solution_timing, 'hint': self.solution_hint},
+            'proof': {'text': self.proof, 'timing': self.proof_timing},
+            'cta': {'text': self.cta, 'timing': self.cta_timing},
+        }
+    
+    def increment_usage(self):
+        """Incrémente le compteur d'utilisation"""
+        self.usage_count += 1
+        self.save(update_fields=['usage_count'])
+
+
 class VideoProjectTemplate(models.Model):
     """
     Template de projet vidéo réutilisable.
