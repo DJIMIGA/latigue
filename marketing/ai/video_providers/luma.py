@@ -35,10 +35,12 @@ class LumaProvider(VideoProvider):
     ) -> VideoGenerationResult:
         """Génère un clip avec Luma AI"""
         
-        # IMPORTANT: Luma API n'accepte que le prompt (pas aspect_ratio, pas duration)
-        # Vidéos toujours 5 secondes en 16:9
+        # Luma API requiert: prompt + model
+        # Vidéos toujours 5 secondes
+        # Modèles disponibles: ray-2, ray-flash-2, ray-3, ray-hdr-3, ray-3-14, ray-hdr-3-14, ray-1-6
         payload = {
-            "prompt": prompt
+            "prompt": prompt,
+            "model": "ray-2"  # Modèle standard (ray-flash-2 = plus rapide, ray-3 = meilleure qualité)
         }
         
         try:
