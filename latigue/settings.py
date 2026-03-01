@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'services',
     'formations',
     'chatbot',
+    'marketing',
 ]
 
 MIDDLEWARE = [
