@@ -50,6 +50,7 @@ urlpatterns = [
     path('services/', include('services.urls')),
     path('formations/', include('formations.urls')),
     path('chatbot/', include('chatbot.urls')),
+    path('marketing/', include('marketing.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     # Sitemap pour le SEO
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
