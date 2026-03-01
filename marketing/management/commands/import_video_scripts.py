@@ -65,10 +65,15 @@ class Command(BaseCommand):
             if not theme_section:
                 continue
             
-            # Trouver tous les scripts dans ce thème
-            video_details = theme_section.find_all('details', recursive=False)
+            # Trouver le container .details-inner
+            details_inner = theme_section.find('div', class_='details-inner')
+            if not details_inner:
+                continue
             
-            for idx, video in enumerate(video_details[1:], 1):  # Skip le premier (c'est le container)
+            # Trouver tous les <details> enfants directs (scripts vidéo)
+            video_details = details_inner.find_all('details', recursive=False)
+            
+            for video in video_details:
                 summary = video.find('summary')
                 if not summary:
                     continue
