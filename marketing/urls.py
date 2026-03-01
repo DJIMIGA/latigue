@@ -5,6 +5,7 @@ URLs pour l'interface web de production vidéo.
 from django.urls import path
 from . import views
 from . import views_scripts
+from . import views_hybrid
 
 app_name = 'marketing'
 
@@ -45,6 +46,12 @@ urlpatterns = [
     path('assistant/', views.ai_assistant_view, name='ai_assistant'),
     path('api/ai/chat/', views.ai_chat_view, name='ai_chat'),
     path('api/ai/generate-job/', views.ai_generate_job_view, name='ai_generate_job'),
+    
+    # Montage IA Hybride
+    path('hybrid/<int:script_pk>/setup/', views_hybrid.hybrid_setup_view, name='hybrid_setup'),
+    path('hybrid/<int:pk>/review/', views_hybrid.hybrid_review_view, name='hybrid_review'),
+    path('hybrid/<int:pk>/generate/', views_hybrid.hybrid_generate_view, name='hybrid_generate'),
+    path('hybrid/<int:pk>/assemble/', views_hybrid.hybrid_assemble_view, name='hybrid_assemble'),
     
     # User settings
     path('settings/', views.user_settings_view, name='user_settings'),

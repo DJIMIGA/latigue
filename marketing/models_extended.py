@@ -15,6 +15,15 @@ class VideoGenerationMode(models.TextChoices):
     IMAGE_TO_VIDEO = 'image_to_video', 'Image to Video'
     VIDEO_TO_VIDEO = 'video_to_video', 'Video to Video (prolongation)'
     HYBRID = 'hybrid', 'Hybrid (mix modes)'
+    MONTAGE_HYBRIDE = 'montage_hybride', 'Montage IA Hybride'
+
+
+class SegmentSourceType(models.TextChoices):
+    """Source d'un segment dans le montage hybride"""
+    AI_GENERATED = 'ai_generated', '🤖 Généré par IA (mise en situation)'
+    UPLOADED_CLIP = 'uploaded_clip', '📱 Clip filmé (face-cam)'
+    SCREENSHOT = 'screenshot', '🖥️ Screenshot animé par IA'
+    STOCK = 'stock', '📦 Stock footage'
 
 
 class VideoProvider(models.TextChoices):
@@ -296,6 +305,26 @@ class VideoProductionJob(models.Model):
     # Logs
     error_log = models.TextField(blank=True)
     
+    # ===== MODE MONTAGE HYBRIDE =====
+    # Cohérence personnage/scène (réutilisé dans tous les prompts IA)
+    character_description = models.TextField(
+        blank=True,
+        help_text="Description du personnage principal (ex: 'Un commerçant africain, 35 ans, chemise bleue')"
+    )
+    scene_description = models.TextField(
+        blank=True,
+        help_text="Description du décor/environnement (ex: 'Un petit magasin de quartier, étagères colorées')"
+    )
+    visual_style = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Style visuel global (ex: 'cinématique, lumière chaude, réaliste')"
+    )
+    is_hybrid = models.BooleanField(
+        default=False,
+        help_text="Mode montage hybride (mix clips filmés + IA)"
+    )
+    
     class Meta:
         verbose_name = "Job de Production"
         verbose_name_plural = "Jobs de Production"
@@ -426,6 +455,26 @@ class VideoSegmentGeneration(models.Model):
     )
     
     segment_index = models.IntegerField()
+    segment_name = models.CharField(
+        max_length=50, blank=True,
+        help_text="Nom du segment (hook, problem, solution, etc.)"
+    )
+    
+    # Source du segment (montage hybride)
+    source_type = models.CharField(
+        max_length=30,
+        choices=SegmentSourceType.choices if hasattr(SegmentSourceType, 'choices') else [
+            ('ai_generated', '🤖 IA'), ('uploaded_clip', '📱 Clip'), 
+            ('screenshot', '🖥️ Screenshot'), ('stock', '📦 Stock')
+        ],
+        default='ai_generated',
+        help_text="Source du contenu de ce segment"
+    )
+    uploaded_clip = models.FileField(
+        upload_to='marketing/clips/%Y/%m/',
+        blank=True, null=True,
+        help_text="Clip face-cam uploadé (pour segments filmés)"
+    )
     
     # Mode et provider
     generation_mode = models.CharField(
@@ -498,3 +547,33 @@ class VideoSegmentGeneration(models.Model):
     
     def __str__(self):
         return f"Job {self.job_id} - Segment {self.segment_index} ({self.provider})"
+    
+    def get_enriched_prompt(self):
+        """
+        Retourne le prompt enrichi avec le contexte personnage/scène du job.
+        Garantit la cohérence visuelle entre tous les segments IA.
+        """
+        if self.source_type == 'uploaded_clip':
+            return self.prompt  # Pas besoin pour les clips filmés
+        
+        parts = []
+        
+        # Style visuel global
+        if self.job.visual_style:
+            parts.append(f"Style: {self.job.visual_style}.")
+        
+        # Personnage cohérent
+        if self.job.character_description:
+            parts.append(f"Character: {self.job.character_description}.")
+        
+        # Décor cohérent
+        if self.job.scene_description:
+            parts.append(f"Setting: {self.job.scene_description}.")
+        
+        # Scène spécifique du segment
+        parts.append(f"Scene: {self.prompt}")
+        
+        # Format vertical TikTok
+        parts.append("Vertical video 9:16, cinematic, smooth camera movement.")
+        
+        return " ".join(parts)

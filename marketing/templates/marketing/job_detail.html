@@ -34,12 +34,20 @@
                 </div>
             </div>
             
-            {% if object.status == 'assets_ready' or object.status == 'draft' %}
-            <a href="{% url 'marketing:job_generate' object.pk %}" 
-               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
-                ▶️ Lancer la génération
-            </a>
-            {% endif %}
+            <div class="flex gap-3">
+                {% if object.status == 'assets_ready' or object.status == 'draft' %}
+                <a href="{% url 'marketing:job_generate' object.pk %}" 
+                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                    ▶️ Lancer la génération
+                </a>
+                {% endif %}
+                {% if object.is_hybrid and object.status == 'completed' or object.status == 'video_ready' %}
+                <a href="{% url 'marketing:hybrid_assemble' object.pk %}" 
+                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                    🎬 Assembler la vidéo finale
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 

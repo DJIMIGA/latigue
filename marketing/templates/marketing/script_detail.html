@@ -39,10 +39,16 @@
                 </div>
             </div>
             
-            <a href="{% url 'marketing:script_use_for_job' script.pk %}" 
-               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
-                ▶️ Utiliser ce script
-            </a>
+            <div class="flex flex-col gap-2">
+                <a href="{% url 'marketing:hybrid_setup' script.pk %}" 
+                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                    🎬 Montage Hybride
+                </a>
+                <a href="{% url 'marketing:script_use_for_job' script.pk %}" 
+                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                    🤖 100% IA
+                </a>
+            </div>
         </div>
     </div>
 

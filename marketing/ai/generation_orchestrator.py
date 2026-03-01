@@ -77,9 +77,19 @@ class GenerationOrchestrator:
             segment.status = VideoSegmentGeneration.Status.PROCESSING
             segment.save()
             
+            # Skip les segments uploadés (pas besoin de génération IA)
+            if segment.source_type == 'uploaded_clip' and segment.uploaded_clip:
+                segment.status = VideoSegmentGeneration.Status.COMPLETED
+                segment.save()
+                print(f"✓ Segment {segment.segment_index} = clip uploadé, skip IA")
+                return
+            
+            # Utiliser le prompt enrichi (cohérence personnage/scène)
+            enriched_prompt = segment.get_enriched_prompt()
+            
             # Appel provider
             result = self.provider.generate_clip(
-                prompt=segment.prompt,
+                prompt=enriched_prompt,
                 duration=segment.duration,
                 aspect_ratio=segment.aspect_ratio,
             )

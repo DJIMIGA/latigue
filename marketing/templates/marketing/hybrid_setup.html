@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}🎬 Montage Hybride — {{ script.code }}{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <a href="{% url 'marketing:script_detail' script.pk %}" class="text-purple-400 hover:text-purple-300 text-sm mb-2 inline-block">← Retour au script</a>
+        <h1 class="text-3xl font-bold text-white">🎬 Montage IA Hybride</h1>
+        <p class="text-gray-400 mt-2">
+            Script <span class="text-purple-400 font-mono">{{ script.code }}</span> — {{ script.title }}
+        </p>
+        <p class="text-gray-500 text-sm mt-1">
+            Mix tes clips face-cam 📱 avec des mises en situation IA 🤖 pour une vidéo authentique et pro.
+        </p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-8">
+        {% csrf_token %}
+        
+        <!-- ===== COHÉRENCE PERSONNAGE/SCÈNE ===== -->
+        <div class="bg-gray-800 rounded-xl border border-purple-500/30 p-6">
+            <h2 class="text-xl font-bold text-white mb-1">🎭 Cohérence visuelle</h2>
+            <p class="text-gray-400 text-sm mb-6">
+                Ces descriptions seront réutilisées dans <strong>tous les segments IA</strong> pour garder un personnage et un décor cohérents.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personnage -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        👤 Personnage principal
+                    </label>
+                    <textarea name="character_description" rows="3"
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Ex: Un commerçant africain, 35 ans, chemise bleue, souriant, dans son magasin">{{ request.POST.character_description }}</textarea>
+                    <p class="text-gray-500 text-xs mt-1">Sois précis : âge, vêtements, expression, couleur de peau</p>
+                </div>
+                
+                <!-- Décor -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        🏪 Décor / Environnement
+                    </label>
+                    <textarea name="scene_description" rows="3"
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Ex: Un petit magasin de quartier bien éclairé, étagères colorées de produits, comptoir en bois">{{ request.POST.scene_description }}</textarea>
+                    <p class="text-gray-500 text-xs mt-1">Décris l'ambiance, les couleurs, l'éclairage</p>
+                </div>
+            </div>
+            
+            <!-- Style visuel -->
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-300 mb-2">
+                    🎨 Style visuel
+                </label>
+                <input type="text" name="visual_style" 
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    value="{{ request.POST.visual_style|default:'Cinematic, warm lighting, realistic, smooth camera movement' }}"
+                    placeholder="Cinematic, warm lighting, realistic">
+            </div>
+            
+            <!-- Titre du job -->
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-300 mb-2">📝 Titre du projet</label>
+                <input type="text" name="title" 
+                    class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    value="{{ request.POST.title|default:script.title }}">
+            </div>
+        </div>
+
+        <!-- ===== SEGMENTS ===== -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-bold text-white">📐 Segments (6)</h2>
+            <p class="text-gray-400 text-sm">
+                Pour chaque segment, choisis : <strong class="text-blue-400">📱 Ton clip filmé</strong> ou <strong class="text-green-400">🤖 Mise en situation IA</strong>
+            </p>
+            
+            {% for seg in segments %}
+            <div class="bg-gray-800 rounded-xl border border-gray-700 hover:border-purple-500/50 transition-all p-5" 
+                 id="segment-{{ seg.index }}">
+                
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">{{ seg.label }}</h3>
+                        <span class="text-xs text-gray-500 font-mono">{{ seg.timing }}</span>
+                    </div>
+                    
+                    <!-- Toggle source -->
+                    <div class="flex gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="source_{{ seg.index }}" value="uploaded_clip"
+                                {% if seg.suggested_source == 'uploaded_clip' %}checked{% endif %}
+                                class="peer hidden"
+                                onchange="toggleSegment({{ seg.index }}, 'clip')">
+                            <span class="peer-checked:bg-blue-600 peer-checked:border-blue-500 bg-gray-700 border border-gray-600 rounded-lg px-3 py-1.5 text-sm text-white inline-block transition-all">
+                                📱 Mon clip
+                            </span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="source_{{ seg.index }}" value="ai_generated"
+                                {% if seg.suggested_source == 'ai_generated' %}checked{% endif %}
+                                class="peer hidden"
+                                onchange="toggleSegment({{ seg.index }}, 'ai')">
+                            <span class="peer-checked:bg-green-600 peer-checked:border-green-500 bg-gray-700 border border-gray-600 rounded-lg px-3 py-1.5 text-sm text-white inline-block transition-all">
+                                🤖 IA
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Texte du script -->
+                <div class="bg-gray-900/50 rounded-lg p-3 mb-4 border-l-4 border-purple-500">
+                    <p class="text-gray-300 text-sm italic">« {{ seg.text }} »</p>
+                </div>
+                
+                <!-- Tip -->
+                <p class="text-xs text-yellow-400/70 mb-3">💡 {{ seg.tip }}</p>
+                
+                <!-- Zone clip (visible si source = uploaded_clip) -->
+                <div id="clip-zone-{{ seg.index }}" 
+                     class="{% if seg.suggested_source != 'uploaded_clip' %}hidden{% endif %}">
+                    <label class="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-blue-500/30 rounded-lg cursor-pointer bg-gray-900/30 hover:bg-gray-900/50 transition-all">
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl">📱</span>
+                            <span class="text-sm text-gray-400">Glisser ou cliquer pour uploader ton clip</span>
+                            <span class="text-xs text-gray-500">MP4, MOV (filmé au téléphone vertical)</span>
+                        </div>
+                        <input type="file" name="clip_{{ seg.index }}" accept="video/*" class="hidden">
+                    </label>
+                </div>
+                
+                <!-- Zone IA (visible si source = ai_generated) -->
+                <div id="ai-zone-{{ seg.index }}" 
+                     class="{% if seg.suggested_source != 'ai_generated' %}hidden{% endif %}">
+                    <label class="block text-sm text-gray-400 mb-1">🎬 Description de la scène IA</label>
+                    <textarea name="scene_{{ seg.index }}" rows="2"
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="Décris la mise en situation...">{{ seg.text }}</textarea>
+                    <p class="text-xs text-gray-500 mt-1">Le personnage et décor seront ajoutés automatiquement pour la cohérence</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- ===== SUBMIT ===== -->
+        <div class="flex justify-between items-center bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div>
+                <p class="text-gray-400 text-sm">
+                    Coût estimé segments IA : <span class="text-green-400 font-bold" id="cost-estimate">~$0.45</span>
+                    <span class="text-gray-500 text-xs">(3 segments × 5s × $0.03/s)</span>
+                </p>
+            </div>
+            <button type="submit" 
+                class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-purple-500/25">
+                🚀 Créer le montage hybride
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function toggleSegment(index, type) {
+    const clipZone = document.getElementById('clip-zone-' + index);
+    const aiZone = document.getElementById('ai-zone-' + index);
+    
+    if (type === 'clip') {
+        clipZone.classList.remove('hidden');
+        aiZone.classList.add('hidden');
+    } else {
+        clipZone.classList.add('hidden');
+        aiZone.classList.remove('hidden');
+    }
+    
+    updateCostEstimate();
+}
+
+function updateCostEstimate() {
+    let aiCount = 0;
+    for (let i = 0; i < 6; i++) {
+        const radios = document.querySelectorAll('input[name="source_' + i + '"]');
+        radios.forEach(r => {
+            if (r.checked && r.value === 'ai_generated') aiCount++;
+        });
+    }
+    const cost = (aiCount * 5 * 0.03).toFixed(2);
+    document.getElementById('cost-estimate').textContent = '~$' + cost;
+}
+
+// Init
+updateCostEstimate();
+</script>
+{% endblock %}

@@ -1,233 +1,289 @@
 """
-Assembleur de segments vidéo en vidéo finale.
-Combine segments + voix-off + sous-titres.
+Pipeline d'assemblage vidéo hybride.
+Assemble clips filmés + segments IA + sous-titres + musique.
+Format final : 9:16 TikTok/Reels (1080x1920)
 """
 
-import logging
-from pathlib import Path
-from typing import Optional
+import os
+import subprocess
 import tempfile
-import requests
-
-from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip, CompositeVideoClip
-from moviepy.video.VideoClip import TextClip
-
+import json
+from pathlib import Path
 from django.conf import settings
-from marketing.models import VideoProject, VideoSegment
-from marketing.ai.tts_generator import generate_voiceover
 
-logger = logging.getLogger(__name__)
+
+# Dimensions TikTok
+TARGET_WIDTH = 1080
+TARGET_HEIGHT = 1920
+TARGET_FPS = 30
 
 
 class VideoAssembler:
     """
-    Assemble les segments vidéo en vidéo finale.
+    Assemble les segments d'un job en une vidéo finale.
+    Utilise FFmpeg directement (plus fiable que MoviePy pour le concat).
     """
     
-    def __init__(self, project: VideoProject):
-        self.project = project
-        self.temp_dir = Path(tempfile.mkdtemp())
+    def __init__(self, job):
+        self.job = job
+        self.output_dir = os.path.join(settings.MEDIA_ROOT, 'marketing', 'output', str(job.pk))
+        os.makedirs(self.output_dir, exist_ok=True)
     
-    def assemble(
-        self,
-        add_voiceover: bool = True,
-        add_subtitles: bool = True,
-        transition_duration: float = 0.3,
-        output_path: Optional[str] = None
-    ) -> str:
+    def assemble(self, add_subtitles=True, music_path=None):
         """
-        Assemble tous les segments en vidéo finale.
+        Assemble tous les segments en une vidéo finale.
         
         Args:
-            add_voiceover: Ajouter la voix-off
-            add_subtitles: Ajouter les sous-titres
-            transition_duration: Durée des transitions (secondes)
-            output_path: Chemin de sortie (optionnel)
+            add_subtitles: Ajouter sous-titres depuis le script
+            music_path: Chemin vers musique de fond (optionnel)
         
         Returns:
-            Chemin de la vidéo finale
+            str: Chemin du fichier vidéo final
         """
-        logger.info(f"Assemblage vidéo pour projet {self.project.id}")
+        segments = self.job.generations.order_by('segment_index')
         
-        self.project.status = 'assembly'
-        self.project.save()
+        if not segments.exists():
+            raise ValueError("Aucun segment à assembler")
         
-        try:
-            # 1. Télécharge tous les segments
-            segments = self.project.get_selected_segments()
-            segment_clips = self._download_segments(segments)
-            
-            if not segment_clips:
-                raise ValueError("Aucun segment valide trouvé")
-            
-            # 2. Concatène les segments
-            logger.info(f"Concaténation de {len(segment_clips)} segments")
-            video = concatenate_videoclips(segment_clips, method="compose")
-            
-            # 3. Ajoute la voix-off
-            if add_voiceover:
-                video = self._add_voiceover(video)
-            
-            # 4. Ajoute les sous-titres
-            if add_subtitles:
-                video = self._add_subtitles(video, segments)
-            
-            # 5. Export
-            if output_path is None:
-                output_path = str(self.temp_dir / f"final_video_{self.project.id}.mp4")
-            
-            logger.info(f"Export vidéo finale vers {output_path}")
-            video.write_videofile(
-                output_path,
-                codec='libx264',
-                audio_codec='aac',
-                fps=30,
-                preset='medium',
-                bitrate='5000k'
-            )
-            
-            # Nettoyage
-            video.close()
-            for clip in segment_clips:
-                clip.close()
-            
-            # Mise à jour projet
-            self.project.status = 'completed'
-            self.project.video_url = output_path  # TODO: Upload MinIO
-            self.project.file_size_mb = Path(output_path).stat().st_size / (1024 * 1024)
-            self.project.save()
-            
-            logger.info(f"Vidéo assemblée avec succès: {output_path}")
+        # 1. Préparer les fichiers de chaque segment
+        segment_files = []
+        for seg in segments:
+            file_path = self._get_segment_file(seg)
+            if file_path:
+                # Normaliser le segment (résolution, fps, codec)
+                normalized = self._normalize_segment(file_path, seg.segment_index)
+                segment_files.append(normalized)
+        
+        if not segment_files:
+            raise ValueError("Aucun fichier segment disponible")
+        
+        # 2. Concat avec FFmpeg
+        concat_path = self._concat_segments(segment_files)
+        
+        # 3. Ajouter sous-titres
+        if add_subtitles:
+            srt_path = self._generate_srt()
+            if srt_path:
+                concat_path = self._burn_subtitles(concat_path, srt_path)
+        
+        # 4. Ajouter musique de fond
+        if music_path and os.path.exists(music_path):
+            concat_path = self._add_music(concat_path, music_path)
+        
+        # 5. Déplacer vers output final
+        final_path = os.path.join(self.output_dir, f"final_{self.job.pk}.mp4")
+        os.rename(concat_path, final_path)
+        
+        # 6. Update job
+        self.job.final_video_path = final_path
+        self.job.status = 'completed'
+        self.job.save()
+        
+        return final_path
+    
+    def _get_segment_file(self, segment):
+        """
+        Récupère le fichier vidéo d'un segment.
+        - uploaded_clip : fichier uploadé
+        - ai_generated : télécharger depuis video_url
+        """
+        if segment.source_type == 'uploaded_clip' and segment.uploaded_clip:
+            return segment.uploaded_clip.path
+        
+        if segment.video_url:
+            return self._download_video(segment.video_url, segment.segment_index)
+        
+        if segment.local_path and os.path.exists(segment.local_path):
+            return segment.local_path
+        
+        return None
+    
+    def _download_video(self, url, index):
+        """Télécharge une vidéo depuis une URL"""
+        import requests
+        
+        output_path = os.path.join(self.output_dir, f"segment_{index}_raw.mp4")
+        
+        if os.path.exists(output_path):
             return output_path
+        
+        response = requests.get(url, stream=True, timeout=60)
+        response.raise_for_status()
+        
+        with open(output_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        
+        return output_path
+    
+    def _normalize_segment(self, input_path, index):
+        """
+        Normalise un segment : résolution 1080x1920, 30fps, même codec.
+        Gère les clips filmés (potentiellement différentes résolutions).
+        """
+        output_path = os.path.join(self.output_dir, f"segment_{index}_norm.mp4")
+        
+        if os.path.exists(output_path):
+            return output_path
+        
+        cmd = [
+            'ffmpeg', '-y', '-i', input_path,
+            # Scale + pad pour forcer 9:16 sans déformer
+            '-vf', (
+                f'scale={TARGET_WIDTH}:{TARGET_HEIGHT}:'
+                f'force_original_aspect_ratio=decrease,'
+                f'pad={TARGET_WIDTH}:{TARGET_HEIGHT}:(ow-iw)/2:(oh-ih)/2:black'
+            ),
+            '-r', str(TARGET_FPS),
+            '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+            '-c:a', 'aac', '-ar', '44100', '-ac', '2',
+            '-movflags', '+faststart',
+            output_path
+        ]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        
+        if result.returncode != 0:
+            # Si pas d'audio dans le source, ajouter silence
+            cmd_no_audio = [
+                'ffmpeg', '-y', '-i', input_path,
+                '-f', 'lavfi', '-i', 'anullsrc=r=44100:cl=stereo',
+                '-vf', (
+                    f'scale={TARGET_WIDTH}:{TARGET_HEIGHT}:'
+                    f'force_original_aspect_ratio=decrease,'
+                    f'pad={TARGET_WIDTH}:{TARGET_HEIGHT}:(ow-iw)/2:(oh-ih)/2:black'
+                ),
+                '-r', str(TARGET_FPS),
+                '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+                '-c:a', 'aac', '-ar', '44100', '-ac', '2',
+                '-shortest',
+                '-movflags', '+faststart',
+                output_path
+            ]
+            subprocess.run(cmd_no_audio, capture_output=True, text=True, timeout=120)
+        
+        return output_path
+    
+    def _concat_segments(self, segment_files):
+        """Concatène tous les segments normalisés"""
+        concat_path = os.path.join(self.output_dir, f"concat_{self.job.pk}.mp4")
+        
+        # Créer fichier liste pour FFmpeg concat
+        list_path = os.path.join(self.output_dir, "concat_list.txt")
+        with open(list_path, 'w') as f:
+            for seg_file in segment_files:
+                f.write(f"file '{seg_file}'\n")
+        
+        cmd = [
+            'ffmpeg', '-y', '-f', 'concat', '-safe', '0',
+            '-i', list_path,
+            '-c', 'copy',
+            '-movflags', '+faststart',
+            concat_path
+        ]
+        
+        subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        
+        return concat_path
+    
+    def _generate_srt(self):
+        """
+        Génère un fichier SRT depuis les prompts/scripts des segments.
+        Style TikTok : texte court par segment.
+        """
+        srt_path = os.path.join(self.output_dir, f"subtitles_{self.job.pk}.srt")
+        
+        segments = self.job.generations.order_by('segment_index')
+        
+        current_time = 0.0
+        srt_entries = []
+        
+        for i, seg in enumerate(segments, 1):
+            start = current_time
+            end = current_time + seg.duration
             
-        except Exception as e:
-            logger.error(f"Erreur assemblage: {str(e)}")
-            self.project.status = 'error'
-            self.project.error_message = str(e)
-            self.project.save()
-            raise
-    
-    def _download_segments(self, segments) -> list:
-        """Télécharge tous les segments vidéo"""
-        clips = []
-        
-        for segment in segments:
-            if not segment.video_url:
-                logger.warning(f"Segment {segment.order} n'a pas de vidéo")
-                continue
+            # Texte du sous-titre (prompt = texte du script)
+            text = seg.prompt.strip()
+            # Limiter à 2 lignes de ~40 chars
+            if len(text) > 80:
+                mid = len(text) // 2
+                # Trouver l'espace le plus proche du milieu
+                space = text.rfind(' ', 0, mid + 10)
+                if space > 0:
+                    text = text[:space] + '\n' + text[space+1:]
             
-            try:
-                # Télécharge le segment
-                local_path = self.temp_dir / f"segment_{segment.order}.mp4"
-                
-                logger.info(f"Téléchargement segment {segment.order} depuis {segment.video_url}")
-                response = requests.get(segment.video_url, timeout=60)
-                response.raise_for_status()
-                
-                local_path.write_bytes(response.content)
-                
-                # Charge avec MoviePy
-                clip = VideoFileClip(str(local_path))
-                clips.append(clip)
-                
-            except Exception as e:
-                logger.error(f"Erreur téléchargement segment {segment.order}: {e}")
-                continue
-        
-        return clips
-    
-    def _add_voiceover(self, video: VideoFileClip) -> VideoFileClip:
-        """Ajoute la voix-off sur toute la vidéo"""
-        
-        logger.info("Génération voix-off")
-        
-        # Récupère le texte complet
-        voiceover_text = self.project.script.script_json.get('voiceover', '')
-        
-        if not voiceover_text:
-            # Assemble les textes des segments
-            segments = self.project.get_selected_segments()
-            voiceover_text = ' '.join(seg.text for seg in segments)
-        
-        # Génère l'audio
-        audio_path = generate_voiceover(voiceover_text, output_dir=str(self.temp_dir))
-        
-        # Ajoute à la vidéo
-        audio_clip = AudioFileClip(audio_path)
-        
-        # Ajuste la durée si nécessaire
-        if audio_clip.duration > video.duration:
-            logger.warning(f"Audio plus long que vidéo ({audio_clip.duration}s vs {video.duration}s)")
-            audio_clip = audio_clip.subclip(0, video.duration)
-        
-        video = video.set_audio(audio_clip)
-        
-        # Sauvegarde URL audio
-        self.project.audio_url = audio_path  # TODO: Upload MinIO
-        self.project.save()
-        
-        return video
-    
-    def _add_subtitles(self, video: VideoFileClip, segments) -> CompositeVideoClip:
-        """Ajoute les sous-titres synchronisés"""
-        
-        logger.info("Ajout des sous-titres")
-        
-        subtitle_clips = []
-        current_time = 0
-        
-        for segment in segments:
-            # Crée un clip texte pour ce segment
-            txt_clip = TextClip(
-                segment.text,
-                fontsize=40,
-                color='white',
-                font='Arial-Bold',
-                stroke_color='black',
-                stroke_width=2,
-                method='caption',
-                size=(video.w * 0.9, None),
-                align='center'
+            srt_entries.append(
+                f"{i}\n"
+                f"{self._format_srt_time(start)} --> {self._format_srt_time(end)}\n"
+                f"{text}\n"
             )
             
-            # Positionne en bas de l'écran
-            txt_clip = txt_clip.set_position(('center', 0.85), relative=True)
-            
-            # Définit la durée et le timing
-            txt_clip = txt_clip.set_start(current_time).set_duration(segment.duration)
-            
-            subtitle_clips.append(txt_clip)
-            current_time += segment.duration
+            current_time = end
         
-        # Composite vidéo + sous-titres
-        final = CompositeVideoClip([video] + subtitle_clips)
+        with open(srt_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(srt_entries))
         
-        return final
+        return srt_path
     
-    def cleanup(self):
-        """Nettoie les fichiers temporaires"""
-        import shutil
-        if self.temp_dir.exists():
-            shutil.rmtree(self.temp_dir)
-            logger.info(f"Nettoyage: {self.temp_dir} supprimé")
-
-
-def quick_assemble(project_id: int, **kwargs) -> str:
-    """
-    Helper pour assembler rapidement une vidéo.
+    def _burn_subtitles(self, video_path, srt_path):
+        """Brûle les sous-titres dans la vidéo (style TikTok)"""
+        output_path = os.path.join(self.output_dir, f"subtitled_{self.job.pk}.mp4")
+        
+        # Style TikTok : blanc, gras, ombre, centré en bas
+        subtitle_style = (
+            "FontName=Arial,FontSize=22,PrimaryColour=&H00FFFFFF,"
+            "OutlineColour=&H00000000,BackColour=&H80000000,"
+            "Bold=1,Outline=2,Shadow=1,Alignment=2,MarginV=80"
+        )
+        
+        cmd = [
+            'ffmpeg', '-y', '-i', video_path,
+            '-vf', f"subtitles={srt_path}:force_style='{subtitle_style}'",
+            '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+            '-c:a', 'copy',
+            '-movflags', '+faststart',
+            output_path
+        ]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        
+        if result.returncode != 0:
+            # Si erreur sous-titres, retourner vidéo sans
+            return video_path
+        
+        return output_path
     
-    Args:
-        project_id: ID du projet
-        **kwargs: Options pour assembler()
+    def _add_music(self, video_path, music_path, volume=0.15):
+        """Ajoute musique de fond avec volume réduit"""
+        output_path = os.path.join(self.output_dir, f"final_music_{self.job.pk}.mp4")
+        
+        cmd = [
+            'ffmpeg', '-y',
+            '-i', video_path,
+            '-i', music_path,
+            '-filter_complex', (
+                f'[1:a]volume={volume}[bg];'
+                '[0:a][bg]amix=inputs=2:duration=first[aout]'
+            ),
+            '-map', '0:v', '-map', '[aout]',
+            '-c:v', 'copy',
+            '-c:a', 'aac',
+            '-movflags', '+faststart',
+            output_path
+        ]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        
+        if result.returncode != 0:
+            return video_path
+        
+        return output_path
     
-    Returns:
-        Chemin de la vidéo finale
-    """
-    project = VideoProject.objects.get(id=project_id)
-    assembler = VideoAssembler(project)
-    
-    try:
-        output = assembler.assemble(**kwargs)
-        return output
-    finally:
-        assembler.cleanup()
+    @staticmethod
+    def _format_srt_time(seconds):
+        """Convertit secondes en format SRT (HH:MM:SS,mmm)"""
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = int(seconds % 60)
+        millis = int((seconds % 1) * 1000)
+        return f"{hours:02d}:{minutes:02d}:{secs:02d},{millis:03d}"
