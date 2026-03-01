@@ -641,11 +641,29 @@ def job_start_generation(request, pk):
     """Démarrer la génération d'un job"""
     job = get_object_or_404(VideoProductionJob, pk=pk)
     
-    # TODO: Lancer la génération réelle
-    job.status = 'processing'
-    job.save()
+    try:
+        from .ai.generation_orchestrator import GenerationOrchestrator
+        
+        orchestrator = GenerationOrchestrator(job)
+        orchestrator.start_generation()
+        
+        messages.success(
+            request, 
+            f"✅ Génération de '{job.title}' lancée ! Les segments sont en cours de génération."
+        )
+        messages.info(
+            request,
+            "⏳ Les vidéos seront disponibles dans quelques minutes. Rechargez la page pour voir la progression."
+        )
+        
+    except ValueError as e:
+        messages.error(request, f"❌ Erreur : {str(e)}")
+    except Exception as e:
+        messages.error(request, f"❌ Erreur inattendue : {str(e)}")
+        job.status = VideoProductionJob.Status.FAILED
+        job.current_step = f"Erreur: {str(e)}"
+        job.save()
     
-    messages.success(request, f"Génération de '{job.title}' démarrée!")
     return redirect('marketing:job_detail', pk=pk)
 
 
