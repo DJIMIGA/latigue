@@ -7,6 +7,8 @@ module.exports = {
     "./blog/templates/**/*.html",
     "./services/templates/**/*.html",
     "./formations/templates/**/*.html",
+    "./marketing/templates/**/*.html",
+    "./chatbot/templates/**/*.html",
     "./static/**/*.js"
   ],
   theme: {
