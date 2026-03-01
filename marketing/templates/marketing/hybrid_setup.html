@@ -6,13 +6,32 @@
 {% block content %}
 <div class="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
     
-    <!-- Header -->
+    <!-- Header Hero -->
     <div class="mb-6 sm:mb-8">
-        <a href="{% url 'marketing:script_detail' script.pk %}" class="text-indigo-600 dark:text-purple-400 hover:text-indigo-500 dark:hover:text-purple-300 text-sm mb-2 inline-block">← Retour au script</a>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">🎬 Montage Hybride</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base">
-            <span class="text-indigo-600 dark:text-purple-400 font-mono">{{ script.code }}</span> — {{ script.title }}
-        </p>
+        <a href="{% url 'marketing:script_detail' script.pk %}" class="text-indigo-600 dark:text-purple-400 hover:text-indigo-500 dark:hover:text-purple-300 text-xs sm:text-sm mb-3 inline-flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Retour au script
+        </a>
+        <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">
+                    🎬
+                </div>
+                <div class="min-w-0">
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white truncate">Montage Hybride</h1>
+                    <p class="text-white/80 text-xs sm:text-sm mt-0.5">
+                        <span class="font-mono bg-white/20 rounded px-1.5 py-0.5">{{ script.code }}</span>
+                        <span class="hidden sm:inline ml-1">—</span>
+                        <span class="hidden sm:inline ml-1">{{ script.title }}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-3 sm:mt-4">
+                <span class="inline-flex items-center gap-1 text-xs bg-white/20 text-white rounded-full px-2.5 py-1">📱 Clips face-cam</span>
+                <span class="inline-flex items-center gap-1 text-xs bg-white/20 text-white rounded-full px-2.5 py-1">🤖 Scènes IA</span>
+                <span class="inline-flex items-center gap-1 text-xs bg-white/20 text-white rounded-full px-2.5 py-1">🎭 Cohérence auto</span>
+            </div>
+        </div>
     </div>
 
     <form method="post" enctype="multipart/form-data" class="space-y-5 sm:space-y-8">
