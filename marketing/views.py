@@ -97,11 +97,36 @@ class VideoProductionDashboardView(LoginRequiredMixin, ListView):
 class VideoJobCreateView(LoginRequiredMixin, CreateView):
     """
     Étape 1 : Créer le job (titre, thème, template)
+    Peut être pré-rempli depuis un VideoScript via param GET from_script
     """
     model = VideoProductionJob
     form_class = VideoProductionJobForm
     template_name = 'marketing/job_create.html'
     success_url = reverse_lazy('marketing:dashboard')
+    
+    def get_initial(self):
+        """Pré-remplir le form depuis un VideoScript si from_script présent"""
+        initial = super().get_initial()
+        
+        # Pré-remplissage depuis script ?
+        from_script_id = self.request.GET.get('from_script')
+        if from_script_id:
+            try:
+                from .models_extended import VideoScript
+                script = VideoScript.objects.get(pk=from_script_id)
+                
+                # Pré-remplir les champs
+                initial['title'] = self.request.GET.get('title', f"Vidéo {script.code} - {script.title}")
+                initial['theme'] = script.theme
+                initial['target_duration'] = script.duration_max
+                
+                # Stocker script_id en session pour étape 2
+                self.request.session['current_script_id'] = script.pk
+                
+            except VideoScript.DoesNotExist:
+                messages.warning(self.request, "Script introuvable, formulaire vierge.")
+        
+        return initial
     
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -118,12 +143,23 @@ class VideoJobCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['templates'] = VideoProjectTemplate.objects.filter(is_active=True)
+        
+        # Ajouter script source si présent
+        from_script_id = self.request.GET.get('from_script')
+        if from_script_id:
+            try:
+                from .models_extended import VideoScript
+                context['source_script'] = VideoScript.objects.get(pk=from_script_id)
+            except VideoScript.DoesNotExist:
+                pass
+        
         return context
 
 
 class VideoJobConfigureSegmentsView(LoginRequiredMixin, DetailView):
     """
     Étape 2 : Configurer les segments (prompts + assets optionnels)
+    Auto-génère segments depuis VideoScript si disponible en session
     """
     model = VideoProductionJob
     template_name = 'marketing/job_configure_segments.html'
@@ -138,6 +174,20 @@ class VideoJobConfigureSegmentsView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         job = self.object
+        
+        # Auto-générer segments depuis script si présent
+        script_id = self.request.session.get('current_script_id')
+        if script_id and not hasattr(job, '_segments_generated'):
+            try:
+                from .models_extended import VideoScript
+                script = VideoScript.objects.get(pk=script_id)
+                self._generate_segments_from_script(job, script)
+                context['script_source'] = script
+                context['segments_auto_generated'] = True
+                # Clear session
+                del self.request.session['current_script_id']
+            except VideoScript.DoesNotExist:
+                pass
         
         # Form config segments
         if self.request.method == 'POST':
@@ -205,6 +255,84 @@ class VideoJobConfigureSegmentsView(LoginRequiredMixin, DetailView):
             return redirect('marketing:job_detail', pk=self.object.pk)
         
         return self.render_to_response(context)
+    
+    def _generate_segments_from_script(self, job, script):
+        """
+        Génère automatiquement les segments depuis un VideoScript.
+        Crée 6 VideoSegmentGeneration : hook, problem, micro_revelation, solution, proof, cta
+        """
+        full_script = script.get_full_script()
+        
+        segments_config = [
+            {
+                'index': 0,
+                'name': 'hook',
+                'prompt': full_script['hook']['text'],
+                'timing': full_script['hook']['timing'],
+                'duration': 3,
+            },
+            {
+                'index': 1,
+                'name': 'problem',
+                'prompt': full_script['problem']['text'],
+                'timing': full_script['problem']['timing'],
+                'duration': 5,
+            },
+            {
+                'index': 2,
+                'name': 'micro_revelation',
+                'prompt': full_script['micro_revelation']['text'],
+                'timing': full_script['micro_revelation']['timing'],
+                'duration': 4,
+            },
+            {
+                'index': 3,
+                'name': 'solution',
+                'prompt': full_script['solution']['text'],
+                'timing': full_script['solution']['timing'],
+                'duration': 13,
+                'hint': full_script['solution']['hint'],
+            },
+            {
+                'index': 4,
+                'name': 'proof',
+                'prompt': full_script['proof']['text'],
+                'timing': full_script['proof']['timing'],
+                'duration': 10,
+            },
+            {
+                'index': 5,
+                'name': 'cta',
+                'prompt': full_script['cta']['text'],
+                'timing': full_script['cta']['timing'],
+                'duration': 5,
+            },
+        ]
+        
+        # Créer VideoSegmentGeneration pour chaque segment
+        for seg in segments_config:
+            VideoSegmentGeneration.objects.create(
+                job=job,
+                segment_index=seg['index'],
+                prompt=seg['prompt'],
+                generation_mode='text_to_video',
+                provider=job.get_config('provider', 'luma'),
+                duration=seg['duration'],
+                aspect_ratio=job.get_config('aspect_ratio', '9:16'),
+                status='pending',
+            )
+        
+        # Update job status
+        job.status = VideoProductionJob.Status.ASSETS_READY
+        job.save()
+        
+        # Flag pour éviter double génération
+        job._segments_generated = True
+        
+        messages.success(
+            self.request,
+            f"✨ 6 segments générés automatiquement depuis le script {script.code} !"
+        )
 
 
 # =============================================================================

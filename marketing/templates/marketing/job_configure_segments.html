@@ -1,0 +1,128 @@
+{% extends 'marketing/base_marketing.html' %}
+
+{% block title %}Configurer segments - {{ object.title }} - Bolibana Studio{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <a href="{% url 'marketing:dashboard' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Dashboard</a>
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <a href="{% url 'marketing:job_detail' object.pk %}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{{ object.title }}</a>
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span class="text-gray-900 dark:text-white font-medium">Configuration segments</span>
+        </div>
+        
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+            ⚙️ Configuration des Segments
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400">
+            Job : {{ object.title }}
+        </p>
+    </div>
+
+    <!-- Auto-génération notification -->
+    {% if segments_auto_generated %}
+    <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-l-4 border-green-500 rounded-lg p-6 mb-8 shadow-md">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <svg class="h-8 w-8 text-green-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div class="ml-4 flex-1">
+                <h3 class="text-lg font-bold text-green-800 dark:text-green-300 mb-2">
+                    ✨ Segments générés automatiquement !
+                </h3>
+                <p class="text-sm text-green-700 dark:text-green-400 mb-3">
+                    6 segments ont été créés depuis le script <strong>{{ script_source.code }}</strong> : 
+                    HOOK → PROBLÈME → MICRO-RÉVÉLATION → SOLUTION → PREUVE → CTA
+                </p>
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'marketing:script_detail' script_source.pk %}" 
+                       class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition-colors">
+                        📚 Voir le script source
+                    </a>
+                    <a href="{% url 'marketing:job_detail' object.pk %}" 
+                       class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-colors">
+                        ▶️ Lancer la génération
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Segments list -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 class="text-xl font-bold text-white">
+                🎬 Segments configurés ({{ object.generations.count }})
+            </h2>
+        </div>
+        
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            {% for generation in object.generations.all %}
+            <div class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 font-bold text-lg">
+                            {{ generation.segment_index|add:1 }}
+                        </span>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Segment {{ generation.segment_index|add:1 }}
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                {{ generation.get_generation_mode_display }} · {{ generation.duration }}s · {{ generation.get_provider_display }}
+                            </p>
+                        </div>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                        {% if generation.status == 'pending' %}bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300
+                        {% elif generation.status == 'processing' %}bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300
+                        {% elif generation.status == 'completed' %}bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300
+                        {% elif generation.status == 'failed' %}bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300
+                        {% endif %}">
+                        {{ generation.get_status_display }}
+                    </span>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+                    <p class="text-sm text-gray-700 dark:text-gray-300 font-mono whitespace-pre-wrap">{{ generation.prompt }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="p-12 text-center">
+                <div class="text-6xl mb-4">🎬</div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    Aucun segment configuré
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Les segments seront générés automatiquement si vous avez créé ce job depuis un script.
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-4">
+        <a href="{% url 'marketing:job_detail' object.pk %}" 
+           class="flex-1 text-center px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all text-lg">
+            ▶️ Voir le job et lancer la génération
+        </a>
+        <a href="{% url 'marketing:dashboard' %}" 
+           class="px-6 py-4 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+            ← Retour au dashboard
+        </a>
+    </div>
+
+</div>
+{% endblock %}
