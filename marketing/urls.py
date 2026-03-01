@@ -4,12 +4,19 @@ URLs pour l'interface web de production vidéo.
 
 from django.urls import path
 from . import views
+from . import views_scripts
 
 app_name = 'marketing'
 
 urlpatterns = [
     # Dashboard
     path('', views.VideoProductionDashboardView.as_view(), name='dashboard'),
+    
+    # Scripts library
+    path('scripts/', views_scripts.VideoScriptLibraryView.as_view(), name='scripts_library'),
+    path('scripts/<int:pk>/', views_scripts.VideoScriptDetailView.as_view(), name='script_detail'),
+    path('scripts/<int:pk>/use/', views_scripts.script_use_for_job, name='script_use_for_job'),
+    path('api/scripts/<int:pk>/preview/', views_scripts.api_script_preview, name='api_script_preview'),
     
     # Job creation wizard
     path('job/create/', views.VideoJobCreateView.as_view(), name='job_create'),

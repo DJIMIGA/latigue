@@ -1,0 +1,165 @@
+{% extends 'marketing/base_marketing.html' %}
+
+{% block title %}{{ script.code }} - {{ script.title }} - Bolibana Studio{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <a href="{% url 'marketing:scripts_library' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                Bibliothèque
+            </a>
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span class="text-gray-900 dark:text-white font-medium">{{ script.code }}</span>
+        </div>
+        
+        <div class="flex items-start justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="inline-flex items-center px-4 py-2 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-full text-lg font-bold">
+                        {{ script.code }}
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
+                        {{ script.get_theme_display }}
+                    </span>
+                </div>
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                    {{ script.title }}
+                </h1>
+                <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                    <span>⏱️ {{ script.duration_min }}-{{ script.duration_max }}s</span>
+                    <span>📱 {{ script.get_platform_display }}</span>
+                    {% if script.usage_count > 0 %}
+                    <span>🔥 {{ script.usage_count }} utilisations</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <a href="{% url 'marketing:script_use_for_job' script.pk %}" 
+               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                ▶️ Utiliser ce script
+            </a>
+        </div>
+    </div>
+
+    <!-- Tags -->
+    {% if script.tags %}
+    <div class="mb-8">
+        <div class="flex flex-wrap gap-2">
+            {% for tag in script.tags %}
+            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm">
+                #{{ tag }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Script complet -->
+    <div class="space-y-6">
+        
+        <!-- HOOK -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-red-500 to-pink-500 px-6 py-3 flex items-center justify-between">
+                <h2 class="text-white font-bold text-lg">🎣 HOOK</h2>
+                <span class="text-white text-sm opacity-90">{{ full_script.hook.timing }}</span>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-900 dark:text-white text-lg leading-relaxed">
+                    {{ full_script.hook.text }}
+                </p>
+            </div>
+        </div>
+
+        <!-- PROBLÈME -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-3 flex items-center justify-between">
+                <h2 class="text-white font-bold text-lg">⚠️ PROBLÈME</h2>
+                <span class="text-white text-sm opacity-90">{{ full_script.problem.timing }}</span>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-900 dark:text-white text-lg leading-relaxed">
+                    {{ full_script.problem.text }}
+                </p>
+            </div>
+        </div>
+
+        <!-- MICRO-RÉVÉLATION -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-3 flex items-center justify-between">
+                <h2 class="text-white font-bold text-lg">💡 MICRO-RÉVÉLATION</h2>
+                <span class="text-white text-sm opacity-90">{{ full_script.micro_revelation.timing }}</span>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-900 dark:text-white text-lg leading-relaxed">
+                    {{ full_script.micro_revelation.text }}
+                </p>
+            </div>
+        </div>
+
+        <!-- SOLUTION -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-green-500 to-teal-500 px-6 py-3 flex items-center justify-between">
+                <h2 class="text-white font-bold text-lg">✅ SOLUTION</h2>
+                <span class="text-white text-sm opacity-90">{{ full_script.solution.timing }}</span>
+            </div>
+            <div class="p-6">
+                {% if full_script.solution.hint %}
+                <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 rounded">
+                    <p class="text-sm text-blue-700 dark:text-blue-300">
+                        <span class="font-semibold">💡 Indication tournage :</span> {{ full_script.solution.hint }}
+                    </p>
+                </div>
+                {% endif %}
+                <p class="text-gray-900 dark:text-white text-lg leading-relaxed whitespace-pre-line">
+                    {{ full_script.solution.text }}
+                </p>
+            </div>
+        </div>
+
+        <!-- PREUVE -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 flex items-center justify-between">
+                <h2 class="text-white font-bold text-lg">🏆 PREUVE</h2>
+                <span class="text-white text-sm opacity-90">{{ full_script.proof.timing }}</span>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-900 dark:text-white text-lg leading-relaxed">
+                    {{ full_script.proof.text }}
+                </p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-3 flex items-center justify-between">
+                <h2 class="text-white font-bold text-lg">🎯 CALL TO ACTION</h2>
+                <span class="text-white text-sm opacity-90">{{ full_script.cta.timing }}</span>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-900 dark:text-white text-lg leading-relaxed">
+                    {{ full_script.cta.text }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Actions footer -->
+    <div class="mt-8 flex gap-4">
+        <a href="{% url 'marketing:script_use_for_job' script.pk %}" 
+           class="flex-1 text-center px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all text-lg">
+            ▶️ Utiliser ce script pour créer une vidéo
+        </a>
+        <a href="{% url 'marketing:scripts_library' %}" 
+           class="px-6 py-4 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+            ← Retour à la bibliothèque
+        </a>
+    </div>
+
+</div>
+{% endblock %}

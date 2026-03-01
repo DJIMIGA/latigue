@@ -1,0 +1,247 @@
+{% extends 'marketing/base_marketing.html' %}
+
+{% block title %}Bibliothèque de Scripts - Bolibana Studio{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                    📚 Bibliothèque de Scripts Vidéo
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">
+                    {{ total_scripts }} scripts prêts à l'emploi · {{ themes_count }} thèmes
+                </p>
+            </div>
+            <a href="{% url 'marketing:dashboard' %}" 
+               class="inline-flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                ← Retour
+            </a>
+        </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6">
+        <form method="get" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Recherche texte -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        🔍 Recherche
+                    </label>
+                    <input type="text" 
+                           name="q" 
+                           value="{{ current_query }}"
+                           placeholder="Titre, code, contenu..."
+                           class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <!-- Thème -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        🎯 Thème
+                    </label>
+                    <select name="theme" 
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        <option value="">Tous les thèmes</option>
+                        {% for value, label in themes %}
+                        <option value="{{ value }}" {% if current_theme == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Plateforme -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        📱 Plateforme
+                    </label>
+                    <select name="platform" 
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        <option value="">Toutes</option>
+                        {% for value, label in platforms %}
+                        <option value="{{ value }}" {% if current_platform == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Durée max -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        ⏱️ Durée max
+                    </label>
+                    <select name="max_duration" 
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                        <option value="">Toutes</option>
+                        <option value="30" {% if current_max_duration == '30' %}selected{% endif %}>≤ 30s</option>
+                        <option value="45" {% if current_max_duration == '45' %}selected{% endif %}>≤ 45s</option>
+                        <option value="60" {% if current_max_duration == '60' %}selected{% endif %}>≤ 60s</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button type="submit" 
+                        class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
+                    Filtrer
+                </button>
+                <a href="{% url 'marketing:scripts_library' %}" 
+                   class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    Réinitialiser
+                </a>
+                
+                <!-- Tri -->
+                <div class="ml-auto">
+                    <label class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        Tri :
+                        <select name="sort" 
+                                onchange="this.form.submit()"
+                                class="px-3 py-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                            <option value="-created_at" {% if current_sort == '-created_at' %}selected{% endif %}>Plus récent</option>
+                            <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>Plus ancien</option>
+                            <option value="code" {% if current_sort == 'code' %}selected{% endif %}>Code (A-Z)</option>
+                            <option value="-usage_count" {% if current_sort == '-usage_count' %}selected{% endif %}>Plus utilisé</option>
+                            <option value="title" {% if current_sort == 'title' %}selected{% endif %}>Titre (A-Z)</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <!-- Tags populaires -->
+        {% if popular_tags %}
+        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Tags populaires :</p>
+            <div class="flex flex-wrap gap-2">
+                {% for tag in popular_tags %}
+                <a href="?tag={{ tag }}" 
+                   class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-full text-sm hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors">
+                    #{{ tag }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Résultats -->
+    {% if scripts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        {% for script in scripts %}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden">
+            
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-start justify-between mb-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-semibold">
+                        {{ script.code }}
+                    </span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ script.get_theme_display }}
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                    {{ script.title }}
+                </h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    ⏱️ {{ script.duration_min }}-{{ script.duration_max }}s
+                    {% if script.usage_count > 0 %}
+                    · 🔥 {{ script.usage_count }} utilisations
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Preview hook -->
+            <div class="p-6 bg-gray-50 dark:bg-gray-900">
+                <p class="text-sm text-gray-700 dark:text-gray-300 font-medium mb-1">
+                    🎣 Hook :
+                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                    {{ script.hook }}
+                </p>
+            </div>
+
+            <!-- Tags -->
+            {% if script.tags %}
+            <div class="px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex flex-wrap gap-1">
+                    {% for tag in script.tags|slice:":3" %}
+                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded text-xs">
+                        #{{ tag }}
+                    </span>
+                    {% endfor %}
+                    {% if script.tags|length > 3 %}
+                    <span class="px-2 py-1 text-gray-500 text-xs">
+                        +{{ script.tags|length|add:"-3" }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Actions -->
+            <div class="p-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex gap-2">
+                <a href="{% url 'marketing:script_detail' script.pk %}" 
+                   class="flex-1 text-center px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm font-medium">
+                    👁️ Voir
+                </a>
+                <a href="{% url 'marketing:script_use_for_job' script.pk %}" 
+                   class="flex-1 text-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors text-sm">
+                    ▶️ Utiliser
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="flex justify-center items-center gap-2">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}" 
+           class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            ← Précédent
+        </a>
+        {% endif %}
+        
+        <span class="px-4 py-2 text-gray-600 dark:text-gray-400">
+            Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </span>
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}" 
+           class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            Suivant →
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- Aucun résultat -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-12 text-center">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            Aucun script trouvé
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Essayez de modifier vos critères de recherche
+        </p>
+        <a href="{% url 'marketing:scripts_library' %}" 
+           class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
+            Voir tous les scripts
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
