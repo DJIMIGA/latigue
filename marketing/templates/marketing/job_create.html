@@ -1,0 +1,187 @@
+{% extends 'marketing/base_marketing.html' %}
+
+{% block title %}Créer un Job - Bolibana Studio{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <a href="{% url 'marketing:dashboard' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Dashboard</a>
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span class="text-gray-900 dark:text-white font-medium">Nouveau Job</span>
+        </div>
+        
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+            ➕ Créer un Job de Production
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400">
+            Configurez un nouveau projet de production vidéo
+        </p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-lg border border-gray-200 dark:border-neutral-800 overflow-hidden">
+        
+        <!-- Progress Steps -->
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 px-6 py-4 border-b border-gray-200 dark:border-neutral-800">
+            <div class="flex items-center justify-between max-w-md mx-auto">
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-600 text-white font-semibold shadow-md">
+                        1
+                    </div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-white">Informations</span>
+                </div>
+                <div class="flex-1 h-1 mx-4 bg-gray-300 dark:bg-neutral-700"></div>
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 dark:bg-neutral-700 text-gray-600 dark:text-gray-400 font-semibold">
+                        2
+                    </div>
+                    <span class="ml-3 text-sm font-medium text-gray-500 dark:text-gray-400">Segments</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form method="post" class="p-8 space-y-6">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                    <span class="text-red-500">*</span>
+                    {% endif %}
+                </label>
+                
+                {% if field.field.widget.input_type == 'textarea' %}
+                <textarea name="{{ field.name }}" 
+                          id="{{ field.id_for_label }}" 
+                          class="w-full px-4 py-3 border border-gray-300 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-neutral-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all"
+                          rows="4"
+                          {% if field.field.widget.attrs.placeholder %}placeholder="{{ field.field.widget.attrs.placeholder }}"{% endif %}>{{ field.value|default:'' }}</textarea>
+                {% elif field.field.widget.input_type == 'select' or 'select' in field.field.widget.__class__.__name__|lower %}
+                <select name="{{ field.name }}" 
+                        id="{{ field.id_for_label }}"
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-neutral-800 dark:text-white transition-all">
+                    {% for value, label in field.field.choices %}
+                    <option value="{{ value }}" {% if field.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                {% elif field.field.widget.input_type == 'checkbox' %}
+                <div class="flex items-center">
+                    <input type="checkbox" 
+                           name="{{ field.name }}" 
+                           id="{{ field.id_for_label }}"
+                           {% if field.value %}checked{% endif %}
+                           class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    <label for="{{ field.id_for_label }}" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        {{ field.help_text }}
+                    </label>
+                </div>
+                {% else %}
+                <input type="{{ field.field.widget.input_type }}" 
+                       name="{{ field.name }}" 
+                       id="{{ field.id_for_label }}" 
+                       value="{{ field.value|default:'' }}"
+                       {% if field.field.widget.attrs.placeholder %}placeholder="{{ field.field.widget.attrs.placeholder }}"{% endif %}
+                       class="w-full px-4 py-3 border border-gray-300 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-neutral-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all">
+                {% endif %}
+                
+                {% if field.help_text and field.field.widget.input_type != 'checkbox' %}
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ field.help_text }}</p>
+                {% endif %}
+                
+                {% if field.errors %}
+                <div class="mt-2 text-sm text-red-600 dark:text-red-400">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <!-- Templates suggestion -->
+            {% if templates %}
+            <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-4">
+                <h3 class="text-sm font-semibold text-indigo-900 dark:text-indigo-200 mb-3">
+                    💡 Templates disponibles
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {% for template in templates %}
+                    <button type="button" 
+                            onclick="selectTemplate('{{ template.id }}', '{{ template.name }}')"
+                            class="text-left p-3 bg-white dark:bg-neutral-800 border border-indigo-200 dark:border-indigo-700 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-colors">
+                        <div class="text-sm font-medium text-gray-900 dark:text-white">{{ template.name }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {{ template.segments_count }} segments × {{ template.segment_duration }}s
+                        </div>
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Buttons -->
+            <div class="flex gap-4 pt-6 border-t border-gray-200 dark:border-neutral-800">
+                <button type="submit" 
+                        class="flex-1 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+                    <span class="flex items-center justify-center">
+                        <span>Suivant</span>
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </span>
+                </button>
+                <a href="{% url 'marketing:dashboard' %}" 
+                   class="px-6 py-3 bg-gray-200 dark:bg-neutral-700 hover:bg-gray-300 dark:hover:bg-neutral-600 text-gray-800 dark:text-white font-semibold rounded-lg transition-colors">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Help Card -->
+    <div class="mt-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">💡 Besoin d'aide ?</h3>
+                <p class="text-sm text-blue-800 dark:text-blue-300 mb-3">
+                    L'Assistant IA peut vous guider pour créer votre projet de A à Z avec des suggestions optimisées !
+                </p>
+                <a href="{% url 'marketing:ai_assistant' %}" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    Utiliser l'Assistant IA
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectTemplate(templateId, templateName) {
+    // Auto-fill template field
+    const templateField = document.querySelector('select[name="template"]');
+    if (templateField) {
+        templateField.value = templateId;
+        
+        // Visual feedback
+        document.querySelectorAll('[onclick^="selectTemplate"]').forEach(btn => {
+            btn.classList.remove('ring-2', 'ring-indigo-500');
+        });
+        event.currentTarget.classList.add('ring-2', 'ring-indigo-500');
+    }
+}
+</script>
+{% endblock %}
