@@ -87,9 +87,17 @@ def hybrid_setup_view(request, script_pk):
                 status='pending' if source == 'ai_generated' else 'completed',
             )
             
-            # Si clip uploadé, sauvegarder
+            # Si clip uploadé, sauvegarder en local (évite S3)
             if clip_file and source == 'uploaded_clip':
-                generation.uploaded_clip = clip_file
+                import os
+                from django.conf import settings
+                clip_dir = os.path.join(settings.MEDIA_ROOT, 'marketing', 'clips', str(job.pk))
+                os.makedirs(clip_dir, exist_ok=True)
+                clip_path = os.path.join(clip_dir, f'segment_{seg["index"]}_{clip_file.name}')
+                with open(clip_path, 'wb') as f:
+                    for chunk in clip_file.chunks():
+                        f.write(chunk)
+                generation.local_path = clip_path
                 generation.status = 'completed'
                 generation.save()
         
