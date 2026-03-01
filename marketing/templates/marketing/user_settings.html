@@ -1,0 +1,127 @@
+{% extends 'marketing/base_marketing.html' %}
+
+{% block title %}Paramètres - Bolibana Studio{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            ⚙️ Paramètres
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400">
+            Gérez vos préférences et informations de compte
+        </p>
+    </div>
+
+    <!-- User Info Card -->
+    <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-gray-200 dark:border-neutral-800 p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Informations du compte</h2>
+        
+        <div class="flex items-center space-x-6 mb-6">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                {{ user.username|slice:":1"|upper }}
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ user.get_full_name|default:user.username }}</h3>
+                <p class="text-gray-600 dark:text-gray-400">{{ user.email }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                    Membre depuis {{ user.date_joined|date:"d/m/Y" }}
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-gray-50 dark:bg-neutral-800 rounded-lg">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Username</p>
+                <p class="text-gray-900 dark:text-white font-semibold">{{ user.username }}</p>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-neutral-800 rounded-lg">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Email</p>
+                <p class="text-gray-900 dark:text-white font-semibold">{{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferences Card -->
+    <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-gray-200 dark:border-neutral-800 p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Préférences de production</h2>
+        
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Provider vidéo par défaut
+                </label>
+                <select name="default_provider" 
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                    <option value="luma">Luma AI</option>
+                    <option value="runway">Runway Gen-3</option>
+                    <option value="pika">Pika Labs</option>
+                    <option value="stability">Stability AI</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Format par défaut
+                </label>
+                <select name="default_aspect_ratio" 
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                    <option value="9:16">Vertical (TikTok/Reels) - 9:16</option>
+                    <option value="16:9">Horizontal (YouTube) - 16:9</option>
+                    <option value="1:1">Carré (Instagram) - 1:1</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="flex items-center space-x-3">
+                    <input type="checkbox" 
+                           name="auto_generate" 
+                           class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    <span class="text-sm text-gray-700 dark:text-gray-300">
+                        Générer automatiquement le script après création du job
+                    </span>
+                </label>
+            </div>
+
+            <div>
+                <label class="flex items-center space-x-3">
+                    <input type="checkbox" 
+                           name="notifications" 
+                           class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    <span class="text-sm text-gray-700 dark:text-gray-300">
+                        Recevoir des notifications par email
+                    </span>
+                </label>
+            </div>
+
+            <div class="flex gap-3 pt-4">
+                <button type="submit" 
+                        class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors">
+                    Enregistrer
+                </button>
+                <a href="{% url 'marketing:dashboard' %}" 
+                   class="px-6 py-2 bg-gray-200 dark:bg-neutral-700 hover:bg-gray-300 dark:hover:bg-neutral-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg transition-colors">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="bg-red-50 dark:bg-red-950/20 rounded-lg shadow-md border border-red-200 dark:border-red-800 p-6">
+        <h2 class="text-xl font-bold text-red-900 dark:text-red-200 mb-2">Zone dangereuse</h2>
+        <p class="text-sm text-red-700 dark:text-red-300 mb-4">
+            Actions irréversibles - À utiliser avec précaution
+        </p>
+        
+        <button onclick="confirm('Êtes-vous sûr de vouloir supprimer tous vos jobs ?') && alert('Fonctionnalité en développement')"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors">
+            Supprimer tous mes jobs
+        </button>
+    </div>
+</div>
+{% endblock %}

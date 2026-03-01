@@ -1,0 +1,447 @@
+{% extends 'marketing/base_marketing.html' %}
+
+{% block title %}Bibliothèque Assets - Bolibana Studio{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    🎨 Bibliothèque d'Assets
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Gérez vos images, vidéos et screenshots pour vos projets
+                </p>
+            </div>
+            <button onclick="document.getElementById('upload-modal').classList.remove('hidden')"
+                    class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                Upload Assets
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-gray-200 dark:border-neutral-800 p-4 mb-6">
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input type="text" 
+                       id="search-assets"
+                       placeholder="Rechercher par nom, tag..." 
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            </div>
+            <div class="flex gap-2">
+                <select id="filter-type" 
+                        class="px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                    <option value="">Tous les types</option>
+                    <option value="image">Images</option>
+                    <option value="video">Vidéos</option>
+                    <option value="screenshot">Screenshots</option>
+                </select>
+                <select id="filter-project" 
+                        class="px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                    <option value="">Tous les projets</option>
+                    {% for job in projects %}
+                    <option value="{{ job.id }}">{{ job.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-md p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-blue-100 text-sm font-medium">Total Assets</p>
+                    <p class="text-3xl font-bold mt-1">{{ stats.total }}</p>
+                </div>
+                <svg class="w-12 h-12 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-md p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-purple-100 text-sm font-medium">Images</p>
+                    <p class="text-3xl font-bold mt-1">{{ stats.images }}</p>
+                </div>
+                <svg class="w-12 h-12 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg shadow-md p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-pink-100 text-sm font-medium">Vidéos</p>
+                    <p class="text-3xl font-bold mt-1">{{ stats.videos }}</p>
+                </div>
+                <svg class="w-12 h-12 text-pink-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-md p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-green-100 text-sm font-medium">Screenshots</p>
+                    <p class="text-3xl font-bold mt-1">{{ stats.screenshots }}</p>
+                </div>
+                <svg class="w-12 h-12 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assets Grid -->
+    <div id="assets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for asset in assets %}
+        <div class="bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-gray-200 dark:border-neutral-800 overflow-hidden hover:shadow-xl transition-shadow duration-200 group"
+             data-type="{{ asset.asset_type }}" 
+             data-project="{{ asset.job_id }}">
+            
+            <!-- Thumbnail -->
+            <div class="relative aspect-video bg-gray-100 dark:bg-neutral-800 overflow-hidden">
+                {% if asset.asset_type == 'video' %}
+                <video src="{{ asset.get_url }}" class="w-full h-full object-cover" muted></video>
+                <div class="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button class="p-3 bg-white/90 rounded-full hover:bg-white transition-colors">
+                        <svg class="w-6 h-6 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                        </svg>
+                    </button>
+                </div>
+                {% else %}
+                <img src="{{ asset.get_url }}" alt="{{ asset.job.title }}" class="w-full h-full object-cover">
+                {% endif %}
+                
+                <!-- Type badge -->
+                <div class="absolute top-2 right-2">
+                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium
+                                {% if asset.asset_type == 'video' %}bg-pink-500 text-white
+                                {% elif asset.asset_type == 'screenshot' %}bg-green-500 text-white
+                                {% else %}bg-blue-500 text-white{% endif %}">
+                        {% if asset.asset_type == 'video' %}📹 Vidéo
+                        {% elif asset.asset_type == 'screenshot' %}📸 Screenshot
+                        {% else %}🖼️ Image{% endif %}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="p-4">
+                <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-1 truncate">
+                    Segment {{ asset.segment_index|add:1 }}
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-3 truncate">
+                    {{ asset.job.title }}
+                </p>
+                
+                {% if asset.animation_prompt %}
+                <p class="text-xs text-gray-600 dark:text-gray-500 mb-3 line-clamp-2">
+                    {{ asset.animation_prompt }}
+                </p>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="flex items-center justify-between gap-2">
+                    <button onclick="previewAsset({{ asset.id }})"
+                            class="flex-1 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium rounded-md transition-colors">
+                        Prévisualiser
+                    </button>
+                    <button onclick="useAsset({{ asset.id }})"
+                            class="px-3 py-1.5 bg-gray-200 dark:bg-neutral-700 hover:bg-gray-300 dark:hover:bg-neutral-600 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-md transition-colors">
+                        Utiliser
+                    </button>
+                    <button onclick="deleteAsset({{ asset.id }})"
+                            class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-md transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center py-16">
+            <svg class="mx-auto h-24 w-24 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Aucun asset pour le moment</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Uploadez vos premiers assets pour commencer !</p>
+            <button onclick="document.getElementById('upload-modal').classList.remove('hidden')"
+                    class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                Upload Assets
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div id="upload-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-gray-500 dark:bg-black bg-opacity-75 dark:bg-opacity-80 transition-opacity" onclick="document.getElementById('upload-modal').classList.add('hidden')"></div>
+
+        <div class="inline-block align-bottom bg-white dark:bg-neutral-900 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+            <div class="bg-white dark:bg-neutral-900 px-6 pt-6 pb-4">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
+                        Upload Assets
+                    </h3>
+                    <button onclick="document.getElementById('upload-modal').classList.add('hidden')" 
+                            class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <form method="post" action="{% url 'marketing:assets_upload' %}" enctype="multipart/form-data" id="upload-form">
+                    {% csrf_token %}
+                    
+                    <!-- Project selection -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            Associer à un projet (optionnel)
+                        </label>
+                        <select name="job_id" class="w-full px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                            <option value="">-- Sans projet --</option>
+                            {% for job in projects %}
+                            <option value="{{ job.id }}">{{ job.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Drag & Drop zone -->
+                    <div class="mb-6">
+                        <div id="drop-zone" 
+                             class="border-2 border-dashed border-gray-300 dark:border-neutral-700 rounded-lg p-12 text-center hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors cursor-pointer bg-gray-50 dark:bg-neutral-800/50">
+                            <svg class="mx-auto h-16 w-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                            <p class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                                Glissez-déposez vos fichiers ici
+                            </p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                                ou cliquez pour parcourir
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                Images: JPG, PNG, GIF, WEBP (max 10MB) | Vidéos: MP4, MOV, WEBM (max 50MB)
+                            </p>
+                            <input type="file" 
+                                   id="file-input" 
+                                   name="files" 
+                                   multiple 
+                                   accept="image/*,video/*" 
+                                   class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- Preview grid -->
+                    <div id="preview-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6 hidden">
+                    </div>
+
+                    <!-- Submit buttons -->
+                    <div class="flex gap-3">
+                        <button type="submit" 
+                                id="upload-button"
+                                disabled
+                                class="flex-1 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg shadow-md transition-colors">
+                            Upload
+                        </button>
+                        <button type="button" 
+                                onclick="document.getElementById('upload-modal').classList.add('hidden')"
+                                class="px-6 py-3 bg-gray-200 dark:bg-neutral-700 hover:bg-gray-300 dark:hover:bg-neutral-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg transition-colors">
+                            Annuler
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Drag & Drop functionality
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+const previewGrid = document.getElementById('preview-grid');
+const uploadButton = document.getElementById('upload-button');
+
+let selectedFiles = [];
+
+// Click to select files
+dropZone.addEventListener('click', () => fileInput.click());
+
+// Drag & drop events
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+});
+
+function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+        dropZone.classList.add('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-950/20');
+    });
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+        dropZone.classList.remove('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-950/20');
+    });
+});
+
+dropZone.addEventListener('drop', (e) => {
+    const files = e.dataTransfer.files;
+    handleFiles(files);
+});
+
+fileInput.addEventListener('change', (e) => {
+    handleFiles(e.target.files);
+});
+
+function handleFiles(files) {
+    selectedFiles = Array.from(files);
+    previewFiles();
+    uploadButton.disabled = selectedFiles.length === 0;
+}
+
+function previewFiles() {
+    previewGrid.innerHTML = '';
+    previewGrid.classList.remove('hidden');
+
+    selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            const div = document.createElement('div');
+            div.className = 'relative group';
+            
+            let content;
+            if (file.type.startsWith('video/')) {
+                content = `
+                    <video src="${e.target.result}" class="w-full h-32 object-cover rounded-lg"></video>
+                    <div class="absolute top-2 left-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-pink-500 text-white">
+                            📹 Vidéo
+                        </span>
+                    </div>
+                `;
+            } else {
+                content = `
+                    <img src="${e.target.result}" class="w-full h-32 object-cover rounded-lg">
+                    <div class="absolute top-2 left-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-500 text-white">
+                            🖼️ Image
+                        </span>
+                    </div>
+                `;
+            }
+            
+            div.innerHTML = `
+                ${content}
+                <button type="button" 
+                        onclick="removeFile(${index})"
+                        class="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">${file.name}</p>
+            `;
+            
+            previewGrid.appendChild(div);
+        };
+        
+        reader.readAsDataURL(file);
+    });
+}
+
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    
+    // Reconstruct FileList
+    const dt = new DataTransfer();
+    selectedFiles.forEach(file => dt.items.add(file));
+    fileInput.files = dt.files;
+    
+    previewFiles();
+    uploadButton.disabled = selectedFiles.length === 0;
+}
+
+// Search & filters
+const searchInput = document.getElementById('search-assets');
+const typeFilter = document.getElementById('filter-type');
+const projectFilter = document.getElementById('filter-project');
+
+function filterAssets() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedType = typeFilter.value;
+    const selectedProject = projectFilter.value;
+    
+    document.querySelectorAll('#assets-grid > div[data-type]').forEach(asset => {
+        const matchesSearch = asset.textContent.toLowerCase().includes(searchTerm);
+        const matchesType = !selectedType || asset.dataset.type === selectedType;
+        const matchesProject = !selectedProject || asset.dataset.project === selectedProject;
+        
+        asset.style.display = (matchesSearch && matchesType && matchesProject) ? 'block' : 'none';
+    });
+}
+
+searchInput?.addEventListener('input', filterAssets);
+typeFilter?.addEventListener('change', filterAssets);
+projectFilter?.addEventListener('change', filterAssets);
+
+// Preview asset
+function previewAsset(assetId) {
+    // TODO: Open modal with full preview
+    console.log('Preview asset:', assetId);
+}
+
+// Use asset
+function useAsset(assetId) {
+    // TODO: Add to current job or show selection dialog
+    console.log('Use asset:', assetId);
+}
+
+// Delete asset
+function deleteAsset(assetId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet asset ?')) {
+        fetch(`/marketing/assets/${assetId}/delete/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erreur lors de la suppression');
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
