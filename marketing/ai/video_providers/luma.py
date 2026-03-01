@@ -17,7 +17,7 @@ class LumaProvider(VideoProvider):
     Quality: Très bonne, format vertical natif
     """
     
-    BASE_URL = "https://api.lumalabs.ai/v1"
+    BASE_URL = "https://api.lumalabs.ai/dream-machine/v1"
     
     def __init__(self, api_key: str, **kwargs):
         super().__init__(api_key, **kwargs)
@@ -35,18 +35,10 @@ class LumaProvider(VideoProvider):
     ) -> VideoGenerationResult:
         """Génère un clip avec Luma AI"""
         
-        # Mapping aspect ratio
-        aspect_map = {
-            "9:16": "vertical",
-            "16:9": "horizontal",
-            "1:1": "square"
-        }
-        
+        # IMPORTANT: Luma API n'accepte que le prompt (pas aspect_ratio, pas duration)
+        # Vidéos toujours 5 secondes en 16:9
         payload = {
-            "prompt": prompt,
-            "aspect_ratio": aspect_map.get(aspect_ratio, "vertical"),
-            "duration": duration,
-            **kwargs  # Permet de passer des params custom Luma
+            "prompt": prompt
         }
         
         try:
