@@ -28,10 +28,12 @@ class SegmentSourceType(models.TextChoices):
 
 class VideoProvider(models.TextChoices):
     """Providers disponibles (extensible)"""
+    MINIMAX = 'minimax', 'MiniMax Hailuo'
     LUMA = 'luma', 'Luma AI'
     RUNWAY = 'runway', 'Runway Gen-3'
     PIKA = 'pika', 'Pika Labs'
     STABILITY = 'stability', 'Stability AI'
+    HEYGEN = 'heygen', 'HeyGen (Avatar)'
     AUTO = 'auto', 'Auto (meilleur disponible)'
 
 
