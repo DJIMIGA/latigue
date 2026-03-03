@@ -10,6 +10,7 @@ from .luma import LumaProvider
 from .runway import RunwayProvider
 from .pika import PikaProvider
 from .stability import StabilityProvider
+from .minimax import MiniMaxProvider
 
 
 # Registry des providers disponibles
@@ -18,6 +19,7 @@ PROVIDERS = {
     'runway': RunwayProvider,
     'pika': PikaProvider,
     'stability': StabilityProvider,
+    'minimax': MiniMaxProvider,
 }
 
 
@@ -120,6 +122,7 @@ __all__ = [
     'RunwayProvider',
     'PikaProvider',
     'StabilityProvider',
+    'MiniMaxProvider',
     'get_provider',
     'get_fallback_provider',
     'list_available_providers',
