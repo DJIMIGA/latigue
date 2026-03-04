@@ -344,7 +344,7 @@
             <div class="flex items-center lg:w-5/12 {% if experience.position == 'right' %}lg:justify-end{% endif %}">
               <div class="bg-[#111827] rounded-xl p-6 shadow-lg border border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.15)] transition-all duration-300 hover:scale-105">
                 <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-[#1F2937] {% if not experience.logo %}p-1{% endif %}">
+                  <div class="w-12 h-12 flex items-center justify-center overflow-hidden {% if not experience.logo %}p-1{% endif %}">
                     {% if experience.logo %}
                     <img src="{{ experience.logo.url }}" alt="Logo {{ experience.company|default:experience.title }}" class="w-full h-full object-contain">
                     {% else %}
