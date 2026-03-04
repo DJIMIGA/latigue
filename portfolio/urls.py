@@ -9,6 +9,8 @@ urlpatterns = [
                   path("about/", views.about, name="about"),
                   # Alias pour la page de contact afin de supporter {% url 'contact' %}
                   path("contact/", views.about, name="contact"),
+                  # Brand kit
+                  path("brand/", views.brand_kit, name="brand"),
                   # robots.txt pour le SEO
                   path("robots.txt", views.robots_txt, name="robots_txt"),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,

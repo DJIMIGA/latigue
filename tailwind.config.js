@@ -17,37 +17,44 @@ module.exports = {
       fontFamily: {
         'inter': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        'display': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'syne': ['Syne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'mono': ['Space Mono', 'ui-monospace', 'monospace'],
+        'display': ['Syne', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'body': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Palette principale - Rose et Violet (couleurs de marque)
-        brand: {
-          50: '#fdf2f8',
-          100: '#fce7f3',
-          200: '#fbcfe8',
-          300: '#f9a8d4',
-          400: '#f472b6',
-          500: '#ec4899', // Rose principal
-          600: '#db2777',
-          700: '#be185d',
-          800: '#9d174d',
-          900: '#831843',
-          950: '#500724',
+        // Palette Bolibana Brand Kit v2
+        neon: {
+          green: '#00FF88',
+          cyan: '#00E5FF',
+          purple: '#BF5AF2',
+          gold: '#F5A623',
         },
-        // Palette secondaire - Violet
+        brand: {
+          50: '#f0fff8',
+          100: '#ccffe8',
+          200: '#80ffbe',
+          300: '#40ffa0',
+          400: '#00FF88', // Neon green — couleur principale
+          500: '#00e07a',
+          600: '#00b362',
+          700: '#008549',
+          800: '#005c33',
+          900: '#003d22',
+          950: '#001f11',
+        },
         accent: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6', // Violet principal
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
+          50: '#faf5ff',
+          100: '#f3e8ff',
+          200: '#e9d5ff',
+          300: '#d8b4fe',
+          400: '#BF5AF2', // Neon purple
+          500: '#a855f7',
+          600: '#9333ea',
+          700: '#7e22ce',
+          800: '#6b21a8',
+          900: '#581c87',
+          950: '#3b0764',
         },
         // Palette neutre - Gris modernes
         neutral: {
@@ -102,6 +109,13 @@ module.exports = {
           800: '#991b1b',
           900: '#7f1d1d',
           950: '#450a0a',
+        },
+        // Dark surfaces (Brand Kit v2)
+        dark: {
+          bg: '#060810',
+          surface: '#0D1117',
+          card: '#111827',
+          border: '#1F2937',
         },
         // Garder les anciennes couleurs pour compatibilité
         primary: {

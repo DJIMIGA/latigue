@@ -54,6 +54,11 @@ def about(request):
     return render(request, "about.html", context)
 
 
+def brand_kit(request):
+    """Page Brand Kit Bolibana — standalone HTML."""
+    return render(request, "brand-kit.html")
+
+
 @require_http_methods(["GET"])
 def robots_txt(request):
     """Vue pour servir robots.txt depuis le dossier static"""
