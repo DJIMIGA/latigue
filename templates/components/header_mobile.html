@@ -1,7 +1,7 @@
 {% load static %}
 
 <!-- Header Mobile -->
-<header class="md:hidden sticky top-0 z-20 bg-slate-200/95 border-b border-gray-300 dark:bg-slate-800/95 dark:border-slate-600 shadow-md backdrop-blur-md">
+<header class="md:hidden sticky top-0 z-20 bg-[#0D1117]/95 border-b border-[#1F2937] shadow-md backdrop-blur-md">
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
@@ -9,12 +9,12 @@
                 <svg class="h-12 w-12 group-hover:rotate-180 transition-transform duration-500" viewBox="0 0 80 80" aria-hidden="true">
                     <image href="{% static 'portfolio/svg/djimi.svg' %}" width="80" height="80" />
                 </svg>
-                <span class="ml-3 text-xl font-bold text-gray-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">Djimiga Tech</span>
+                <span class="ml-3 text-xl font-syne font-extrabold text-white group-hover:text-[#00FF88] transition-colors duration-300">Bolibana<span class="text-[#00FF88]">.</span></span>
             </a>
 
             <!-- Bouton menu mobile -->
-                <button class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-300/90 dark:bg-slate-700/90 hover:bg-slate-400/90 dark:hover:bg-slate-600/90 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500" id="mobile-menu-toggle" aria-label="Ouvrir le menu">
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button class="flex items-center justify-center w-10 h-10 rounded-full bg-[#111827] hover:bg-[#1F2937] transition-colors focus:outline-none focus:ring-2 focus:ring-[#00FF88]" id="mobile-menu-toggle" aria-label="Ouvrir le menu">
+                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
@@ -24,17 +24,17 @@
 </header>
 
 <!-- Menu mobile -->
-<div id="mobile-menu" class="md:hidden fixed inset-0 z-50 hidden bg-slate-200/95 dark:bg-slate-800/95 backdrop-blur-md">
+<div id="mobile-menu" class="md:hidden fixed inset-0 z-50 hidden bg-[#060810]/98 backdrop-blur-md">
     <div class="flex flex-col h-full">
         <!-- En-tête du menu mobile -->
-        <div class="flex items-center justify-between p-4 border-b border-gray-300 dark:border-slate-600">
+        <div class="flex items-center justify-between p-4 border-b border-[#1F2937]">
             <a href="{% url 'portfolio-index' %}" class="flex items-center group">
                 <svg class="h-12 w-12 group-hover:rotate-180 transition-transform duration-500" viewBox="0 0 80 80" aria-hidden="true">
                     <image href="{% static 'portfolio/svg/djimi.svg' %}" width="80" height="80" />
                 </svg>
             </a>
-            <button id="close-menu" class="p-2 rounded-full hover:bg-slate-300/90 dark:hover:bg-slate-700/90 transition-colors">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="close-menu" class="p-2 rounded-full hover:bg-[#1F2937] transition-colors">
+                <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
@@ -42,18 +42,18 @@
 
         <!-- Navigation mobile -->
         <nav class="flex-1 px-4 py-8 space-y-6">
-            <a href="{% url 'about' %}" class="block text-2xl font-bold text-gray-800 dark:text-white hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800 transition-colors duration-300">
+            <a href="{% url 'about' %}" class="block text-2xl font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                 À propos
             </a>
-            <a href="{% url 'blog-index' %}" target="_blank" rel="noreferrer" class="block text-2xl font-bold text-gray-800 dark:text-white hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800 transition-colors duration-300">
+            <a href="{% url 'blog-index' %}" target="_blank" rel="noreferrer" class="block text-2xl font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                 Blog
             </a>
-            <a href="{% url 'services:service_list' %}" target="_blank" rel="noreferrer" class="block text-2xl font-bold text-gray-800 dark:text-white hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800 transition-colors duration-300">
+            <a href="{% url 'services:service_list' %}" target="_blank" rel="noreferrer" class="block text-2xl font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                 Services
             </a>
-            <a href="{% url 'formations:formation_list' %}" target="_blank" rel="noreferrer" class="block text-2xl font-bold text-gray-800 dark:text-white hover:text-teal-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-800 transition-colors duration-300">
+            <a href="{% url 'formations:formation_list' %}" target="_blank" rel="noreferrer" class="block text-2xl font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                 Formations
             </a>
         </nav>
     </div>
-</div> 
+</div>

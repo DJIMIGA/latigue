@@ -1,40 +1,42 @@
 {% extends "base.html" %}{% load static %} {% block title %}
-    Djimiga Konimba - Développeur Python | Portfolio & Projets</title>{% endblock %}
+    Bolibana - Développeur Python | Portfolio & Projets</title>{% endblock %}
 {% block content %}
 
 <!-- Éléments décoratifs en arrière-plan -->
 <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-  <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-brand-500/10 to-accent-500/10 rounded-full blur-3xl"></div>
-  <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-accent-500/10 to-brand-500/10 rounded-full blur-3xl"></div>
-  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-brand-500/5 to-accent-500/5 rounded-full blur-3xl"></div>
+  <!-- Grid background subtil -->
+  <div class="absolute inset-0" style="background-image: linear-gradient(rgba(0,255,136,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.025) 1px, transparent 1px); background-size: 60px 60px;"></div>
+  <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-[#00FF88]/10 to-[#00E5FF]/10 rounded-full blur-3xl"></div>
+  <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-[#00E5FF]/10 to-[#00FF88]/10 rounded-full blur-3xl"></div>
+  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-[#BF5AF2]/5 to-[#00FF88]/5 rounded-full blur-3xl"></div>
 </div>
 
 <section id="about" class="py-12 lg:py-16 font-inter relative z-10">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-        <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-8 lg:p-12 backdrop-blur-sm">
+        <div class="bg-[#0D1117] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-8 lg:p-12 backdrop-blur-sm">
             
             <!-- Éléments décoratifs dans la section -->
-            <div class="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-brand-500/20 to-accent-500/20 rounded-full blur-xl"></div>
-            <div class="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-tr from-accent-500/20 to-brand-500/20 rounded-full blur-xl"></div>
+            <div class="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-[#00FF88]/20 to-[#00E5FF]/20 rounded-full blur-xl"></div>
+            <div class="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-tr from-[#00E5FF]/20 to-[#00FF88]/20 rounded-full blur-xl"></div>
             
             <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 relative">
                 <!-- Profil et Bio -->
                 <div class="flex flex-col items-center text-center space-y-4 lg:space-y-6 animate-fade-in-up">
                     <!-- Image de profil avec effet de bordure animée -->
                     <div class="relative group">
-                        <div class="absolute inset-0 bg-gradient-to-r from-brand-500 to-accent-500 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#00FF88] to-[#00E5FF] rounded-full blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
                         {% if profile.profile_image %}
                         <img
                             alt="{{ profile.name }} - {{ profile.title }}"
                             loading="lazy"
-                            class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full object-cover shadow-xl border-4 border-white dark:border-neutral-800 transition-transform duration-300 group-hover:scale-105"
+                            class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full object-cover shadow-xl border-4 border-[#111827] transition-transform duration-300 group-hover:scale-105"
                             src="{{ profile.profile_image.url }}"
                         />
                         {% else %}
                         <img
                             alt="{{ profile.name }} - {{ profile.title }}"
                             loading="lazy"
-                            class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full object-cover shadow-xl border-4 border-white dark:border-neutral-800 transition-transform duration-300 group-hover:scale-105"
+                            class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full object-cover shadow-xl border-4 border-[#111827] transition-transform duration-300 group-hover:scale-105"
                             src="{{ MEDIA_URL }}image/IMG-7101.png"
                         />
                         {% endif %}
@@ -42,12 +44,12 @@
                     
                     <!-- Nom et titre -->
                     <div class="space-y-2">
-                        <h1 class="text-3xl lg:text-4xl font-extrabold animate-fade-in-up" style="animation-delay: 0.2s;">
-                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
+                        <h1 class="text-3xl lg:text-4xl font-syne font-extrabold animate-fade-in-up" style="animation-delay: 0.2s;">
+                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
                                {{ profile.name }}
                             </span>
                         </h1>
-                        <p class="text-lg lg:text-xl font-semibold text-neutral-600 dark:text-neutral-300 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <p class="text-lg lg:text-xl font-semibold text-gray-300 animate-fade-in-up" style="animation-delay: 0.4s;">
                             {{ profile.title }}
                         </p>
                     </div>
@@ -56,11 +58,11 @@
                 <!-- Description -->
                 <div class="flex flex-col items-center text-center space-y-4 max-w-md lg:max-w-lg animate-fade-in-up" style="animation-delay: 0.6s;">
                     <div class="space-y-3 lg:space-y-4">
-                        <h2 class="text-xl lg:text-2xl font-bold text-neutral-800 dark:text-white">
+                        <h2 class="text-xl lg:text-2xl font-bold text-white">
                             De primeur à AppBuilder,<br>
-                            <span class="text-brand-600 dark:text-brand-400">un parcours unique</span>
+                            <span class="text-[#00FF88]">un parcours unique</span>
                         </h2>
-                        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300">
+                        <p class="text-base lg:text-lg text-gray-300">
                             Je partage mes connaissances<br>et expériences sur :
                         </p>
                     </div>
@@ -68,12 +70,12 @@
 
                 <!-- CTA et Réseaux sociaux -->
                 <div class="flex flex-col items-center text-center space-y-4 lg:space-y-6 max-w-md animate-fade-in-up" style="animation-delay: 0.8s;">
-                    <!-- Bouton CTA avec effet 3D -->
+                    <!-- Bouton CTA avec effet neon glow -->
                     <a
-                        class="group inline-block rounded-lg bg-gradient-to-r from-brand-500 to-accent-500 p-[2px] hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                        class="group inline-block rounded-lg bg-gradient-to-r from-[#00FF88] to-[#00E5FF] p-[2px] hover:shadow-[0_0_30px_rgba(0,255,136,0.4)] transition-all duration-300 transform hover:-translate-y-1"
                         href="{% url 'about'%}"
                     >
-                        <span class="block rounded-md bg-white dark:bg-neutral-800 px-6 lg:px-8 py-2.5 lg:py-3 text-base lg:text-lg font-semibold text-neutral-800 dark:text-white group-hover:bg-transparent group-hover:text-white transition-all duration-300">
+                        <span class="block rounded-md bg-[#111827] px-6 lg:px-8 py-2.5 lg:py-3 text-base lg:text-lg font-semibold text-white group-hover:bg-transparent group-hover:text-black transition-all duration-300">
                             Contactez Moi
                         </span>
                     </a>
@@ -81,14 +83,14 @@
                     <!-- Réseaux sociaux avec effets améliorés -->
                     <div class="flex items-center justify-center space-x-3 lg:space-x-4 pt-2 lg:pt-4">
                         <a
-                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-neutral-100 dark:bg-neutral-700 hover:bg-accent-100 dark:hover:bg-accent-900 transition-all duration-300 transform hover:scale-110 hover:rotate-3 shadow-lg hover:shadow-xl"
+                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#111827] hover:bg-[#00FF88]/20 border border-[#1F2937] hover:border-[#00FF88]/50 transition-all duration-300 transform hover:scale-110 hover:rotate-3 shadow-lg hover:shadow-[0_0_15px_rgba(0,255,136,0.3)]"
                             href="https://www.tiktok.com/@djimiga55?is_from_webapp=1&sender_device=pc"
                             aria-label="Suivez-moi sur TikTok"
                         >
                         <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 50 50"
-                        class="h-6 w-6 lg:h-7 lg:w-7 text-neutral-700 dark:text-neutral-300"
+                        class="h-6 w-6 lg:h-7 lg:w-7 text-gray-400"
                         stroke="currentColor"
                         fill="currentColor"
                         stroke-width="0"
@@ -97,29 +99,29 @@
                             </svg>
                         </a>
                         <a
-                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-neutral-100 dark:bg-neutral-700 hover:bg-error-100 dark:hover:bg-error-900 transition-all duration-300 transform hover:scale-110 hover:-rotate-3 shadow-lg hover:shadow-xl"
+                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#111827] hover:bg-[#00FF88]/20 border border-[#1F2937] hover:border-[#00FF88]/50 transition-all duration-300 transform hover:scale-110 hover:-rotate-3 shadow-lg hover:shadow-[0_0_15px_rgba(0,255,136,0.3)]"
                             href="https://www.youtube.com/@pythonmalien"
                             aria-label="Suivez-moi sur YouTube"
                         >
-                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" class="h-5 w-5 lg:h-6 lg:w-6 text-neutral-700 dark:text-neutral-300">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" class="h-5 w-5 lg:h-6 lg:w-6 text-gray-400">
                                 <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path>
                             </svg>
                         </a>
                         <a
-                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-neutral-100 dark:bg-neutral-700 hover:bg-accent-100 dark:hover:bg-accent-900 transition-all duration-300 transform hover:scale-110 hover:rotate-3 shadow-lg hover:shadow-xl"
+                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#111827] hover:bg-[#00E5FF]/20 border border-[#1F2937] hover:border-[#00E5FF]/50 transition-all duration-300 transform hover:scale-110 hover:rotate-3 shadow-lg hover:shadow-[0_0_15px_rgba(0,229,255,0.3)]"
                             href="https://x.com/pymalien"
                             aria-label="Suivez-moi sur X (Twitter)"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-4 w-4 lg:h-5 lg:w-5 text-neutral-700 dark:text-neutral-300" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-4 w-4 lg:h-5 lg:w-5 text-gray-400" viewBox="0 0 16 16">
                                 <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"></path>
                             </svg>
                         </a>
                         <a
-                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-neutral-100 dark:bg-neutral-700 hover:bg-accent-100 dark:hover:bg-accent-900 transition-all duration-300 transform hover:scale-110 hover:-rotate-3 shadow-lg hover:shadow-xl"
+                            class="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#111827] hover:bg-[#00E5FF]/20 border border-[#1F2937] hover:border-[#00E5FF]/50 transition-all duration-300 transform hover:scale-110 hover:-rotate-3 shadow-lg hover:shadow-[0_0_15px_rgba(0,229,255,0.3)]"
                             href="https://linkedin.com/in/pymalien"
                             aria-label="Suivez-moi sur LinkedIn"
                         >
-                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" class="h-5 w-5 lg:h-6 lg:w-6 text-neutral-700 dark:text-neutral-300">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" class="h-5 w-5 lg:h-6 lg:w-6 text-gray-400">
                                 <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
                             </svg>
                         </a>
@@ -133,20 +135,20 @@
 <!-- Section Projets -->
 <section class="py-12 lg:py-16 font-inter relative z-10">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-    <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-8 lg:p-12 backdrop-blur-sm">
+    <div class="bg-[#111827] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-8 lg:p-12 backdrop-blur-sm">
       <!-- En-tête de section -->
       <div class="text-center mb-8 lg:mb-12 animate-fade-in-up">
-        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
-          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg>
             </div>
-        <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
                     Mes Projets
                 </span>
             </h2>
-        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+        <p class="text-base lg:text-lg text-gray-300 max-w-2xl mx-auto">
                 Découvrez une sélection de mes réalisations qui reflètent mon parcours de développement et ma passion pour créer des solutions innovantes.
             </p>
         </div>
@@ -155,13 +157,13 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for portfolio in portfolios %}
         <!-- Carte projet avec effets améliorés -->
-        <div class="group bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-neutral-200 dark:border-neutral-600 mx-auto w-full max-w-sm animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
+        <div class="group bg-[#111827] rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] border border-[#1F2937] hover:border-[#00FF88]/50 mx-auto w-full max-w-sm animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
           <div class="relative overflow-hidden">
             {% if portfolio.thumbnail %}
             <img class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" src="{{ portfolio.thumbnail.url }}" alt="{{ portfolio.title }}">
             {% else %}
-            <div class="w-full h-48 bg-gradient-to-br from-brand-500/20 to-accent-500/20 flex items-center justify-center">
-              <svg class="w-16 h-16 text-neutral-400 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-full h-48 bg-gradient-to-br from-[#00FF88]/20 to-[#00E5FF]/20 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
             </div>
@@ -169,15 +171,15 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
           <div class="p-6">
-            <h3 class="text-xl font-semibold text-neutral-800 dark:text-white mb-3 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+            <h3 class="text-xl font-semibold text-white mb-3 group-hover:text-[#00FF88] transition-colors duration-300">
                         {{ portfolio.title }}
                     </h3>
-            <p class="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
+            <p class="text-gray-300 mb-6 leading-relaxed">
               {{ portfolio.description|truncatewords:20 }}
             </p>
             <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
               {% if portfolio.lien %}
-              <a href="{{ portfolio.lien }}" target="_blank" rel="noopener noreferrer" class="w-full sm:flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 text-center font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
+              <a href="{{ portfolio.lien }}" target="_blank" rel="noopener noreferrer" class="w-full sm:flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[#00FF88] to-[#00E5FF] text-black rounded-lg hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] transition-all duration-300 text-center font-semibold shadow-lg transform hover:scale-105">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                             </svg>
@@ -185,7 +187,7 @@
                         </a>
               {% endif %}
               {% if portfolio.lien_github %}
-              <a href="{{ portfolio.lien_github }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-3 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+              <a href="{{ portfolio.lien_github }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-3 bg-[#1F2937] text-gray-300 rounded-lg hover:bg-[#00FF88]/20 hover:text-[#00FF88] transition-all duration-300 shadow-lg transform hover:scale-105">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.239 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                             </svg>
@@ -203,20 +205,20 @@
 <!-- Section Blog -->
 <section class="py-12 lg:py-16 font-inter relative z-10">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-    <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-8 lg:p-12 backdrop-blur-sm">
+    <div class="bg-[#0D1117] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-8 lg:p-12 backdrop-blur-sm">
       <!-- En-tête de section -->
       <div class="text-center mb-8 lg:mb-12 animate-fade-in-up">
-        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
-          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
           </svg>
         </div>
-        <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
             Mon Blog &amp; Actualités
           </span>
         </h2>
-        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+        <p class="text-base lg:text-lg text-gray-300 max-w-2xl mx-auto">
           Découvrez mes articles, formations et services pour vous accompagner dans vos projets tech.
         </p>
       </div>
@@ -226,25 +228,25 @@
         <!-- Grille des articles (plein largeur) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {% for post in posts %}
-          <article class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 animate-fade-in-up hover:scale-105" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
+          <article class="group bg-[#111827] rounded-xl p-6 hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] transition-all duration-500 border border-[#1F2937] hover:border-[#00FF88]/50 animate-fade-in-up hover:scale-105" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
             <a href="{% url 'blog-detail' slug=post.slug %}" class="block">
-              <!-- Date avec effet de pulse -->
-              <time class="text-sm text-neutral-500 dark:text-neutral-300 mb-3 block group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+              <!-- Date avec effet -->
+              <time class="text-sm font-mono text-gray-500 mb-3 block group-hover:text-[#00FF88] transition-colors duration-300">
                 {{ post.created_on|date:"d F Y" }}
               </time>
               
-              <!-- Titre avec effet de soulignement -->
-              <h3 class="text-xl font-semibold text-neutral-800 dark:text-white mb-3 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300 hover-underline">
+              <!-- Titre -->
+              <h3 class="text-xl font-semibold text-white mb-3 group-hover:text-[#00FF88] transition-colors duration-300 hover-underline">
                 {{ post.title }}
               </h3>
               
               <!-- Extrait -->
-              <p class="text-neutral-600 dark:text-neutral-200 mb-4 leading-relaxed">
+              <p class="text-gray-300 mb-4 leading-relaxed">
                 {{ post.body|truncatewords:25|safe }}
               </p>
               
               <!-- Lien de lecture avec animation -->
-              <div class="inline-flex items-center text-brand-600 dark:text-brand-300 font-medium group-hover:text-brand-700 dark:group-hover:text-brand-200 transition-colors duration-300">
+              <div class="inline-flex items-center text-[#00FF88] font-medium group-hover:text-[#00E5FF] transition-colors duration-300">
                 <span>Lire l'article</span>
                 <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -258,17 +260,17 @@
         <!-- Bloc Formations + Services sous les articles -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           <!-- CTA Formations -->
-          <div class="bg-gradient-to-br from-brand-50 to-accent-50 dark:from-brand-900/20 dark:to-accent-900/20 rounded-xl p-6 border border-brand-200 dark:border-brand-800 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in-up">
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white mb-3 flex items-center">
-              <svg class="w-5 h-5 mr-3 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-[#111827] rounded-xl p-6 border border-[#1F2937] hover:border-[#00FF88]/50 backdrop-blur-sm hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] transition-all duration-300 hover:scale-105 animate-fade-in-up">
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-3 text-[#00FF88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
               </svg>
               Mes Formations
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 mb-4">
+            <p class="text-gray-300 mb-4">
               Découvrez mes formations en développement Python et Django pour progresser rapidement.
             </p>
-            <a href="{% url 'formations:formation_list' %}" class="mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-brand-500 to-accent-500 text-white rounded-lg hover:from-brand-600 hover:to-accent-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 btn-press">
+            <a href="{% url 'formations:formation_list' %}" class="mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-[#00FF88] to-[#00E5FF] text-black rounded-lg hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] transition-all duration-300 font-semibold shadow-lg transform hover:scale-105 btn-press">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
@@ -277,17 +279,17 @@
           </div>
   
           <!-- CTA Services -->
-          <div class="bg-gradient-to-br from-accent-50 to-brand-50 dark:from-accent-900/20 dark:to-brand-900/20 rounded-xl p-6 border border-accent-200 dark:border-accent-800 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in-up">
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white mb-3 flex items-center">
-              <svg class="w-5 h-5 mr-3 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-[#111827] rounded-xl p-6 border border-[#1F2937] hover:border-[#00E5FF]/50 backdrop-blur-sm hover:shadow-[0_0_30px_rgba(0,229,255,0.15)] transition-all duration-300 hover:scale-105 animate-fade-in-up">
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-3 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
               </svg>
               Mes Services
             </h3>
-            <p class="text-neutral-600 dark:text-neutral-200 mb-4">
+            <p class="text-gray-300 mb-4">
               Besoin d'un développeur Python pour votre projet ? Découvrez mes services de développement.
             </p>
-            <a href="{% url 'services:service_list' %}" class="mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-accent-500 to-brand-500 text-white rounded-lg hover:from-accent-600 hover:to-brand-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 btn-press">
+            <a href="{% url 'services:service_list' %}" class="mt-4 inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-[#00E5FF] to-[#00FF88] text-black rounded-lg hover:shadow-[0_0_20px_rgba(0,229,255,0.4)] transition-all duration-300 font-semibold shadow-lg transform hover:scale-105 btn-press">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
@@ -312,20 +314,20 @@
 <!-- Section Timeline -->
 <section class="py-12 lg:py-16 font-inter relative z-10">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-    <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-8 lg:p-12 backdrop-blur-sm">
+    <div class="bg-[#0D1117] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-8 lg:p-12 backdrop-blur-sm">
       <!-- En-tête de section -->
       <div class="text-center mb-8 lg:mb-12 animate-fade-in-up">
-        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
-          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
         </div>
-        <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
             Parcours &amp; Expérience
           </span>
         </h2>
-        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+        <p class="text-base lg:text-lg text-gray-300 max-w-2xl mx-auto">
           Découvrez l'évolution de mon parcours professionnel, de primeur à développeur Python.
         </p>
       </div>
@@ -333,16 +335,16 @@
       <!-- Timeline -->
       <div class="relative">
         <!-- Ligne de timeline -->
-        <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-500 to-accent-500"></div>
+        <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#00FF88] to-[#00E5FF]"></div>
         
         <!-- Événements timeline -->
         <div class="space-y-8">
           {% for experience in experiences %}
           <div class="relative flex items-center lg:justify-between {% if experience.position == 'right' %}lg:flex-row-reverse{% endif %} group animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.1"|floatformat:1 }}s;">
             <div class="flex items-center lg:w-5/12 {% if experience.position == 'right' %}lg:justify-end{% endif %}">
-              <div class="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-600 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div class="bg-[#111827] rounded-xl p-6 shadow-lg border border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.15)] transition-all duration-300 hover:scale-105">
                 <div class="flex items-start space-x-3 mb-3">
-                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-700 {% if not experience.logo %}p-1{% endif %}">
+                  <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-[#1F2937] {% if not experience.logo %}p-1{% endif %}">
                     {% if experience.logo %}
                     <img src="{{ experience.logo.url }}" alt="Logo {{ experience.company|default:experience.title }}" class="w-full h-full object-contain">
                     {% else %}
@@ -351,21 +353,21 @@
                     {% endif %}
                   </div>
                   <div>
-                    <h3 class="text-lg font-semibold text-neutral-800 dark:text-white">{{ experience.title }}{% if experience.company %} - {{ experience.company }}{% endif %}</h3>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-300">{{ experience.period }}</p>
+                    <h3 class="text-lg font-semibold text-white">{{ experience.title }}{% if experience.company %} - {{ experience.company }}{% endif %}</h3>
+                    <p class="text-sm font-mono text-gray-500">{{ experience.period }}</p>
                   </div>
                 </div>
-                <p class="text-neutral-600 dark:text-neutral-200 text-sm">
+                <p class="text-gray-300 text-sm">
                   {{ experience.description }}
                 </p>
               </div>
             </div>
             
             <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 {% if experience.position == 'right' %}bg-gradient-to-br from-accent-500 to-brand-500{% else %}bg-gradient-to-br from-brand-500 to-accent-500{% endif %} rounded-full border-4 border-white dark:border-neutral-800 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 {% if experience.position == 'right' %}bg-gradient-to-br from-[#00E5FF] to-[#00FF88]{% else %}bg-gradient-to-br from-[#00FF88] to-[#00E5FF]{% endif %} rounded-full border-4 border-[#060810] shadow-lg group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(0,255,136,0.5)] transition-all duration-300"></div>
           </div>
           {% empty %}
-          <p class="text-center text-neutral-600 dark:text-neutral-300">Aucune expérience à afficher pour le moment.</p>
+          <p class="text-center text-gray-300">Aucune expérience à afficher pour le moment.</p>
           {% endfor %}
         </div>
     </div>
@@ -377,20 +379,20 @@
 <!-- Section Technologies -->
 <section class="py-12 lg:py-16 font-inter relative z-10">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-    <div class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 rounded-xl lg:rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-8 lg:p-12 backdrop-blur-sm">
+    <div class="bg-[#111827] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-8 lg:p-12 backdrop-blur-sm">
       <!-- En-tête de section -->
       <div class="text-center mb-8 lg:mb-12 animate-fade-in-up">
-        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 mb-4 shadow-lg">
-          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.2301 12.5502C17.9301 13.8502 16.0901 14.3302 14.4301 13.9402L8.70012 19.6702C7.92012 20.4502 6.65012 20.4502 5.87012 19.6702L4.83012 18.6302C4.05012 17.8502 4.05012 16.5802 4.83012 15.8002L10.5601 10.0702C10.1701 8.40021 10.6501 6.57021 11.9501 5.27021C13.6301 3.59021 16.1501 3.30021 18.1101 4.39021L14.0801 8.42021L16.1301 10.4702L20.1501 6.45021C21.2101 8.40021 20.9001 10.8902 19.2401 12.5502H19.2301Z"></path>
             </svg>
         </div>
-        <h2 class="text-2xl lg:text-3xl font-extrabold mb-3">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500">
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
             Mes Technologies
           </span>
         </h2>
-        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
+        <p class="text-base lg:text-lg text-gray-300 max-w-2xl mx-auto">
           Les technologies et outils que j'utilise pour créer des applications web modernes et performantes.
         </p>
                     </div>
@@ -398,48 +400,48 @@
       <!-- Grille des technologies avec effets améliorés -->
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
         <!-- Python -->
-        <div class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.2s;">
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,255,136,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00FF88]/50 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.2s;">
           <div class="flex flex-col items-center text-center">
             <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center group-hover:animate-float">
               <img src="{% static 'portfolio/svg/python.svg' %}" alt="Python" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
                 </div>
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00FF88] transition-colors duration-300">
               Python
             </h3>
             </div>
         </div>
 
         <!-- Django -->
-        <div class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.4s;">
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,255,136,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00FF88]/50 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.4s;">
           <div class="flex flex-col items-center text-center">
             <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center group-hover:animate-float">
               <img src="{% static 'portfolio/svg/django.svg' %}" alt="Django" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
             </div>
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00FF88] transition-colors duration-300">
               Django
             </h3>
           </div>
         </div>
         
         <!-- React Native -->
-        <div class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.6s;">
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00E5FF]/50 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.6s;">
           <div class="flex flex-col items-center text-center">
             <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center group-hover:animate-float">
               <img src="{% static 'portfolio/svg/header_logo.svg' %}" alt="React Native" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
             </div>
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00E5FF] transition-colors duration-300">
               React Native
             </h3>
           </div>
         </div>
 
         <!-- Tailwind -->
-        <div class="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:shadow-xl transition-all duration-500 border border-neutral-200 dark:border-neutral-600 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.8s;">
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00E5FF]/50 hover:scale-110 animate-fade-in-up card-3d" style="animation-delay: 0.8s;">
           <div class="flex flex-col items-center text-center">
             <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center group-hover:animate-float">
               <img src="{% static 'portfolio/svg/tailwind.svg' %}" alt="Tailwind CSS" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
     </div>
-            <h3 class="text-lg font-semibold text-neutral-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00E5FF] transition-colors duration-300">
                 Tailwind
             </h3>
 </div>

@@ -1,37 +1,37 @@
 {% load static %}
 
-<header class="hidden md:block sticky top-0 z-20 bg-neutral-200/95 border-b border-neutral-300 dark:bg-neutral-800/95 dark:border-neutral-600 shadow-md backdrop-blur-md">
+<header class="hidden md:block sticky top-0 z-20 bg-[#0D1117]/95 border-b border-[#1F2937] shadow-md backdrop-blur-md">
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-20">
             <!-- Logo avec animation et effet de survol -->
             <a href="{% url 'portfolio-index' %}" class="flex items-center group relative">
-                <div class="absolute inset-0 bg-gradient-to-r from-brand-500/20 to-accent-500/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#00FF88]/20 to-[#00E5FF]/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
                 <svg class="h-16 w-16 group-hover:rotate-180 transition-all duration-500 group-hover:scale-110" viewBox="0 0 80 80" aria-hidden="true">
                     <image href="{% static 'portfolio/svg/djimi.svg' %}" width="80" height="80" />
                 </svg>
-                <span class="ml-3 text-xl font-bold text-neutral-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">Djimiga Tech</span>
+                <span class="ml-3 text-xl font-syne font-extrabold text-white group-hover:text-[#00FF88] transition-colors duration-300">Bolibana<span class="text-[#00FF88]">.</span></span>
             </a>
 
             <!-- Navigation Desktop -->
             <nav class="flex items-center space-x-6 lg:space-x-8">
-                <a href="{% url 'about' %}" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
+                <a href="{% url 'about' %}" class="font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                     À propos
                 </a>
-                <a href="{% url 'blog-index' %}" target="_blank" rel="noreferrer" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
+                <a href="{% url 'blog-index' %}" target="_blank" rel="noreferrer" class="font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                     Blog
                 </a>
-                <a href="{% url 'services:service_list' %}" target="_blank" rel="noreferrer" class="font-bold text-neutral-800 dark:text-white hover:text-brand-600 hover:bg-clip-text hover:bg-gradient-to-r hover:from-brand-600 hover:to-accent-800 transition-colors duration-300">
+                <a href="{% url 'services:service_list' %}" target="_blank" rel="noreferrer" class="font-bold text-gray-300 hover:text-[#00FF88] transition-colors duration-300">
                     Services
                 </a>
-                <!-- CTA Formations mis en avant depuis la suppression du bouton dark-mode -->
+                <!-- CTA Formations -->
                 <a href="{% url 'formations:formation_index' %}"
                    target="_blank"
                    rel="noreferrer"
-                   class="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-brand-500 to-accent-500 text-white font-semibold shadow-md hover:from-brand-600 hover:to-accent-600 hover:shadow-lg transition-all duration-200">
+                   class="inline-flex items-center px-4 py-2 rounded-full bg-[#00FF88] text-black font-bold shadow-md hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] hover:scale-105 transition-all duration-200">
                     Formations
                 </a>
             </nav>
 
         </div>
     </div>
-</header> 
+</header>

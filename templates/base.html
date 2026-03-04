@@ -8,26 +8,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     
     <!-- SEO Meta Tags -->
-    <title>{% block title %}Konimba Djimiga - Développeur Python & Django | Portfolio{% endblock %}</title>
+    <title>{% block title %}Bolibana - Développeur Python & Django | Portfolio{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles sur les technologies.{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}Développeur Python, Django, développement web, formation Python, tutoriels Django, Konimba Djimiga{% endblock %}" />
-    <meta name="author" content="Konimba Djimiga" />
+    <meta name="keywords" content="{% block meta_keywords %}Développeur Python, Django, développement web, formation Python, tutoriels Django, Bolibana{% endblock %}" />
+    <meta name="author" content="Bolibana" />
     <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
     <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}" />
-    <meta property="og:title" content="{% block og_title %}Konimba Djimiga - Développeur Python & Django{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}Bolibana - Développeur Python & Django{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles.{% endblock %}" />
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'portfolio/svg/djimi.svg' %}{% endblock %}" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:site_name" content="Konimba Djimiga - Portfolio" />
+    <meta property="og:site_name" content="Bolibana - Portfolio" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}" />
-    <meta name="twitter:title" content="{% block twitter_title %}Konimba Djimiga - Développeur Python & Django{% endblock %}" />
+    <meta name="twitter:title" content="{% block twitter_title %}Bolibana - Développeur Python & Django{% endblock %}" />
     <meta name="twitter:description" content="{% block twitter_description %}Développeur Python & Django, créateur de contenu pédagogique.{% endblock %}" />
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'portfolio/svg/djimi.svg' %}{% endblock %}" />
     
@@ -50,7 +50,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Konimba Djimiga",
+      "name": "Bolibana",
       "jobTitle": "Développeur Python & Django",
       "description": "Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles sur les technologies.",
       "url": "{{ request.scheme }}://{{ request.get_host }}",
@@ -85,18 +85,18 @@
     </script>
     {% endif %}
     
-    <!-- Google Fonts - Inter -->
+    <!-- Google Fonts - Inter, Syne, Space Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-slate-100 flex flex-col min-h-screen dark:bg-neutral-900 text-gray-900 font-inter">
+  <body class="bg-[#060810] flex flex-col min-h-screen text-gray-100 font-inter">
     {% include 'components/header_desktop.html' %}
     {% include 'components/header_mobile.html' %}
     <main class="mx-auto">
       {% block content %} {% endblock %}
     </main>
-    <footer class="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 mt-auto font-inter">
+    <footer class="bg-[#0D1117] border-t border-[#1F2937] mt-auto font-inter">
       <div class="flex flex-col lg:flex-row items-center justify-center px-4 py-8 space-y-6 lg:space-y-0">
         <!-- Logo -->
         <div class="lg:mr-10">
@@ -118,7 +118,7 @@
         <!-- Réseaux sociaux -->
         <div id="social-icons" class="flex items-center space-x-2 lg:space-x-4">
             <a
-                    class="flex items-center rounded p-2 text-neutral-700 dark:text-neutral-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00FF88] transition-colors duration-300"
                     href="https://www.tiktok.com/@djimiga1"
             >
                 <svg
@@ -133,7 +133,7 @@
                 </svg>
             </a>
             <a
-                    class="flex items-center rounded p-2 text-neutral-700 dark:text-neutral-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00FF88] transition-colors duration-300"
                     href="https://www.youtube.com/@pythonmalien"
             >
                 <svg
@@ -150,7 +150,7 @@
                 </svg>
             </a>
             <a
-                    class="flex items-center rounded p-2 text-neutral-700 dark:text-neutral-300 hover:text-accent-600 dark:hover:text-accent-400 transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00E5FF] transition-colors duration-300"
                     href="https://x.com/pymalien"
             >
                 <svg
@@ -167,7 +167,7 @@
                 </svg>
             </a>
             <a
-                    class="flex items-center rounded p-2 text-neutral-700 dark:text-neutral-300 hover:text-accent-600 dark:hover:text-accent-400 transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00E5FF] transition-colors duration-300"
                     href="https://linkedin.com/in/pymalien"
             >
                 <svg
@@ -189,31 +189,31 @@
         <div class="flex flex-wrap items-center justify-center text-sm lg:text-base space-x-4 lg:space-x-8 lg:mx-10">
           <a
             href="{% url 'about' %}"
-            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
             >À propos</a
           >
           <a
             href="{% url 'blog-index' %}"
             target="_blank"
             rel="noreferrer"
-            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
             >Blog</a>
           <a
             href="{% url 'services:service_list' %}"
             target="_blank"
             rel="noreferrer"
-            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
             >Services</a>
           <a
             href="{% url 'formations:formation_index' %}"
             target="_blank"
             rel="noreferrer"
-            class="font-semibold text-neutral-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-300"
+            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
             >Formations</a>
         </div>
       </div>
-      <p class="text-center text-xs lg:text-sm text-neutral-500 dark:text-neutral-400 py-4 px-4 border-t border-neutral-200 dark:border-neutral-700">
-        &copy; Made by Konimba Djimiga. All rights reserved.
+      <p class="text-center text-xs lg:text-sm text-gray-500 py-4 px-4 border-t border-[#1F2937]">
+        &copy; Made by <span class="text-[#00FF88]">Bolibana</span>. All rights reserved.
       </p>
     </footer>
 
