@@ -1,0 +1,36 @@
+<svg viewBox="0 0 200 200" width="200" height="200" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Cercle extérieur -->
+  <circle cx="100" cy="100" r="90" stroke="#00FF88" stroke-width="2" fill="rgba(0,255,136,0.03)"/>
+
+  <!-- Demi-cercle horizon -->
+  <path d="M 28 100 A 72 72 0 0 1 172 100" stroke="#00FF88" stroke-width="2.5" fill="none" opacity="0.4"/>
+
+  <!-- Ligne horizon -->
+  <line x1="28" y1="100" x2="172" y2="100" stroke="#00FF88" stroke-width="1" opacity="0.15"/>
+
+  <!-- Soleil levant -->
+  <circle cx="100" cy="100" r="8" fill="#F5A623"/>
+  <circle cx="100" cy="100" r="14" stroke="#F5A623" stroke-width="1.5" fill="none" opacity="0.35"/>
+  <circle cx="100" cy="100" r="20" stroke="#F5A623" stroke-width="1" fill="none" opacity="0.15"/>
+
+  <!-- Rayons soleil -->
+  <line x1="100" y1="72" x2="100" y2="66" stroke="#F5A623" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="120" y1="78" x2="124" y2="74" stroke="#F5A623" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="80" y1="78" x2="76" y2="74" stroke="#F5A623" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="100" x2="134" y2="100" stroke="#F5A623" stroke-width="2" stroke-linecap="round" opacity="0.25"/>
+  <line x1="72" y1="100" x2="66" y2="100" stroke="#F5A623" stroke-width="2" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- B gauche -->
+  <rect x="26" y="42" width="11" height="116" rx="5.5" fill="#00FF88"/>
+  <path d="M37 42 Q72 42 72 64 Q72 86 37 86" stroke="#00FF88" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M37 86 Q76 86 76 108 Q76 130 37 130" stroke="#00FF88" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+  <!-- B droite -->
+  <rect x="110" y="42" width="11" height="116" rx="5.5" fill="#00E5FF"/>
+  <path d="M121 42 Q156 42 156 64 Q156 86 121 86" stroke="#00E5FF" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M121 86 Q160 86 160 108 Q160 130 121 130" stroke="#00E5FF" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+  <!-- Point nord -->
+  <circle cx="100" cy="11" r="4" fill="#00FF88" opacity="0.6"/>
+</svg>
