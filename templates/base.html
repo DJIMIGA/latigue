@@ -100,19 +100,9 @@
       <div class="flex flex-col lg:flex-row items-center justify-center px-4 py-8 space-y-6 lg:space-y-0">
         <!-- Logo -->
         <div class="lg:mr-10">
-          <svg
-            class="h-16 w-16 lg:h-20 lg:w-20 hover:rotate-180 transition-transform duration-300"
-            viewBox="0 0 80 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            stroke="currentColor"
-          >
-            <image
-              href="../../static/portfolio/svg/djimi.svg"
-              width="80"
-              height="80"
-            />
-          </svg>
+          <a href="{% url 'portfolio-index' %}">
+            <img src="{% static 'portfolio/svg/bolibana-logo.svg' %}" alt="Bolibana" class="h-16 w-16 lg:h-20 lg:w-20 hover:scale-110 transition-transform duration-300" />
+          </a>
         </div>
         
         <!-- Réseaux sociaux -->

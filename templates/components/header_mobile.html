@@ -6,10 +6,7 @@
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
             <a href="{% url 'portfolio-index' %}" class="flex items-center group">
-                <svg class="h-12 w-12 group-hover:rotate-180 transition-transform duration-500" viewBox="0 0 80 80" aria-hidden="true">
-                    <image href="{% static 'portfolio/svg/djimi.svg' %}" width="80" height="80" />
-                </svg>
-                <span class="ml-3 text-xl font-syne font-extrabold text-white group-hover:text-[#00FF88] transition-colors duration-300">Bolibana<span class="text-[#00FF88]">.</span></span>
+                <img src="{% static 'portfolio/svg/bolibana-logo.svg' %}" alt="Bolibana" class="h-10 w-10 group-hover:scale-110 transition-all duration-500" aria-hidden="true" />
             </a>
 
             <!-- Bouton menu mobile -->
@@ -29,9 +26,7 @@
         <!-- En-tête du menu mobile -->
         <div class="flex items-center justify-between p-4 border-b border-[#1F2937]">
             <a href="{% url 'portfolio-index' %}" class="flex items-center group">
-                <svg class="h-12 w-12 group-hover:rotate-180 transition-transform duration-500" viewBox="0 0 80 80" aria-hidden="true">
-                    <image href="{% static 'portfolio/svg/djimi.svg' %}" width="80" height="80" />
-                </svg>
+                <img src="{% static 'portfolio/svg/bolibana-logo.svg' %}" alt="Bolibana" class="h-10 w-10" />
             </a>
             <button id="close-menu" class="p-2 rounded-full hover:bg-[#1F2937] transition-colors">
                 <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

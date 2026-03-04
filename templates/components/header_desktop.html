@@ -6,10 +6,8 @@
             <!-- Logo avec animation et effet de survol -->
             <a href="{% url 'portfolio-index' %}" class="flex items-center group relative">
                 <div class="absolute inset-0 bg-gradient-to-r from-[#00FF88]/20 to-[#00E5FF]/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-                <svg class="h-16 w-16 group-hover:rotate-180 transition-all duration-500 group-hover:scale-110" viewBox="0 0 80 80" aria-hidden="true">
-                    <image href="{% static 'portfolio/svg/djimi.svg' %}" width="80" height="80" />
-                </svg>
-                <span class="ml-3 text-xl font-syne font-extrabold text-white group-hover:text-[#00FF88] transition-colors duration-300">Bolibana<span class="text-[#00FF88]">.</span></span>
+                <img src="{% static 'portfolio/svg/bolibana-logo.svg' %}" alt="Bolibana" class="h-12 w-12 group-hover:scale-110 transition-all duration-500" aria-hidden="true" />
+                <img src="{% static 'portfolio/svg/bolibana-logo-horizontal.svg' %}" alt="Bolibana" class="ml-2 h-8 hidden lg:block group-hover:opacity-80 transition-all duration-300" />
             </a>
 
             <!-- Navigation Desktop -->
