@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Services de Développement Web Python & Django | Konimba Djimiga{% endblock %}
-{% block meta_description %}Développement d'applications web et mobiles sur-mesure, maintenance et optimisation. Services professionnels Python & Django par Konimba Djimiga, développeur à Tours.{% endblock %}
-{% block meta_keywords %}développement web, application mobile, Python, Django, React Native, maintenance, optimisation, développeur freelance, Tours{% endblock %}
+{% block title %}Services de Développement Web Python & Django | Bolibana{% endblock %}
+{% block meta_description %}Développement d'applications web et mobiles sur-mesure, maintenance et optimisation. Services professionnels Python & Django par Bolibana.{% endblock %}
+{% block meta_keywords %}développement web, application mobile, Python, Django, React Native, maintenance, optimisation, développeur freelance{% endblock %}
 
-{% block og_title %}Services de Développement Web | Konimba Djimiga{% endblock %}
-{% block og_description %}Applications web et mobiles sur-mesure, maintenance et optimisation. Développeur Python & Django à Tours.{% endblock %}
+{% block og_title %}Services de Développement Web | Bolibana{% endblock %}
+{% block og_description %}Applications web et mobiles sur-mesure, maintenance et optimisation. Développeur Python & Django.{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -33,18 +33,18 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Nos Services</h1>
+    <h1 class="text-3xl font-syne font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Nos Services</h1>
 
     <!-- Filtres -->
     <div class="mb-8">
         <div class="flex flex-wrap gap-4">
             <a href="{% url 'services:service_list' %}" 
-               class="px-4 py-2 rounded-lg {% if not request.GET.category %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+               class="px-4 py-2 rounded-lg {% if not request.GET.category %}bg-[#00FF88] text-black font-bold{% else %}bg-[#111827] text-gray-300 border border-[#1F2937] hover:border-[#00FF88]/30{% endif %}">
                 Tous
             </a>
             {% for value, label in categories.items %}
             <a href="?category={{ value }}" 
-               class="px-4 py-2 rounded-lg {% if request.GET.category == value %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+               class="px-4 py-2 rounded-lg {% if request.GET.category == value %}bg-[#00FF88] text-black font-bold{% else %}bg-[#111827] text-gray-300 border border-[#1F2937] hover:border-[#00FF88]/30{% endif %}">
                 {{ label }}
             </a>
             {% endfor %}
@@ -54,21 +54,21 @@
     <!-- Liste des services -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for service in services %}
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-[#111827] rounded-lg shadow-lg overflow-hidden border border-[#1F2937] hover:border-[#00FF88]/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.1)] transition-all group">
             {% if service.image %}
             <img src="{{ service.image.url }}" alt="{{ service.title }}" class="w-full h-48 object-cover">
             {% endif %}
             <div class="p-6 flex flex-col items-center text-center">
-                <h2 class="text-xl font-semibold mb-2">{{ service.title }}</h2>
+                <h2 class="text-xl font-semibold mb-2 text-gray-100 group-hover:text-[#00FF88] transition-colors">{{ service.title }}</h2>
                 <a href="{% url 'services:service_detail' service.slug %}" 
-                   class="mt-4 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-full hover:bg-blue-700 transition">
+                   class="mt-4 inline-flex items-center justify-center px-4 py-2 bg-[#00FF88] text-black text-sm font-bold rounded-full hover:bg-[#00FF88]/90 transition">
                     Voir le détail
                 </a>
             </div>
         </div>
         {% empty %}
         <div class="col-span-3 text-center py-8">
-            <p class="text-gray-500">Aucun service disponible pour le moment.</p>
+            <p class="text-gray-400">Aucun service disponible pour le moment.</p>
         </div>
         {% endfor %}
     </div>
@@ -79,18 +79,16 @@
         <div class="flex gap-2">
             {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" 
-               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+               class="px-4 py-2 bg-[#111827] border border-[#1F2937] rounded-lg hover:border-[#00FF88]/30 text-gray-300">
                 Précédent
             </a>
             {% endif %}
-
-            <span class="px-4 py-2 bg-gray-200 rounded-lg">
+            <span class="px-4 py-2 bg-[#111827] border border-[#1F2937] rounded-lg text-gray-300">
                 Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
             </span>
-
             {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" 
-               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+               class="px-4 py-2 bg-[#111827] border border-[#1F2937] rounded-lg hover:border-[#00FF88]/30 text-gray-300">
                 Suivant
             </a>
             {% endif %}
@@ -98,4 +96,4 @@
     </div>
     {% endif %}
 </div>
-{% endblock %} 
+{% endblock %}

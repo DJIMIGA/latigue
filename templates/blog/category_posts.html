@@ -7,23 +7,23 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+<div class="min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="mb-8">
-            <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-                <li><a href="{% url 'blog-index' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a></li>
+            <ol class="flex items-center space-x-2 text-sm text-gray-400">
+                <li><a href="{% url 'blog-index' %}" class="hover:text-[#00FF88] transition-colors">Blog</a></li>
                 <li><span class="mx-2">/</span></li>
-                <li class="text-gray-900 dark:text-white">{{ category.name }}</li>
+                <li class="text-gray-100">{{ category.name }}</li>
             </ol>
         </nav>
 
         <!-- Category Header -->
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-                Catégorie : <span class="text-blue-600 dark:text-blue-400">{{ category.name }}</span>
+            <h1 class="text-4xl md:text-6xl font-syne font-extrabold text-gray-100 mb-4">
+                Catégorie : <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">{{ category.name }}</span>
             </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-300">
+            <p class="text-xl text-gray-400">
                 {{ posts|length }} article{{ posts|length|pluralize }} dans cette catégorie
             </p>
         </div>
@@ -31,8 +31,7 @@
         <!-- Articles Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for post in posts %}
-            <article class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-200 dark:border-gray-700">
-                <!-- Image Container -->
+            <article class="group bg-[#111827] rounded-xl shadow-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-[#1F2937] hover:border-[#00FF88]/30">
                 {% if post.thumbnail %}
                 <div class="relative overflow-hidden h-48">
                     <a href="{{ post.get_absolute_url }}">
@@ -45,73 +44,61 @@
                 </div>
                 {% endif %}
 
-                <!-- Content -->
                 <div class="p-6">
-                    <!-- Date -->
-                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                    <div class="flex items-center text-sm text-gray-400 mb-3">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                         {{ post.created_on|french_date }}
                     </div>
 
-                    <!-- Title -->
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                    <h2 class="text-xl font-bold text-gray-100 mb-3 group-hover:text-[#00FF88] transition-colors duration-300">
                         <a href="{{ post.get_absolute_url }}" class="hover:underline">
                             {{ post.title }}
                         </a>
                     </h2>
 
-                    <!-- Excerpt -->
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">
                         {{ post.body|safe_excerpt:25 }}
                     </p>
 
-                    <!-- Read More Button -->
                     <div class="flex items-center justify-between">
                         <a href="{{ post.get_absolute_url }}" 
-                           class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium text-sm hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-300 group">
+                           class="inline-flex items-center text-[#00FF88] font-medium text-sm hover:text-[#00E5FF] transition-colors duration-300 group">
                             Lire la suite
                             <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
                         </a>
                         
-                        <!-- Reading Time Estimate -->
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                        <span class="text-xs text-gray-400">
                             {% with word_count=post.body|wordcount %}
-                                {% if word_count < 200 %}
-                                    ~1 min
-                                {% elif word_count < 500 %}
-                                    ~2 min
-                                {% elif word_count < 1000 %}
-                                    ~4 min
-                                {% else %}
-                                    ~6 min
-                                {% endif %}
+                                {% if word_count < 200 %}~1 min
+                                {% elif word_count < 500 %}~2 min
+                                {% elif word_count < 1000 %}~4 min
+                                {% else %}~6 min{% endif %}
                             {% endwith %}
                         </span>
                     </div>
                 </div>
             </article>
             {% empty %}
-            <!-- Empty State -->
             <div class="col-span-full text-center py-16">
                 <div class="max-w-md mx-auto">
-                    <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-24 h-24 mx-auto text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Aucun article dans cette catégorie</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Les articles apparaîtront ici une fois publiés.</p>
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Aucun article dans cette catégorie</h3>
+                    <p class="text-gray-400">Les articles apparaîtront ici une fois publiés.</p>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <!-- Back to Blog Button -->
+        <!-- Back to Blog -->
         <div class="text-center mt-12">
             <a href="{% url 'blog-index' %}" 
-               class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-300 transform hover:scale-105">
+               class="inline-flex items-center px-6 py-3 bg-[#00FF88] hover:bg-[#00FF88]/90 text-black font-bold rounded-lg transition-colors duration-300 transform hover:scale-105">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
@@ -129,4 +116,4 @@
     overflow: hidden;
 }
 </style>
-{% endblock %} 
+{% endblock %}

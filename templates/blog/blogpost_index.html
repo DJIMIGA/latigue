@@ -2,38 +2,38 @@
 {% load static %}
 {% load blog_filters %}
 
-{% block title %}Blog Développement Web, Python & Django | Konimba Djimiga{% endblock %}
-{% block meta_description %}Articles et tutoriels sur le développement web, Python, Django et les technologies modernes. Conseils pratiques par Konimba Djimiga, développeur autodidacte.{% endblock %}
+{% block title %}Blog Développement Web, Python & Django | Bolibana{% endblock %}
+{% block meta_description %}Articles et tutoriels sur le développement web, Python, Django et les technologies modernes. Conseils pratiques par Bolibana.{% endblock %}
 {% block meta_keywords %}blog développement web, tutoriel Python, tutoriel Django, AWS S3, déploiement, reconversion développeur{% endblock %}
 
-{% block og_title %}Blog Développement Web | Konimba Djimiga{% endblock %}
-{% block og_description %}Articles et tutoriels sur Python, Django et le développement web. Par Konimba Djimiga.{% endblock %}
+{% block og_title %}Blog Développement Web | Bolibana{% endblock %}
+{% block og_description %}Articles et tutoriels sur Python, Django et le développement web. Par Bolibana.{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-    <!-- Header Section (version compacte) -->
+<div class="min-h-screen">
+    <!-- Header Section -->
     <div class="container mx-auto px-4 py-6">
         <div class="text-center mb-6">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Centre d'<span class="text-blue-600 dark:text-blue-400">Information</span>
+            <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-2">
+                Centre d'<span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Information</span>
             </h1>
-            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+            <p class="text-sm md:text-base text-gray-400 max-w-xl mx-auto">
                 Découvrez nos articles sur le développement web, les technologies et les bonnes pratiques
             </p>
         </div>
 
-        <!-- Categories Section (compacte) -->
+        <!-- Categories Section -->
         {% if categories_with_count %}
         <div class="mb-4">
-            <h2 class="text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 mb-2 text-center uppercase">Catégories</h2>
+            <h2 class="text-xs font-semibold tracking-wide text-gray-400 mb-2 text-center uppercase">Catégories</h2>
             <div class="flex flex-wrap justify-center gap-2">
                 {% for category in categories_with_count %}
                 <a href="{{ category.get_absolute_url }}" 
-                   class="inline-flex items-center px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-300 group text-xs md:text-sm">
-                    <span class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                   class="inline-flex items-center px-3 py-1 bg-[#111827] border border-[#1F2937] rounded-full hover:border-[#00FF88]/50 transition-colors duration-300 group text-xs md:text-sm">
+                    <span class="font-medium text-gray-100 group-hover:text-[#00FF88]">
                         {{ category.name }}
                     </span>
-                    <span class="ml-2 px-2 py-0.5 text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                    <span class="ml-2 px-2 py-0.5 text-[10px] bg-[#00FF88]/10 text-[#00FF88] rounded-full">
                         {{ category.post_count }}
                     </span>
                 </a>
@@ -42,14 +42,14 @@
         </div>
         {% endif %}
 
-        <!-- Search and Filter Section (compacte) -->
+        <!-- Search Section -->
         <div class="mb-6">
             <div class="max-w-lg mx-auto">
                 <div class="relative">
                     <input type="text" 
                            id="searchInput"
                            placeholder="Rechercher un article..." 
-                           class="w-full px-3 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white text-sm md:text-base transition-all duration-300">
+                           class="w-full px-3 py-2 pl-10 bg-[#111827] border border-[#1F2937] rounded-lg focus:ring-2 focus:ring-[#00FF88] focus:border-transparent text-gray-100 placeholder-gray-500 text-sm md:text-base transition-all duration-300">
                     <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -60,10 +60,9 @@
         <!-- Articles Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16" id="articlesGrid">
             {% for post in posts %}
-            <article class="group bg-white dark:bg-neutral-900 rounded-xl shadow-md hover:shadow-2xl border border-neutral-200 dark:border-neutral-800 transition-all duration-300 overflow-hidden flex flex-col">
-                <!-- Image Container (style aligné sur les services) -->
+            <article class="group bg-[#111827] rounded-xl shadow-md hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] border border-[#1F2937] hover:border-[#00FF88]/30 transition-all duration-300 overflow-hidden flex flex-col">
                 {% if post.thumbnail %}
-                <div class="relative h-44 overflow-hidden bg-neutral-900 dark:bg-neutral-900">
+                <div class="relative h-44 overflow-hidden bg-[#0D1117]">
                     <a href="{{ post.get_absolute_url }}">
                         <img class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" 
                              src="{{ post.thumbnail.url }}" 
@@ -71,10 +70,9 @@
                              loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none"></div>
                     </a>
-                    <!-- Category Badge -->
                     {% if post.categories.all %}
                     <div class="absolute top-4 left-4">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/20">
                             {{ post.categories.first.name }}
                         </span>
                     </div>
@@ -82,19 +80,18 @@
                 </div>
                 {% endif %}
 
-                <!-- Contenu aligné sur la carte service -->
                 <div class="p-4 lg:p-5 flex flex-col flex-1 items-center text-center">
-                    <h2 class="text-base lg:text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                    <h2 class="text-base lg:text-lg font-bold text-gray-100 mb-2 group-hover:text-[#00FF88] transition-colors">
                         {{ post.title }}
                     </h2>
-                    <p class="text-gray-600 dark:text-gray-300 text-xs lg:text-sm leading-relaxed mb-3 line-clamp-3">
+                    <p class="text-gray-400 text-xs lg:text-sm leading-relaxed mb-3 line-clamp-3">
                         {{ post.body|safe_excerpt:8 }}
                     </p>
                     <a
                       href="{{ post.get_absolute_url }}"
-                      class="mt-auto inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-full bg-neutral-100 dark:bg-neutral-800 text-brand-600 dark:text-brand-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                      class="mt-auto inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-full bg-[#0D1117] text-[#00FF88] hover:bg-[#00FF88]/10 border border-[#1F2937] hover:border-[#00FF88]/30 transition-colors"
                     >
-                      Lire l’article
+                      Lire l'article
                       <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                       </svg>
@@ -102,23 +99,21 @@
                 </div>
             </article>
             {% empty %}
-            <!-- Empty State -->
             <div class="col-span-full text-center py-16">
                 <div class="max-w-md mx-auto">
-                    <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-24 h-24 mx-auto text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Aucun article trouvé</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Les articles apparaîtront ici une fois publiés.</p>
+                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Aucun article trouvé</h3>
+                    <p class="text-gray-400">Les articles apparaîtront ici une fois publiés.</p>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <!-- Load More Button (if needed) -->
         {% if posts|length >= 6 %}
         <div class="text-center">
-            <button class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-300 transform hover:scale-105">
+            <button class="inline-flex items-center px-6 py-3 bg-[#00FF88] hover:bg-[#00FF88]/90 text-black font-bold rounded-lg transition-colors duration-300 transform hover:scale-105">
                 Charger plus d'articles
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -129,7 +124,6 @@
     </div>
 </div>
 
-<!-- JavaScript for Search Functionality -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
@@ -138,11 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     searchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase().trim();
-        
         articles.forEach(article => {
             const title = article.querySelector('h2').textContent.toLowerCase();
             const excerpt = article.querySelector('p').textContent.toLowerCase();
-            
             if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
                 article.style.display = 'block';
                 article.style.animation = 'fadeIn 0.5s ease-in-out';
@@ -153,25 +145,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add CSS animations
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    
     .line-clamp-3 {
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-    
-    article {
-        animation: fadeIn 0.6s ease-out;
-    }
-    
+    article { animation: fadeIn 0.6s ease-out; }
     article:nth-child(1) { animation-delay: 0.1s; }
     article:nth-child(2) { animation-delay: 0.2s; }
     article:nth-child(3) { animation-delay: 0.3s; }
@@ -181,4 +167,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 </script>
-{% endblock %} 
+{% endblock %}

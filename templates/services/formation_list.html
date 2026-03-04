@@ -5,18 +5,18 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Nos Formations</h1>
+    <h1 class="text-3xl font-syne font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Nos Formations</h1>
 
     <!-- Filtres -->
     <div class="mb-8">
         <div class="flex flex-wrap gap-4">
             <a href="{% url 'services:formation_list' %}" 
-               class="px-4 py-2 rounded-lg {% if not request.GET.level %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+               class="px-4 py-2 rounded-lg {% if not request.GET.level %}bg-[#00FF88] text-black font-bold{% else %}bg-[#111827] text-gray-300 border border-[#1F2937] hover:border-[#00FF88]/30{% endif %}">
                 Tous les niveaux
             </a>
             {% for value, label in levels.items %}
             <a href="?level={{ value }}" 
-               class="px-4 py-2 rounded-lg {% if request.GET.level == value %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+               class="px-4 py-2 rounded-lg {% if request.GET.level == value %}bg-[#00FF88] text-black font-bold{% else %}bg-[#111827] text-gray-300 border border-[#1F2937] hover:border-[#00FF88]/30{% endif %}">
                 {{ label }}
             </a>
             {% endfor %}
@@ -26,31 +26,31 @@
     <!-- Liste des formations -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for formation in formations %}
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-[#111827] rounded-lg shadow-lg overflow-hidden border border-[#1F2937] hover:border-[#00FF88]/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.1)] transition-all group">
             {% if formation.image %}
             <img src="{{ formation.image.url }}" alt="{{ formation.title }}" class="w-full h-48 object-cover">
             {% endif %}
             <div class="p-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-xl font-semibold">{{ formation.title }}</h2>
-                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                    <h2 class="text-xl font-semibold text-gray-100 group-hover:text-[#00FF88] transition-colors">{{ formation.title }}</h2>
+                    <span class="bg-[#00FF88]/10 text-[#00FF88] px-2 py-1 rounded-full text-sm border border-[#00FF88]/20">
                         {{ formation.get_level_display }}
                     </span>
                 </div>
-                <p class="text-gray-600 mb-4">{{ formation.description|truncatewords:30 }}</p>
+                <p class="text-gray-400 mb-4">{{ formation.description|truncatewords:30 }}</p>
                 <div class="flex justify-between items-center">
-                    <span class="text-blue-600 font-bold">{{ formation.price }} €</span>
-                    <span class="text-gray-500">{{ formation.duration }}</span>
+                    <span class="text-[#00FF88] font-bold">{{ formation.price }} €</span>
+                    <span class="text-gray-400">{{ formation.duration }}</span>
                 </div>
                 <a href="{% url 'services:formation_detail' formation.slug %}" 
-                   class="mt-4 block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                   class="mt-4 block text-center bg-[#00FF88] text-black font-bold py-2 rounded-lg hover:bg-[#00FF88]/90 transition">
                     En savoir plus
                 </a>
             </div>
         </div>
         {% empty %}
         <div class="col-span-3 text-center py-8">
-            <p class="text-gray-500">Aucune formation disponible pour le moment.</p>
+            <p class="text-gray-400">Aucune formation disponible pour le moment.</p>
         </div>
         {% endfor %}
     </div>
@@ -61,18 +61,16 @@
         <div class="flex gap-2">
             {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
-               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+               class="px-4 py-2 bg-[#111827] border border-[#1F2937] rounded-lg hover:border-[#00FF88]/30 text-gray-300">
                 Précédent
             </a>
             {% endif %}
-
-            <span class="px-4 py-2 bg-gray-200 rounded-lg">
+            <span class="px-4 py-2 bg-[#111827] border border-[#1F2937] rounded-lg text-gray-300">
                 Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
             </span>
-
             {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}{% if request.GET.level %}&level={{ request.GET.level }}{% endif %}" 
-               class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+               class="px-4 py-2 bg-[#111827] border border-[#1F2937] rounded-lg hover:border-[#00FF88]/30 text-gray-300">
                 Suivant
             </a>
             {% endif %}
@@ -80,4 +78,4 @@
     </div>
     {% endif %}
 </div>
-{% endblock %} 
+{% endblock %}
