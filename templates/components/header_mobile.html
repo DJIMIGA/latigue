@@ -11,11 +11,11 @@
             </a>
 
             <!-- Bouton hamburger animé -->
-            <button id="mobile-menu-toggle" class="relative w-10 h-10 flex items-center justify-center rounded-xl focus:outline-none group" style="background-color: #111827;" aria-label="Menu">
-                <div class="flex flex-col justify-center items-center w-5 h-5">
-                    <span id="bar1" class="block w-5 h-0.5 rounded-full transition-all duration-300 ease-in-out" style="background-color: #00FF88;"></span>
-                    <span id="bar2" class="block w-5 h-0.5 rounded-full mt-1.5 transition-all duration-300 ease-in-out" style="background-color: #00FF88;"></span>
-                    <span id="bar3" class="block w-3.5 h-0.5 rounded-full mt-1.5 transition-all duration-300 ease-in-out mr-auto" style="background-color: #00E5FF;"></span>
+            <button id="mobile-menu-toggle" class="relative w-11 h-11 flex items-center justify-center rounded-xl border border-[#1F2937] focus:outline-none" style="background-color: #111827;" aria-label="Menu">
+                <div class="flex flex-col justify-center items-center w-6 h-5">
+                    <span id="bar1" class="block w-6 h-[3px] rounded-full transition-all duration-300 ease-in-out" style="background-color: #00FF88;"></span>
+                    <span id="bar2" class="block w-6 h-[3px] rounded-full mt-1 transition-all duration-300 ease-in-out" style="background-color: #00FF88;"></span>
+                    <span id="bar3" class="block w-4 h-[3px] rounded-full mt-1 transition-all duration-300 ease-in-out" style="background-color: #00E5FF;"></span>
                 </div>
             </button>
         </div>
@@ -144,49 +144,4 @@
     </div>
 </div>
 
-<script>
-(function() {
-    const toggle = document.getElementById('mobile-menu-toggle');
-    const menu = document.getElementById('mobile-menu');
-    const close = document.getElementById('close-menu');
-    const overlay = document.getElementById('menu-overlay');
-    const bar1 = document.getElementById('bar1');
-    const bar2 = document.getElementById('bar2');
-    const bar3 = document.getElementById('bar3');
-
-    function openMenu() {
-        menu.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-        // Animate bars to X
-        bar1.style.transform = 'translateY(4px) rotate(45deg)';
-        bar2.style.opacity = '0';
-        bar3.style.transform = 'translateY(-8px) rotate(-45deg)';
-        bar3.style.width = '1.25rem';
-    }
-
-    function closeMenu() {
-        menu.classList.add('hidden');
-        document.body.style.overflow = '';
-        // Reset bars
-        bar1.style.transform = '';
-        bar2.style.opacity = '1';
-        bar3.style.transform = '';
-        bar3.style.width = '';
-    }
-
-    toggle.addEventListener('click', function() {
-        if (menu.classList.contains('hidden')) {
-            openMenu();
-        } else {
-            closeMenu();
-        }
-    });
-    close.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
-
-    // Close menu on link click
-    menu.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', closeMenu);
-    });
-})();
-</script>
+<!-- JS géré par header.js -->
