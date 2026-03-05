@@ -51,7 +51,7 @@
         {% if service.image %}
         <div class="mb-8">
             <img src="{{ service.image.url }}" alt="{{ service.title }}" 
-                 class="w-full h-48 sm:h-64 md:h-96 object-cover rounded-lg shadow-lg border border-[#1F2937] max-w-full">
+                 class="w-full h-auto max-h-64 sm:max-h-80 md:max-h-96 object-contain bg-[#0D1117] rounded-lg shadow-lg border border-[#1F2937] max-w-full">
         </div>
         {% endif %}
 
