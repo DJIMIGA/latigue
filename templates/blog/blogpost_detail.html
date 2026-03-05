@@ -48,8 +48,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen">
-    <div class="container mx-auto px-4 py-8">
+<div class="min-h-screen overflow-x-hidden">
+    <div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-full">
         <!-- Breadcrumb -->
         <nav class="mb-8" aria-label="Breadcrumb">
             <ol class="flex flex-wrap items-center space-x-1 sm:space-x-2 text-sm">
@@ -159,8 +159,8 @@
             {% endif %}
 
             <!-- Content -->
-            <div class="p-4 md:p-8">
-                <div class="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-invert prose-headings:text-gray-100 prose-p:text-gray-300 prose-a:text-[#00FF88] prose-strong:text-gray-100 prose-code:bg-[#0D1117] prose-code:text-gray-200 prose-pre:bg-[#0D1117]">
+            <div class="p-3 sm:p-4 md:p-8 overflow-hidden">
+                <div class="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-invert prose-headings:text-gray-100 prose-p:text-gray-300 prose-a:text-[#00FF88] prose-strong:text-gray-100 prose-code:bg-[#0D1117] prose-code:text-gray-200 prose-pre:bg-[#0D1117] break-words">
                     {{ post.body|safe }}
                 </div>
             </div>
@@ -215,10 +215,13 @@
 </div>
 
 <style>
-.prose { line-height: 1.75; word-wrap: break-word; overflow-wrap: break-word; }
-.prose img { max-width: 100%; height: auto; }
-.prose pre { max-width: 100%; overflow-x: auto; }
-.prose table { display: block; max-width: 100%; overflow-x: auto; }
+.prose { line-height: 1.75; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; }
+.prose img { max-width: 100% !important; height: auto !important; }
+.prose pre { max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.prose iframe, .prose video, .prose embed, .prose object { max-width: 100% !important; }
+.prose * { max-width: 100%; box-sizing: border-box; }
+.codehilite { max-width: 100%; overflow-x: auto; }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
     margin-top: 1.5rem; margin-bottom: 0.75rem; font-weight: 600;
     scroll-margin-top: 6rem;
