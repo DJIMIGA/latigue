@@ -335,14 +335,14 @@
       <!-- Timeline -->
       <div class="relative">
         <!-- Ligne de timeline -->
-        <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#00FF88] to-[#00E5FF]"></div>
+        <div class="absolute left-2.5 md:left-4 lg:left-1/2 transform lg:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#00FF88] to-[#00E5FF]"></div>
         
         <!-- Événements timeline -->
         <div class="space-y-8">
           {% for experience in experiences %}
           <div class="relative flex items-center lg:justify-between {% if experience.position == 'right' %}lg:flex-row-reverse{% endif %} group animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.1"|floatformat:1 }}s;">
-            <div class="flex items-center lg:w-5/12 {% if experience.position == 'right' %}lg:justify-end{% endif %}">
-              <div class="bg-[#111827] rounded-xl p-6 shadow-lg border border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.15)] transition-all duration-300 hover:scale-105">
+            <div class="flex items-center ml-6 md:ml-10 lg:ml-0 lg:w-5/12 {% if experience.position == 'right' %}lg:justify-end{% endif %}">
+              <div class="bg-[#111827] rounded-xl p-4 md:p-6 shadow-lg border border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.15)] transition-all duration-300 hover:scale-105">
                 <div class="flex items-start space-x-3 mb-3">
                   <div class="w-12 h-12 flex items-center justify-center overflow-hidden {% if not experience.logo %}p-1{% endif %}">
                     {% if experience.logo %}
@@ -364,7 +364,7 @@
             </div>
             
             <!-- Point de timeline -->
-            <div class="absolute left-4 lg:left-1/2 transform lg:-translate-x-1/2 w-8 h-8 {% if experience.position == 'right' %}bg-gradient-to-br from-[#00E5FF] to-[#00FF88]{% else %}bg-gradient-to-br from-[#00FF88] to-[#00E5FF]{% endif %} rounded-full border-4 border-[#060810] shadow-lg group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(0,255,136,0.5)] transition-all duration-300"></div>
+            <div class="absolute left-2.5 md:left-4 lg:left-1/2 transform lg:-translate-x-1/2 -translate-x-1/2 md:translate-x-0 w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 {% if experience.position == 'right' %}bg-gradient-to-br from-[#00E5FF] to-[#00FF88]{% else %}bg-gradient-to-br from-[#00FF88] to-[#00E5FF]{% endif %} rounded-full border-2 md:border-4 border-[#060810] shadow-lg group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(0,255,136,0.5)] transition-all duration-300"></div>
           </div>
           {% empty %}
           <p class="text-center text-gray-300">Aucune expérience à afficher pour le moment.</p>

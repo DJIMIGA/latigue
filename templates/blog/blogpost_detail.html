@@ -215,7 +215,10 @@
 </div>
 
 <style>
-.prose { line-height: 1.75; }
+.prose { line-height: 1.75; word-wrap: break-word; overflow-wrap: break-word; }
+.prose img { max-width: 100%; height: auto; }
+.prose pre { max-width: 100%; overflow-x: auto; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
     margin-top: 1.5rem; margin-bottom: 0.75rem; font-weight: 600;
     scroll-margin-top: 6rem;
