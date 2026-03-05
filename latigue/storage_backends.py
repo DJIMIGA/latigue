@@ -9,20 +9,21 @@ logger = logging.getLogger(__name__)
 class MediaStorage(S3Boto3Storage):
     """
     Stockage pour les fichiers médias (images, vidéos, documents uploadés par les utilisateurs).
-    Les URLs sont signées (querystring_auth=True) pour un accès sécurisé.
+    Compatible AWS S3 et MinIO (S3-compatible).
     """
-    location = 'media'  # Dossier racine dans votre bucket S3 pour les médias
-    file_overwrite = False  # Ne pas écraser les fichiers existants par défaut
-    default_acl = 'private'  # Fichiers privés par défaut (nécessite URLs signées)
+    location = 'media'
+    file_overwrite = False
+    default_acl = None
     bucket_name = settings.AWS_STORAGE_BUCKET_NAME
     region_name = settings.AWS_S3_REGION_NAME
     custom_domain = settings.AWS_S3_CUSTOM_DOMAIN
-    querystring_auth = True  # Génère des URLs signées (URLs temporaires et sécurisées)
+    endpoint_url = getattr(settings, 'AWS_S3_ENDPOINT_URL', None)
+    querystring_auth = False
     object_parameters = settings.AWS_S3_OBJECT_PARAMETERS
     access_key = settings.AWS_ACCESS_KEY_ID
     secret_key = settings.AWS_SECRET_ACCESS_KEY
-    auto_create_bucket = False  # Ne pas créer automatiquement (sécurité)
-    auto_create_acl = False  # Ne pas créer automatiquement les ACL
+    auto_create_bucket = False
+    auto_create_acl = False
     
     def save(self, name, content, max_length=None):
         """Surcharge pour ajouter des logs lors de l'upload"""

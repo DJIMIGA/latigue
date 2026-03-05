@@ -230,6 +230,7 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'eu-west-3')  # Région par défaut
+AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', None)  # Pour MinIO / S3 compatible
 
 # Configuration conditionnelle du stockage
 # Permet de forcer l'utilisation de S3 même en local pour les tests
@@ -242,7 +243,7 @@ if DEBUG:
     print(f"[DEBUG] S3 - AWS_STORAGE_BUCKET_NAME: {'Defini' if AWS_STORAGE_BUCKET_NAME else 'Non defini'}")
     print(f"[DEBUG] S3 - USE_S3_STORAGE: {USE_S3_STORAGE}")
 
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' if AWS_STORAGE_BUCKET_NAME else None
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' if AWS_STORAGE_BUCKET_NAME else None)
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',  # Cache de 24h
 }
