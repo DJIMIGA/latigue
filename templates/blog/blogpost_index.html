@@ -61,7 +61,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16" id="articlesGrid">
             {% for post in posts %}
             <article class="group bg-[#111827] rounded-xl shadow-md hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] border border-[#1F2937] hover:border-[#00FF88]/30 transition-all duration-300 overflow-hidden flex flex-col">
-                {% if post.thumbnail %}
+                {% if post.thumbnail and post.thumbnail.name %}
                 <div class="relative h-44 overflow-hidden bg-[#0D1117]">
                     <a href="{{ post.get_absolute_url }}">
                         <img class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" 
