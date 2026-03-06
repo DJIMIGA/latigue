@@ -8,17 +8,18 @@ logger = logging.getLogger(__name__)
 
 class MediaStorage(S3Boto3Storage):
     """
-    Stockage pour les fichiers médias (images, vidéos, documents uploadés par les utilisateurs).
-    Compatible AWS S3 et MinIO (S3-compatible).
+    Stockage pour les fichiers médias. Compatible AWS S3 et MinIO.
     """
     location = 'media'
     file_overwrite = False
     default_acl = None
     bucket_name = settings.AWS_STORAGE_BUCKET_NAME
     region_name = settings.AWS_S3_REGION_NAME
-    custom_domain = settings.AWS_S3_CUSTOM_DOMAIN
     endpoint_url = getattr(settings, 'AWS_S3_ENDPOINT_URL', None)
-    querystring_auth = False
+    # Pas de custom_domain avec MinIO — on utilise les URLs signées via endpoint
+    custom_domain = None
+    querystring_auth = True
+    querystring_expire = 3600  # URLs valides 1h
     object_parameters = settings.AWS_S3_OBJECT_PARAMETERS
     access_key = settings.AWS_ACCESS_KEY_ID
     secret_key = settings.AWS_SECRET_ACCESS_KEY
