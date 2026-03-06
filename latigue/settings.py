@@ -243,7 +243,15 @@ if DEBUG:
     print(f"[DEBUG] S3 - AWS_STORAGE_BUCKET_NAME: {'Defini' if AWS_STORAGE_BUCKET_NAME else 'Non defini'}")
     print(f"[DEBUG] S3 - USE_S3_STORAGE: {USE_S3_STORAGE}")
 
-AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' if AWS_STORAGE_BUCKET_NAME else None)
+_env_custom_domain = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '')
+if _env_custom_domain and AWS_STORAGE_BUCKET_NAME:
+    # MinIO path-style: domain/bucket
+    AWS_S3_CUSTOM_DOMAIN = f'{_env_custom_domain}/{AWS_STORAGE_BUCKET_NAME}'
+elif AWS_STORAGE_BUCKET_NAME:
+    # AWS virtual-host style: bucket.s3.amazonaws.com
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+else:
+    AWS_S3_CUSTOM_DOMAIN = None
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',  # Cache de 24h
 }
