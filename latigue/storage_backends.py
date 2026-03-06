@@ -10,7 +10,7 @@ class MediaStorage(S3Boto3Storage):
     """
     Stockage pour les fichiers médias. Compatible AWS S3 et MinIO.
     """
-    location = ''
+    location = 'media'
     file_overwrite = False
     default_acl = None
     bucket_name = settings.AWS_STORAGE_BUCKET_NAME
