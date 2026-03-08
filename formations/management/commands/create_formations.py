@@ -13,12 +13,12 @@ class Command(BaseCommand):
                 'price': 65000.00,
                 'duration': '20 heures',
                 'description': '''
-                <h3>Initiez-vous à l'IA générative et à la programmation assistée</h3>
-                <p>Cette formation est conçue pour les grands débutants. Vous apprendrez les bases de l'IA générative, comment préparer votre environnement de travail et faire vos premiers pas dans la création de code avec l'aide de l'IA.</p>
+                <h3>Apprenez le Vibe Coding — Créez des applications en parlant à l'IA</h3>
+                <p>Cette formation est conçue pour les grands débutants. Grâce au <strong>vibe coding</strong>, vous apprendrez à créer des applications en décrivant simplement ce que vous voulez à une IA. Plus besoin de tout taper ligne par ligne — l'IA code pour vous, vous guidez.</p>
                 <ul>
-                    <li>Comprendre les modèles d'IA générative</li>
-                    <li>Découvrir les outils modernes d'assistance au code</li>
-                    <li>Installer et configurer votre environnement de développement</li>
+                    <li>Maîtriser Antigravity, l'IDE IA gratuit de Google</li>
+                    <li>Créer votre première application Django par le dialogue</li>
+                    <li>Comprendre le code généré et savoir l'améliorer</li>
                 </ul>
                 ''',
                 'prerequisites': '''
@@ -26,32 +26,58 @@ class Command(BaseCommand):
                     <li>Aucune expérience en programmation requise</li>
                     <li>Curiosité et motivation</li>
                     <li>Un ordinateur avec accès internet</li>
+                    <li>Un compte Google (pour Antigravity, gratuit)</li>
                 </ul>
                 ''',
                 'program': '''
-                <h3>Programme</h3>
-                <h4>Module 1 : Les Fondamentaux et l'Installation</h4>
+                <h3>Programme — Vibe Coding avec l'IA</h3>
+
+                <h4>Module 1 : Votre Environnement de Vibe Coding (4h)</h4>
                 <ul>
-                    <li><strong>Qu'est-ce que l'IA générative ?</strong> Son rôle pour les développeurs.</li>
+                    <li><strong>Le Vibe Coding, c'est quoi ?</strong> Coder en décrivant ce qu'on veut à l'IA — la révolution du développement.</li>
                     <li><strong>Installation de Python :</strong> La base de tout notre travail.</li>
-                    <li><strong>Mise en place d'un IDE :</strong> Installation et configuration de VS Code.</li>
-                    <li><strong>Votre IA en local (sans internet) :</strong> Installation d'un outil comme Ollama pour utiliser des modèles de code en local.</li>
-                    <li><strong>Configuration des assistants IA :</strong> Lier l'IA locale à votre éditeur de code.</li>
+                    <li><strong>Découverte d'Antigravity :</strong> L'IDE IA gratuit de Google — installation et premier lancement.</li>
+                    <li><strong>L'interface Editor :</strong> Naviguer dans l'éditeur, le terminal, la sidebar agent.</li>
+                    <li><strong>Votre premier prompt :</strong> Demander à l'IA de générer du code et comprendre le résultat.</li>
                 </ul>
 
-                <h4>Module 2 : Votre Premier Projet Django avec l'IA</h4>
+                <h4>Module 2 : Maîtriser les Agents IA (4h)</h4>
                 <ul>
-                    <li><strong>Création du projet :</strong> Initialiser un projet Django simple.</li>
-                    <li><strong>Générer votre première vue :</strong> Utiliser l'IA pour créer la logique d'une page.</li>
-                    <li><strong>Définir votre première URL :</strong> Connecter une URL à votre vue.</li>
-                    <li><strong>Construire votre premier template :</strong> Créer le fichier HTML qui sera affiché.</li>
-                    <li><strong>Le cycle complet :</strong> Comprendre comment l'URL, la vue et le template fonctionnent ensemble.</li>
+                    <li><strong>Tab completions :</strong> L'IA complète votre code en temps réel.</li>
+                    <li><strong>Commandes inline :</strong> Modifier, corriger et améliorer du code par le dialogue.</li>
+                    <li><strong>L'art du prompt :</strong> Écrire des instructions claires pour obtenir du bon code.</li>
+                    <li><strong>Les Artifacts :</strong> Comprendre les plans, screenshots et rapports générés par l'agent.</li>
+                    <li><strong>Exercice pratique :</strong> Créer un script Python utile entièrement par le dialogue.</li>
+                </ul>
+
+                <h4>Module 3 : Votre Premier Projet Django en Vibe Coding (8h)</h4>
+                <ul>
+                    <li><strong>Créer un projet Django :</strong> Demander à l'agent de générer la structure complète.</li>
+                    <li><strong>Générer vos vues :</strong> Décrire les pages souhaitées, l'IA code la logique.</li>
+                    <li><strong>Créer vos templates :</strong> L'IA génère le HTML/CSS à partir de vos descriptions.</li>
+                    <li><strong>Le cycle URL → Vue → Template :</strong> Comprendre comment tout s'assemble.</li>
+                    <li><strong>Itérer par le dialogue :</strong> Modifier le design et les fonctionnalités en parlant à l'agent.</li>
+                </ul>
+
+                <h4>Module 4 : Projet Final — Votre Application Personnelle (4h)</h4>
+                <ul>
+                    <li><strong>Choisir son projet :</strong> Portfolio, blog, outil perso — vous décidez.</li>
+                    <li><strong>Développement autonome :</strong> Construire l'app de A à Z avec l'agent IA.</li>
+                    <li><strong>Présentation :</strong> Montrer votre création au groupe.</li>
+                </ul>
+
+                <h4>Outils utilisés (tous gratuits)</h4>
+                <ul>
+                    <li><strong>Antigravity</strong> — IDE IA de Google (gratuit, modèles premium inclus)</li>
+                    <li><strong>Python</strong> — Langage de programmation</li>
+                    <li><strong>Django</strong> — Framework web</li>
                 </ul>
 
                 <h4>Formats pédagogiques</h4>
                 <ul>
                     <li>Vidéos courtes et pas à pas</li>
-                    <li>Fiches pratiques téléchargeables</li>
+                    <li>Exercices guidés en vibe coding</li>
+                    <li>Projet personnel accompagné</li>
                     <li>Quiz interactifs</li>
                 </ul>
                 '''
