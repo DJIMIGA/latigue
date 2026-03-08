@@ -10,7 +10,7 @@ class Command(BaseCommand):
             {
                 'title': "Formule Initiation : Découvrez le code avec l'IA",
                 'level': 'debutant',
-                'price': 65000.00,
+                'price': 10000.00,
                 'duration': '12 heures',
                 'description': '''
                 <h3>Apprenez le Vibe Coding — Créez des applications en parlant à l'IA</h3>
@@ -85,7 +85,7 @@ class Command(BaseCommand):
             {
                 'title': "Formule Création : Réalisez votre première application IA",
                 'level': 'intermediaire',
-                'price': 130000.00,
+                'price': 25000.00,
                 'duration': '40 heures',
                 'description': '''
                 <h3>Passez à l'action avec un projet concret</h3>
@@ -135,7 +135,7 @@ class Command(BaseCommand):
             {
                 'title': "Formule Maîtrise : Devenez autonome et performant avec l'IA",
                 'level': 'avance',
-                'price': 260000.00,
+                'price': 50000.00,
                 'duration': '60 heures',
                 'description': '''
                 <h3>Atteignez l'excellence avec l'IA dans vos projets</h3>
