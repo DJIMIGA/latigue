@@ -1,6 +1,6 @@
 # 📚 Formule Initiation : Le Vibe Coding avec l'IA
 
-## Formation Niveau 1 — 20 heures
+## Formation Niveau 1 — 12 heures
 
 **Public :** Grands débutants, aucune expérience requise
 **Prérequis :** Un ordinateur (Windows, Mac ou Linux) + internet + un compte Google gratuit
@@ -9,7 +9,7 @@
 
 ---
 
-# 🟢 MODULE 1 : Votre Environnement de Vibe Coding (4h)
+# 🟢 MODULE 1 : Votre Environnement de Vibe Coding (2h)
 
 ## 1.1 — Le Vibe Coding, c'est quoi ?
 
@@ -166,7 +166,7 @@ Observez :
 
 ---
 
-# 🟡 MODULE 2 : Maîtriser les Agents IA (4h)
+# 🟡 MODULE 2 : Maîtriser les Agents IA (3h)
 
 ## 2.1 — Tab Completions : l'IA lit dans vos pensées
 
@@ -296,7 +296,7 @@ Créez **entièrement par le dialogue** (sans taper une seule ligne de code vous
 
 ---
 
-# 🔴 MODULE 3 : Votre Premier Projet Django en Vibe Coding (8h)
+# 🔴 MODULE 3 : Votre Premier Projet Django en Vibe Coding (5h)
 
 ## 3.1 — C'est quoi Django ?
 
@@ -469,7 +469,7 @@ Améliorez votre site avec **au moins 5 modifications** demandées à l'IA. Soye
 
 ---
 
-# 🏆 MODULE 4 : Projet Final — Votre Application Personnelle (4h)
+# 🏆 MODULE 4 : Projet Final — Votre Application Personnelle (2h)
 
 ## 4.1 — Choisir votre projet
 

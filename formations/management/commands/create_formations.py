@@ -11,7 +11,7 @@ class Command(BaseCommand):
                 'title': "Formule Initiation : Découvrez le code avec l'IA",
                 'level': 'debutant',
                 'price': 65000.00,
-                'duration': '20 heures',
+                'duration': '12 heures',
                 'description': '''
                 <h3>Apprenez le Vibe Coding — Créez des applications en parlant à l'IA</h3>
                 <p>Cette formation est conçue pour les grands débutants. Grâce au <strong>vibe coding</strong>, vous apprendrez à créer des applications en décrivant simplement ce que vous voulez à une IA. Plus besoin de tout taper ligne par ligne — l'IA code pour vous, vous guidez.</p>
@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 'program': '''
                 <h3>Programme — Vibe Coding avec l'IA</h3>
 
-                <h4>Module 1 : Votre Environnement de Vibe Coding (4h)</h4>
+                <h4>Module 1 : Votre Environnement de Vibe Coding (2h)</h4>
                 <ul>
                     <li><strong>Le Vibe Coding, c'est quoi ?</strong> Coder en décrivant ce qu'on veut à l'IA — la révolution du développement.</li>
                     <li><strong>Installation de Python :</strong> La base de tout notre travail.</li>
@@ -41,7 +41,7 @@ class Command(BaseCommand):
                     <li><strong>Votre premier prompt :</strong> Demander à l'IA de générer du code et comprendre le résultat.</li>
                 </ul>
 
-                <h4>Module 2 : Maîtriser les Agents IA (4h)</h4>
+                <h4>Module 2 : Maîtriser les Agents IA (3h)</h4>
                 <ul>
                     <li><strong>Tab completions :</strong> L'IA complète votre code en temps réel.</li>
                     <li><strong>Commandes inline :</strong> Modifier, corriger et améliorer du code par le dialogue.</li>
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                     <li><strong>Exercice pratique :</strong> Créer un script Python utile entièrement par le dialogue.</li>
                 </ul>
 
-                <h4>Module 3 : Votre Premier Projet Django en Vibe Coding (8h)</h4>
+                <h4>Module 3 : Votre Premier Projet Django en Vibe Coding (5h)</h4>
                 <ul>
                     <li><strong>Créer un projet Django :</strong> Demander à l'agent de générer la structure complète.</li>
                     <li><strong>Générer vos vues :</strong> Décrire les pages souhaitées, l'IA code la logique.</li>
@@ -59,7 +59,7 @@ class Command(BaseCommand):
                     <li><strong>Itérer par le dialogue :</strong> Modifier le design et les fonctionnalités en parlant à l'agent.</li>
                 </ul>
 
-                <h4>Module 4 : Projet Final — Votre Application Personnelle (4h)</h4>
+                <h4>Module 4 : Projet Final — Votre Application Personnelle (2h)</h4>
                 <ul>
                     <li><strong>Choisir son projet :</strong> Portfolio, blog, outil perso — vous décidez.</li>
                     <li><strong>Développement autonome :</strong> Construire l'app de A à Z avec l'agent IA.</li>
