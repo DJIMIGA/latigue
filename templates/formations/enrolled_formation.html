@@ -6,68 +6,175 @@
 <div class="min-h-screen bg-[#060810]">
     <div class="container mx-auto px-4 py-12">
         <!-- Breadcrumb -->
-        <div class="flex items-center text-sm text-gray-500 mb-6 space-x-2">
+        <nav class="flex items-center text-sm text-gray-500 mb-8 space-x-2">
             <a href="{% url 'formations:student_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Élève</a>
-            <span>/</span>
+            <svg class="w-3.5 h-3.5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             <span class="text-gray-300">{{ formation.title }}</span>
-        </div>
+        </nav>
 
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-3">{{ formation.title }}</h1>
-            <div class="flex items-center space-x-4 mb-4">
-                <span class="text-xs bg-[#00FF88]/10 text-[#00FF88] px-3 py-1 rounded-full border border-[#00FF88]/20">{{ formation.get_level_display }}</span>
-                <span class="text-gray-400 text-sm">{{ formation.duration }}</span>
-            </div>
-            <!-- Overall progress -->
-            <div class="bg-[#111827] rounded-lg p-4 border border-[#1F2937]">
-                <div class="flex justify-between text-sm mb-2">
-                    <span class="text-gray-400">Progression globale</span>
-                    <span class="text-[#00FF88] font-bold" id="overall-progress">{{ progress }}%</span>
-                </div>
-                <div class="w-full bg-[#1F2937] rounded-full h-3">
-                    <div class="h-3 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF] transition-all duration-500" style="width: {{ progress }}%" id="overall-bar"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modules accordion -->
-        <div class="space-y-4">
-            {% for item in module_data %}
-            <div class="bg-[#111827] rounded-xl border border-[#1F2937] overflow-hidden">
-                <button onclick="toggleModule({{ item.module.id }})" class="w-full flex items-center justify-between p-5 text-left hover:bg-[#1F2937]/30 transition">
-                    <div class="flex items-center space-x-3">
-                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#00FF88]/10 text-[#00FF88] flex items-center justify-center text-sm font-bold">{{ item.module.order }}</span>
-                        <div>
-                            <h3 class="font-bold text-gray-100">{{ item.module.title }}</h3>
-                            <p class="text-xs text-gray-500 mt-1">{{ item.done }}/{{ item.total }} leçons • {{ item.progress }}%{% if item.module.is_free %} <span class="text-[#00E5FF]">• Gratuit</span>{% endif %}</p>
-                        </div>
-                    </div>
-                    <svg id="chevron-{{ item.module.id }}" class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="module-{{ item.module.id }}" class="hidden border-t border-[#1F2937]">
-                    {% for l in item.lessons %}
-                    <a href="{% url 'formations:lesson_detail' formation.slug l.lesson.id %}" 
-                       class="flex items-center justify-between px-5 py-3 hover:bg-[#1F2937]/50 transition border-b border-[#1F2937]/50 last:border-0">
-                        <div class="flex items-center space-x-3">
-                            <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg">
-                                {% if l.completed %}✅
-                                {% elif l.lesson.lesson_type == 'video' %}🎥
-                                {% elif l.lesson.lesson_type == 'quiz' %}📝
-                                {% else %}📄{% endif %}
+        <!-- Hero header -->
+        <div class="relative mb-10 bg-[#111827] rounded-2xl border border-[#1F2937] overflow-hidden">
+            <!-- Subtle gradient accent -->
+            <div class="absolute inset-0 bg-gradient-to-br from-[#00FF88]/5 via-transparent to-[#00E5FF]/5 pointer-events-none"></div>
+            <div class="relative p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                            <span class="text-xs bg-[#00FF88]/10 text-[#00FF88] px-3 py-1 rounded-full border border-[#00FF88]/20 font-medium">{{ formation.get_level_display }}</span>
+                            {% if formation.duration %}
+                            <span class="text-xs text-gray-400 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                {{ formation.duration }}
                             </span>
-                            <div>
-                                <span class="text-sm text-gray-200">{{ l.lesson.title }}</span>
-                                <span class="text-xs text-gray-500 ml-2">{% if l.lesson.duration_minutes %}{{ l.lesson.duration_minutes }} min{% endif %}</span>
+                            {% endif %}
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-syne font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF] mb-2">{{ formation.title }}</h1>
+                        {% if formation.description %}
+                        <p class="text-gray-400 text-sm leading-relaxed max-w-2xl line-clamp-2">{{ formation.description|truncatewords:30 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Progress ring -->
+                    <div class="flex-shrink-0 flex flex-col items-center">
+                        <div class="relative w-24 h-24">
+                            <svg class="w-24 h-24 -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="42" fill="none" stroke="#1F2937" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="42" fill="none" stroke="url(#progressGrad)" stroke-width="8"
+                                    stroke-linecap="round"
+                                    stroke-dasharray="{{ progress|floatformat:0 }}{% widthratio progress 100 264 %} 264"
+                                    style="stroke-dasharray: {% widthratio progress 100 264 %} 264;"
+                                    class="transition-all duration-700"/>
+                                <defs>
+                                    <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#00FF88"/>
+                                        <stop offset="100%" stop-color="#00E5FF"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-xl font-bold text-white" id="overall-progress">{{ progress }}%</span>
                             </div>
                         </div>
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        <span class="text-xs text-gray-500 mt-2">Progression</span>
+                    </div>
+                </div>
+
+                <!-- Stats row -->
+                <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-[#1F2937]">
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-white">{{ module_data|length }}</div>
+                        <div class="text-xs text-gray-500">Module{{ module_data|length|pluralize }}</div>
+                    </div>
+                    <div class="text-center border-x border-[#1F2937]">
+                        {% with total_lessons=0 total_done=0 %}
+                        <div class="text-lg font-bold text-white" id="stat-lessons">
+                            <span class="text-[#00FF88]" id="stat-done">—</span> / <span id="stat-total">—</span>
+                        </div>
+                        {% endwith %}
+                        <div class="text-xs text-gray-500">Leçons terminées</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-white">
+                            {% if progress == 100 %}
+                            <span class="text-[#00FF88]">Terminé</span>
+                            {% elif progress > 0 %}
+                            <span class="text-[#00E5FF]">En cours</span>
+                            {% else %}
+                            <span class="text-gray-400">Nouveau</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-xs text-gray-500">Statut</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modules -->
+        <div class="space-y-4">
+            {% for item in module_data %}
+            <div class="group bg-[#111827] rounded-2xl border border-[#1F2937] overflow-hidden hover:border-[#1F2937]/80 transition-colors">
+                <!-- Module header -->
+                <button onclick="toggleModule({{ item.module.id }})"
+                        class="w-full flex items-center justify-between p-5 md:p-6 text-left hover:bg-[#1F2937]/20 transition-colors">
+                    <div class="flex items-center gap-4 flex-1 min-w-0">
+                        <!-- Module number -->
+                        <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-[#00FF88]/15 to-[#00E5FF]/10 border border-[#00FF88]/20 flex items-center justify-center">
+                            <span class="text-sm font-bold text-[#00FF88]">{{ item.module.order }}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-bold text-gray-100 truncate">{{ item.module.title }}</h3>
+                            <div class="flex items-center gap-3 mt-1.5">
+                                <span class="text-xs text-gray-500">{{ item.done }}/{{ item.total }} leçons</span>
+                                {% if item.module.is_free %}
+                                <span class="text-xs text-[#00E5FF] bg-[#00E5FF]/10 px-2 py-0.5 rounded-full">Gratuit</span>
+                                {% endif %}
+                                <!-- Mini progress bar -->
+                                <div class="hidden sm:flex items-center gap-2 flex-1 max-w-[120px]">
+                                    <div class="flex-1 bg-[#1F2937] rounded-full h-1.5">
+                                        <div class="h-1.5 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF] transition-all duration-500" style="width: {{ item.progress }}%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 tabular-nums">{{ item.progress }}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 ml-4">
+                        {% if item.progress == 100 %}
+                        <span class="hidden md:flex items-center gap-1 text-xs text-[#00FF88] bg-[#00FF88]/10 px-2.5 py-1 rounded-full">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            Terminé
+                        </span>
+                        {% endif %}
+                        <svg id="chevron-{{ item.module.id }}" class="w-5 h-5 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </a>
-                    {% endfor %}
+                    </div>
+                </button>
+
+                <!-- Lessons list -->
+                <div id="module-{{ item.module.id }}" class="hidden">
+                    <div class="border-t border-[#1F2937]">
+                        {% for l in item.lessons %}
+                        <a href="{% url 'formations:lesson_detail' formation.slug l.lesson.id %}"
+                           class="flex items-center gap-4 px-5 md:px-6 py-3.5 hover:bg-[#0D1117]/60 transition-colors border-b border-[#1F2937]/40 last:border-b-0 group/lesson">
+                            <!-- Status icon -->
+                            <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center
+                                {% if l.completed %}bg-[#00FF88]/10{% else %}bg-[#1F2937]{% endif %}">
+                                {% if l.completed %}
+                                <svg class="w-4 h-4 text-[#00FF88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                {% elif l.lesson.lesson_type == 'video' %}
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                {% elif l.lesson.lesson_type == 'quiz' %}
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                {% else %}
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <!-- Lesson info -->
+                            <div class="flex-1 min-w-0">
+                                <span class="text-sm {% if l.completed %}text-gray-400{% else %}text-gray-200{% endif %} group-hover/lesson:text-white transition-colors">{{ l.lesson.title }}</span>
+                            </div>
+                            <!-- Duration + arrow -->
+                            <div class="flex items-center gap-3 flex-shrink-0">
+                                {% if l.lesson.duration_minutes %}
+                                <span class="text-xs text-gray-600">{{ l.lesson.duration_minutes }} min</span>
+                                {% endif %}
+                                <svg class="w-4 h-4 text-gray-600 group-hover/lesson:text-[#00FF88] group-hover/lesson:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -82,10 +189,28 @@ function toggleModule(id) {
     el.classList.toggle('hidden');
     chevron.classList.toggle('rotate-180');
 }
-// Open first module by default
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Compute lesson stats
+    let totalLessons = 0, doneLessons = 0;
+    {% for item in module_data %}
+    totalLessons += {{ item.total }};
+    doneLessons += {{ item.done }};
+    {% endfor %}
+    const statDone = document.getElementById('stat-done');
+    const statTotal = document.getElementById('stat-total');
+    if (statDone) statDone.textContent = doneLessons;
+    if (statTotal) statTotal.textContent = totalLessons;
+
+    // Open first incomplete module (or first module if all complete)
+    let opened = false;
+    {% for item in module_data %}
+    {% if item.progress < 100 %}
+    if (!opened) { toggleModule({{ item.module.id }}); opened = true; }
+    {% endif %}
+    {% endfor %}
     {% if module_data %}
-    toggleModule({{ module_data.0.module.id }});
+    if (!opened) { toggleModule({{ module_data.0.module.id }}); }
     {% endif %}
 });
 </script>
