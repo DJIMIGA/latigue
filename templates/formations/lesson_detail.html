@@ -186,7 +186,7 @@
                             </div>
 
                             <!-- Leçons du module -->
-                            {% for les in mod.lesson_set.all %}
+                            {% for les in mod.lessons.all %}
                             <a href="{% url 'formations:lesson_detail' formation.slug les.id %}"
                                class="flex items-center gap-3 px-4 py-2.5 border-b transition-all duration-200"
                                style="border-color: #0a0f1a; 
