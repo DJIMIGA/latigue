@@ -427,5 +427,6 @@ LOGGING = {
     },
 }
 # Auth
-LOGIN_URL = "/admin/login/"
-LOGIN_REDIRECT_URL = "/marketing/"
+LOGIN_URL = "/connexion/"
+LOGIN_REDIRECT_URL = "/formations/espace-eleve/"
+LOGOUT_REDIRECT_URL = "/"

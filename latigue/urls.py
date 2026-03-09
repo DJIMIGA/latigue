@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.conf import settings
@@ -51,6 +52,8 @@ urlpatterns = [
     path('formations/', include('formations.urls')),
     path('chatbot/', include('chatbot.urls')),
     path('marketing/', include('marketing.urls')),
+    path('connexion/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
+    path('deconnexion/', auth_views.LogoutView.as_view(), name='logout'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     # Sitemap pour le SEO
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

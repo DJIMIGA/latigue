@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion — BoliBana{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center px-4 py-20">
+    <div class="w-full max-w-md">
+        <!-- Card -->
+        <div class="bg-[#111827] rounded-2xl p-8 border border-[#1F2937] shadow-2xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="text-4xl mb-3">🎓</div>
+                <h1 class="text-2xl font-bold text-white mb-2">Espace Élève</h1>
+                <p class="text-gray-400">Connectez-vous pour accéder à vos formations</p>
+            </div>
+
+            <!-- Erreurs -->
+            {% if form.errors %}
+            <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                Identifiant ou mot de passe incorrect.
+            </div>
+            {% endif %}
+
+            <!-- Formulaire -->
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-300 mb-2">Nom d'utilisateur</label>
+                    <input type="text" name="username" id="id_username" required autofocus
+                        class="w-full px-4 py-3 rounded-xl bg-[#0a0f1a] border border-[#1F2937] text-white placeholder-gray-500 focus:outline-none focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88] transition-all duration-300"
+                        placeholder="Votre identifiant">
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-sm font-medium text-gray-300 mb-2">Mot de passe</label>
+                    <input type="password" name="password" id="id_password" required
+                        class="w-full px-4 py-3 rounded-xl bg-[#0a0f1a] border border-[#1F2937] text-white placeholder-gray-500 focus:outline-none focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88] transition-all duration-300"
+                        placeholder="Votre mot de passe">
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3 rounded-xl bg-gradient-to-r from-[#00FF88] to-[#00E5FF] text-black font-bold text-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.4)] hover:scale-[1.02] transition-all duration-300">
+                    Se connecter
+                </button>
+
+                {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+                {% endif %}
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center">
+                <a href="{% url 'formations:formation_index' %}" class="text-sm text-gray-500 hover:text-[#00FF88] transition-colors">
+                    ← Retour aux formations
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

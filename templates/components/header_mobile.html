@@ -104,6 +104,36 @@
                         <p class="text-xs text-gray-500 mt-0.5">Python, Django & IA</p>
                     </div>
                 </a>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'formations:student_dashboard' %}" class="menu-item flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300" style="background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(0,229,255,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: rgba(0,229,255,0.1);">
+                        <span class="text-lg">🎓</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-white">Espace élève</span>
+                        <p class="text-xs text-gray-500 mt-0.5">Mes formations & progression</p>
+                    </div>
+                </a>
+                <a href="{% url 'logout' %}" class="menu-item flex items-center gap-4 px-5 py-3 rounded-2xl transition-all duration-300" style="background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(239,68,68,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: rgba(239,68,68,0.1);">
+                        <span class="text-lg">🚪</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-red-400">Déconnexion</span>
+                    </div>
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="menu-item flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300" style="background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(0,229,255,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: rgba(0,229,255,0.1);">
+                        <span class="text-lg">🔐</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-[#00E5FF]">Connexion</span>
+                        <p class="text-xs text-gray-500 mt-0.5">Accéder à mon espace</p>
+                    </div>
+                </a>
+                {% endif %}
             </div>
         </nav>
 
