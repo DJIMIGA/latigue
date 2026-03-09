@@ -52,7 +52,7 @@
                     <a href="{% url 'formations:lesson_detail' formation.slug l.lesson.id %}" 
                        class="flex items-center justify-between px-5 py-3 hover:bg-[#1F2937]/50 transition border-b border-[#1F2937]/50 last:border-0">
                         <div class="flex items-center space-x-3">
-                            <span class="text-lg">
+                            <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-lg">
                                 {% if l.completed %}✅
                                 {% elif l.lesson.lesson_type == 'video' %}🎥
                                 {% elif l.lesson.lesson_type == 'quiz' %}📝
