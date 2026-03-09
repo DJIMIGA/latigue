@@ -16,8 +16,15 @@
 
             <!-- Erreurs -->
             {% if form.errors %}
-            <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
-                Identifiant ou mot de passe incorrect.
+            <div class="mb-6 p-4 rounded-xl" style="background-color: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #f87171; font-size: 14px;">
+                ⚠️ Identifiant ou mot de passe incorrect.
+            </div>
+            {% endif %}
+            {% if form.non_field_errors %}
+            <div class="mb-6 p-4 rounded-xl" style="background-color: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #f87171; font-size: 14px;">
+                {% for error in form.non_field_errors %}
+                ⚠️ {{ error }}
+                {% endfor %}
             </div>
             {% endif %}
 
