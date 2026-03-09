@@ -179,6 +179,14 @@ def lesson_detail(request, slug, lesson_id):
     prev_lesson = all_lessons[current_index - 1] if current_index > 0 else None
     next_lesson = all_lessons[current_index + 1] if current_index < len(all_lessons) - 1 else None
     
+    # Get modules with lessons and progress for sidebar
+    modules = Module.objects.filter(formation=formation).order_by('order').prefetch_related('lesson_set')
+    completed_ids = set(
+        LessonProgress.objects.filter(
+            user=request.user, lesson__module__formation=formation, completed=True
+        ).values_list('lesson_id', flat=True)
+    )
+    
     return render(request, 'formations/lesson_detail.html', {
         'formation': formation,
         'lesson': lesson,
@@ -188,6 +196,9 @@ def lesson_detail(request, slug, lesson_id):
         'next_lesson': next_lesson,
         'current_index': current_index + 1,
         'total_lessons': len(all_lessons),
+        'modules': modules,
+        'completed_ids': completed_ids,
+        'enrollment': enrollment,
     })
 
 

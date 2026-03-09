@@ -3,84 +3,225 @@
 {% block title %}{{ lesson.title }} — {{ formation.title }} | Bolibana{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-[#060810]">
-    <div class="container mx-auto px-4 py-12 max-w-4xl">
-        <!-- Breadcrumb -->
-        <div class="flex flex-wrap items-center text-sm text-gray-500 mb-6 space-x-2">
+<div class="min-h-screen" style="background-color: #060810;">
+
+    <!-- Breadcrumb -->
+    <div class="container mx-auto px-4 pt-6">
+        <div class="flex flex-wrap items-center text-sm space-x-2" style="color: #6b7280;">
             <a href="{% url 'formations:student_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Élève</a>
             <span>/</span>
             <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="hover:text-[#00FF88] transition">{{ formation.title|truncatewords:4 }}</a>
             <span>/</span>
-            <span class="text-gray-300">{{ lesson.title|truncatewords:5 }}</span>
+            <span style="color: #d1d5db;">{{ lesson.title|truncatewords:5 }}</span>
         </div>
+    </div>
 
-        <!-- Lesson counter -->
-        <div class="flex items-center justify-between mb-4">
-            <span class="text-sm text-gray-500">Leçon {{ current_index }} / {{ total_lessons }}</span>
-            <span class="text-xs bg-[#111827] text-gray-400 px-3 py-1 rounded-full border border-[#1F2937]">
-                {{ module.title }}
-            </span>
-        </div>
+    <!-- Layout 3 colonnes -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
 
-        <!-- Video -->
-        {% if lesson.video_url %}
-        <div class="mb-8 rounded-xl overflow-hidden border border-[#1F2937]">
-            <div class="relative w-full" style="padding-bottom: 56.25%;">
-                <iframe src="{{ lesson.get_youtube_embed_url }}" 
-                        class="absolute inset-0 w-full h-full" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>
-            </div>
-        </div>
-        {% endif %}
+            <!-- ===== COLONNE GAUCHE — Infos formation ===== -->
+            <aside class="hidden lg:block lg:w-64 flex-shrink-0">
+                <div class="sticky top-24 rounded-xl p-5 border" style="background-color: #111827; border-color: #1F2937;">
+                    
+                    <!-- Formation info -->
+                    <h3 class="font-bold text-sm mb-3" style="color: #00FF88;">{{ formation.title|truncatewords:5 }}</h3>
+                    
+                    <!-- Progression globale -->
+                    <div class="mb-4">
+                        <div class="flex justify-between text-xs mb-1" style="color: #9ca3af;">
+                            <span>Progression</span>
+                            <span>{{ completed_ids|length }} / {{ total_lessons }}</span>
+                        </div>
+                        <div class="w-full rounded-full h-2" style="background-color: #1F2937;">
+                            <div class="h-2 rounded-full transition-all duration-500" 
+                                 style="background: linear-gradient(90deg, #00FF88, #00E5FF); width: {% widthratio completed_ids|length total_lessons 100 %}%;"></div>
+                        </div>
+                    </div>
 
-        <!-- Title -->
-        <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-6">{{ lesson.title }}</h1>
+                    <!-- Leçon actuelle -->
+                    <div class="rounded-lg p-3 mb-4" style="background-color: #0a0f1a; border: 1px solid #1F2937;">
+                        <div class="text-xs mb-1" style="color: #6b7280;">Leçon {{ current_index }} / {{ total_lessons }}</div>
+                        <div class="text-sm font-semibold" style="color: #ffffff;">{{ lesson.title }}</div>
+                        {% if lesson.duration_minutes %}
+                        <div class="text-xs mt-1" style="color: #6b7280;">⏱️ {{ lesson.duration_minutes }} min</div>
+                        {% endif %}
+                    </div>
 
-        <!-- Content -->
-        {% if lesson.content %}
-        <div class="prose prose-invert max-w-none mb-8 bg-[#111827] rounded-xl p-6 md:p-8 border border-[#1F2937] text-gray-300 
-                    prose-headings:text-gray-100 prose-a:text-[#00E5FF] prose-strong:text-gray-100
-                    prose-code:bg-[#1F2937] prose-code:text-[#00FF88] prose-code:px-1 prose-code:rounded">
-            {{ lesson.content|safe }}
-        </div>
-        {% endif %}
+                    <!-- Navigation rapide -->
+                    <div class="space-y-2">
+                        {% if prev_lesson %}
+                        <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" 
+                           class="flex items-center gap-2 text-xs p-2 rounded-lg transition-all hover:bg-white/5" style="color: #9ca3af;">
+                            <span>←</span>
+                            <span class="truncate">{{ prev_lesson.title }}</span>
+                        </a>
+                        {% endif %}
+                        {% if next_lesson %}
+                        <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" 
+                           class="flex items-center gap-2 text-xs p-2 rounded-lg transition-all hover:bg-white/5" style="color: #00E5FF;">
+                            <span>→</span>
+                            <span class="truncate">{{ next_lesson.title }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
 
-        <!-- Mark complete button -->
-        <div class="flex justify-center mb-8">
-            <button id="complete-btn" onclick="toggleComplete({{ lesson.id }})"
-                    class="px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300
-                    {% if progress.completed %}
-                        bg-[#111827] text-[#00FF88] border-2 border-[#00FF88]
-                    {% else %}
-                        bg-[#00FF88] text-black hover:bg-[#00FF88]/90
-                    {% endif %}">
-                <span id="btn-text">{% if progress.completed %}Terminé ✅{% else %}Marquer comme terminé{% endif %}</span>
-            </button>
-        </div>
+                    <!-- Bouton retour -->
+                    <div class="mt-4 pt-4" style="border-top: 1px solid #1F2937;">
+                        <a href="{% url 'formations:enrolled_formation' formation.slug %}" 
+                           class="block text-center text-xs py-2 rounded-lg transition-all hover:bg-white/5" style="color: #6b7280;">
+                            ← Voir tous les modules
+                        </a>
+                    </div>
+                </div>
+            </aside>
 
-        <!-- Navigation -->
-        <div class="flex items-center justify-between pt-6 border-t border-[#1F2937]">
-            {% if prev_lesson %}
-            <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" 
-               class="flex items-center space-x-2 text-gray-400 hover:text-[#00FF88] transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                <span class="text-sm">{{ prev_lesson.title|truncatewords:4 }}</span>
-            </a>
-            {% else %}<div></div>{% endif %}
-            
-            {% if next_lesson %}
-            <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" 
-               class="flex items-center space-x-2 text-gray-400 hover:text-[#00FF88] transition">
-                <span class="text-sm">{{ next_lesson.title|truncatewords:4 }}</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </a>
-            {% else %}<div></div>{% endif %}
+            <!-- ===== COLONNE CENTRE — Vidéo + Contenu ===== -->
+            <main class="flex-1 min-w-0">
+                
+                <!-- Compteur mobile -->
+                <div class="lg:hidden flex items-center justify-between mb-4">
+                    <span class="text-sm" style="color: #6b7280;">Leçon {{ current_index }} / {{ total_lessons }}</span>
+                    <span class="text-xs px-3 py-1 rounded-full border" style="background-color: #111827; color: #9ca3af; border-color: #1F2937;">
+                        {{ module.title|truncatewords:3 }}
+                    </span>
+                </div>
+
+                <!-- Vidéo -->
+                {% if lesson.video_url %}
+                <div class="mb-6 rounded-xl overflow-hidden border" style="border-color: #1F2937;">
+                    <div class="relative w-full" style="padding-bottom: 56.25%;">
+                        <iframe src="{{ lesson.get_youtube_embed_url }}" 
+                                class="absolute inset-0 w-full h-full" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+                {% else %}
+                <!-- Placeholder si pas de vidéo -->
+                <div class="mb-6 rounded-xl border flex items-center justify-center" 
+                     style="background-color: #111827; border-color: #1F2937; height: 300px;">
+                    <div class="text-center">
+                        <div class="text-5xl mb-3">
+                            {% if lesson.lesson_type == 'quiz' %}📝{% elif lesson.lesson_type == 'video' %}🎥{% else %}📄{% endif %}
+                        </div>
+                        <div class="text-sm" style="color: #6b7280;">
+                            {% if lesson.lesson_type == 'quiz' %}Quiz interactif{% elif lesson.lesson_type == 'video' %}Vidéo à venir{% else %}Leçon texte{% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Titre -->
+                <h1 class="text-2xl md:text-3xl font-bold mb-6" style="color: #f3f4f6;">{{ lesson.title }}</h1>
+
+                <!-- Contenu -->
+                {% if lesson.content %}
+                <div class="rounded-xl p-6 md:p-8 border mb-6" 
+                     style="background-color: #111827; border-color: #1F2937; color: #d1d5db; line-height: 1.8;">
+                    {{ lesson.content|safe }}
+                </div>
+                {% endif %}
+
+                <!-- Bouton Terminé -->
+                <div class="flex justify-center mb-6">
+                    <button id="complete-btn" onclick="toggleComplete({{ lesson.id }})"
+                            class="px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300"
+                            style="{% if progress.completed %}background-color: #111827; color: #00FF88; border: 2px solid #00FF88;{% else %}background: linear-gradient(90deg, #00FF88, #00E5FF); color: #000;{% endif %}">
+                        <span id="btn-text">{% if progress.completed %}Terminé ✅{% else %}Marquer comme terminé{% endif %}</span>
+                    </button>
+                </div>
+
+                <!-- Navigation mobile bas -->
+                <div class="flex items-center justify-between pt-4 border-t" style="border-color: #1F2937;">
+                    {% if prev_lesson %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" 
+                       class="flex items-center gap-2 transition" style="color: #9ca3af;">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span class="text-sm hidden sm:inline">{{ prev_lesson.title|truncatewords:3 }}</span>
+                        <span class="text-sm sm:hidden">Précédent</span>
+                    </a>
+                    {% else %}<div></div>{% endif %}
+                    
+                    {% if next_lesson %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" 
+                       class="flex items-center gap-2 transition" style="color: #00E5FF;">
+                        <span class="text-sm hidden sm:inline">{{ next_lesson.title|truncatewords:3 }}</span>
+                        <span class="text-sm sm:hidden">Suivant</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    {% else %}<div></div>{% endif %}
+                </div>
+            </main>
+
+            <!-- ===== COLONNE DROITE — Plan du cours (étapes) ===== -->
+            <aside class="lg:w-72 flex-shrink-0">
+                <div class="sticky top-24 rounded-xl border overflow-hidden" style="background-color: #111827; border-color: #1F2937;">
+                    
+                    <!-- Header sidebar -->
+                    <div class="p-4 border-b" style="border-color: #1F2937; background-color: #0a0f1a;">
+                        <h3 class="font-bold text-sm" style="color: #ffffff;">📚 Plan du cours</h3>
+                    </div>
+
+                    <!-- Modules & Leçons -->
+                    <div class="max-h-[70vh] overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #1F2937 transparent;">
+                        {% for mod in modules %}
+                        <div>
+                            <!-- Module header -->
+                            <div class="px-4 py-3 border-b" style="border-color: #1F2937; background-color: {% if mod.id == module.id %}rgba(0,255,136,0.05){% else %}transparent{% endif %};">
+                                <div class="flex items-center gap-2">
+                                    {% if mod.is_free %}<span class="text-xs px-1.5 py-0.5 rounded" style="background-color: rgba(0,255,136,0.15); color: #00FF88;">Gratuit</span>{% endif %}
+                                    <span class="text-xs font-bold {% if mod.id == module.id %}text-[#00FF88]{% endif %}" style="{% if mod.id != module.id %}color: #9ca3af;{% endif %}">
+                                        Module {{ mod.order }}
+                                    </span>
+                                </div>
+                                <div class="text-sm font-semibold mt-1" style="color: {% if mod.id == module.id %}#ffffff{% else %}#d1d5db{% endif %};">
+                                    {{ mod.title|truncatewords:5 }}
+                                </div>
+                            </div>
+
+                            <!-- Leçons du module -->
+                            {% for les in mod.lesson_set.all %}
+                            <a href="{% url 'formations:lesson_detail' formation.slug les.id %}"
+                               class="flex items-center gap-3 px-4 py-2.5 border-b transition-all duration-200"
+                               style="border-color: #0a0f1a; 
+                                      background-color: {% if les.id == lesson.id %}rgba(0,229,255,0.08){% else %}transparent{% endif %};
+                                      {% if les.id == lesson.id %}border-left: 3px solid #00E5FF;{% endif %}">
+                                
+                                <!-- Icône status -->
+                                <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-xs"
+                                      style="{% if les.id in completed_ids %}background-color: rgba(0,255,136,0.15); color: #00FF88;{% elif les.id == lesson.id %}background-color: rgba(0,229,255,0.15); color: #00E5FF;{% else %}background-color: #1F2937; color: #6b7280;{% endif %}">
+                                    {% if les.id in completed_ids %}✓{% elif les.id == lesson.id %}▶{% else %}{{ forloop.counter }}{% endif %}
+                                </span>
+
+                                <!-- Titre leçon -->
+                                <div class="min-w-0 flex-1">
+                                    <div class="text-xs truncate" 
+                                         style="color: {% if les.id == lesson.id %}#ffffff{% elif les.id in completed_ids %}#00FF88{% else %}#9ca3af{% endif %};">
+                                        {{ les.title }}
+                                    </div>
+                                    {% if les.duration_minutes %}
+                                    <div class="text-xs" style="color: #4b5563;">{{ les.duration_minutes }} min</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Type -->
+                                <span class="flex-shrink-0 text-xs">
+                                    {% if les.lesson_type == 'video' %}🎥{% elif les.lesson_type == 'quiz' %}📝{% else %}📄{% endif %}
+                                </span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+
         </div>
     </div>
 </div>
@@ -99,10 +240,12 @@ function toggleComplete(lessonId) {
         const btn = document.getElementById('complete-btn');
         const text = document.getElementById('btn-text');
         if (data.completed) {
-            btn.className = 'px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 bg-[#111827] text-[#00FF88] border-2 border-[#00FF88]';
+            btn.style.cssText = 'background-color: #111827; color: #00FF88; border: 2px solid #00FF88;';
+            btn.className = 'px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300';
             text.textContent = 'Terminé ✅';
         } else {
-            btn.className = 'px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 bg-[#00FF88] text-black hover:bg-[#00FF88]/90';
+            btn.style.cssText = 'background: linear-gradient(90deg, #00FF88, #00E5FF); color: #000;';
+            btn.className = 'px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300';
             text.textContent = 'Marquer comme terminé';
         }
     });
