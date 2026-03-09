@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ lesson.title }} — {{ formation.title }} | Bolibana{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#060810]">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <!-- Breadcrumb -->
+        <div class="flex flex-wrap items-center text-sm text-gray-500 mb-6 space-x-2">
+            <a href="{% url 'formations:student_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Élève</a>
+            <span>/</span>
+            <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="hover:text-[#00FF88] transition">{{ formation.title|truncatewords:4 }}</a>
+            <span>/</span>
+            <span class="text-gray-300">{{ lesson.title|truncatewords:5 }}</span>
+        </div>
+
+        <!-- Lesson counter -->
+        <div class="flex items-center justify-between mb-4">
+            <span class="text-sm text-gray-500">Leçon {{ current_index }} / {{ total_lessons }}</span>
+            <span class="text-xs bg-[#111827] text-gray-400 px-3 py-1 rounded-full border border-[#1F2937]">
+                {{ module.title }}
+            </span>
+        </div>
+
+        <!-- Video -->
+        {% if lesson.video_url %}
+        <div class="mb-8 rounded-xl overflow-hidden border border-[#1F2937]">
+            <div class="relative w-full" style="padding-bottom: 56.25%;">
+                <iframe src="{{ lesson.get_youtube_embed_url }}" 
+                        class="absolute inset-0 w-full h-full" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Title -->
+        <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-6">{{ lesson.title }}</h1>
+
+        <!-- Content -->
+        {% if lesson.content %}
+        <div class="prose prose-invert max-w-none mb-8 bg-[#111827] rounded-xl p-6 md:p-8 border border-[#1F2937] text-gray-300 
+                    prose-headings:text-gray-100 prose-a:text-[#00E5FF] prose-strong:text-gray-100
+                    prose-code:bg-[#1F2937] prose-code:text-[#00FF88] prose-code:px-1 prose-code:rounded">
+            {{ lesson.content|safe }}
+        </div>
+        {% endif %}
+
+        <!-- Mark complete button -->
+        <div class="flex justify-center mb-8">
+            <button id="complete-btn" onclick="toggleComplete({{ lesson.id }})"
+                    class="px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300
+                    {% if progress.completed %}
+                        bg-[#111827] text-[#00FF88] border-2 border-[#00FF88]
+                    {% else %}
+                        bg-[#00FF88] text-black hover:bg-[#00FF88]/90
+                    {% endif %}">
+                <span id="btn-text">{% if progress.completed %}Terminé ✅{% else %}Marquer comme terminé{% endif %}</span>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between pt-6 border-t border-[#1F2937]">
+            {% if prev_lesson %}
+            <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" 
+               class="flex items-center space-x-2 text-gray-400 hover:text-[#00FF88] transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="text-sm">{{ prev_lesson.title|truncatewords:4 }}</span>
+            </a>
+            {% else %}<div></div>{% endif %}
+            
+            {% if next_lesson %}
+            <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" 
+               class="flex items-center space-x-2 text-gray-400 hover:text-[#00FF88] transition">
+                <span class="text-sm">{{ next_lesson.title|truncatewords:4 }}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+            {% else %}<div></div>{% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleComplete(lessonId) {
+    fetch("{% url 'formations:mark_lesson_complete' lesson.id %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(r => r.json())
+    .then(data => {
+        const btn = document.getElementById('complete-btn');
+        const text = document.getElementById('btn-text');
+        if (data.completed) {
+            btn.className = 'px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 bg-[#111827] text-[#00FF88] border-2 border-[#00FF88]';
+            text.textContent = 'Terminé ✅';
+        } else {
+            btn.className = 'px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 bg-[#00FF88] text-black hover:bg-[#00FF88]/90';
+            text.textContent = 'Marquer comme terminé';
+        }
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ formation.title }} — Espace Élève | Bolibana{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#060810]">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <!-- Breadcrumb -->
+        <div class="flex items-center text-sm text-gray-500 mb-6 space-x-2">
+            <a href="{% url 'formations:student_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Élève</a>
+            <span>/</span>
+            <span class="text-gray-300">{{ formation.title }}</span>
+        </div>
+
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-3">{{ formation.title }}</h1>
+            <div class="flex items-center space-x-4 mb-4">
+                <span class="text-xs bg-[#00FF88]/10 text-[#00FF88] px-3 py-1 rounded-full border border-[#00FF88]/20">{{ formation.get_level_display }}</span>
+                <span class="text-gray-400 text-sm">{{ formation.duration }}</span>
+            </div>
+            <!-- Overall progress -->
+            <div class="bg-[#111827] rounded-lg p-4 border border-[#1F2937]">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-400">Progression globale</span>
+                    <span class="text-[#00FF88] font-bold" id="overall-progress">{{ progress }}%</span>
+                </div>
+                <div class="w-full bg-[#1F2937] rounded-full h-3">
+                    <div class="h-3 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF] transition-all duration-500" style="width: {{ progress }}%" id="overall-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modules accordion -->
+        <div class="space-y-4">
+            {% for item in module_data %}
+            <div class="bg-[#111827] rounded-xl border border-[#1F2937] overflow-hidden">
+                <button onclick="toggleModule({{ item.module.id }})" class="w-full flex items-center justify-between p-5 text-left hover:bg-[#1F2937]/30 transition">
+                    <div class="flex items-center space-x-3">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#00FF88]/10 text-[#00FF88] flex items-center justify-center text-sm font-bold">{{ item.module.order }}</span>
+                        <div>
+                            <h3 class="font-bold text-gray-100">{{ item.module.title }}</h3>
+                            <p class="text-xs text-gray-500 mt-1">{{ item.done }}/{{ item.total }} leçons • {{ item.progress }}%{% if item.module.is_free %} <span class="text-[#00E5FF]">• Gratuit</span>{% endif %}</p>
+                        </div>
+                    </div>
+                    <svg id="chevron-{{ item.module.id }}" class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="module-{{ item.module.id }}" class="hidden border-t border-[#1F2937]">
+                    {% for l in item.lessons %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug l.lesson.id %}" 
+                       class="flex items-center justify-between px-5 py-3 hover:bg-[#1F2937]/50 transition border-b border-[#1F2937]/50 last:border-0">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-lg">
+                                {% if l.completed %}✅
+                                {% elif l.lesson.lesson_type == 'video' %}🎥
+                                {% elif l.lesson.lesson_type == 'quiz' %}📝
+                                {% else %}📄{% endif %}
+                            </span>
+                            <div>
+                                <span class="text-sm text-gray-200">{{ l.lesson.title }}</span>
+                                <span class="text-xs text-gray-500 ml-2">{% if l.lesson.duration_minutes %}{{ l.lesson.duration_minutes }} min{% endif %}</span>
+                            </div>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleModule(id) {
+    const el = document.getElementById('module-' + id);
+    const chevron = document.getElementById('chevron-' + id);
+    el.classList.toggle('hidden');
+    chevron.classList.toggle('rotate-180');
+}
+// Open first module by default
+document.addEventListener('DOMContentLoaded', function() {
+    {% if module_data %}
+    toggleModule({{ module_data.0.module.id }});
+    {% endif %}
+});
+</script>
+{% endblock %}
