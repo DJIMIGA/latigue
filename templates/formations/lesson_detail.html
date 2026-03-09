@@ -1,228 +1,306 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ lesson.title }} — {{ formation.title }} | Bolibana{% endblock %}
+{% block title %}{{ lesson.title }} — {{ formation.title }} | Djimiga Tech{% endblock %}
 
 {% block content %}
-<div class="min-h-screen" style="background-color: #060810;">
+<div class="min-h-screen bg-[#060810]">
 
-    <!-- Breadcrumb -->
-    <div class="container mx-auto px-4 pt-6">
-        <div class="flex flex-wrap items-center text-sm space-x-2" style="color: #6b7280;">
-            <a href="{% url 'formations:student_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Élève</a>
-            <span>/</span>
-            <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="hover:text-[#00FF88] transition">{{ formation.title|truncatewords:4 }}</a>
-            <span>/</span>
-            <span style="color: #d1d5db;">{{ lesson.title|truncatewords:5 }}</span>
+    <!-- Top bar mobile -->
+    <div class="lg:hidden sticky top-0 z-30 bg-[#0D1117]/95 backdrop-blur border-b border-[#1F2937] px-4 py-3">
+        <div class="flex items-center justify-between">
+            <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="text-gray-400 hover:text-[#00FF88] transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </a>
+            <span class="text-sm text-gray-300 font-medium truncate mx-4">{{ lesson.title|truncatewords:5 }}</span>
+            <button onclick="document.getElementById('mobile-sidebar').classList.toggle('hidden')" class="text-gray-400 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
     </div>
 
-    <!-- Layout 3 colonnes -->
-    <div class="max-w-[1600px] mx-auto px-4 py-6">
-        <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Mobile sidebar overlay -->
+    <div id="mobile-sidebar" class="hidden lg:hidden fixed inset-0 z-40">
+        <div class="absolute inset-0 bg-black/60" onclick="document.getElementById('mobile-sidebar').classList.add('hidden')"></div>
+        <div class="absolute right-0 top-0 h-full w-80 bg-[#0D1117] border-l border-[#1F2937] overflow-y-auto">
+            <div class="p-4 border-b border-[#1F2937] flex items-center justify-between">
+                <span class="text-sm font-bold text-white">Plan du cours</span>
+                <button onclick="document.getElementById('mobile-sidebar').classList.add('hidden')" class="text-gray-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            {% for mod in modules %}
+            <div class="border-b border-[#1F2937]/50">
+                <div class="px-4 py-3">
+                    <span class="text-xs font-bold {% if mod.id == module.id %}text-[#00FF88]{% else %}text-gray-500{% endif %}">{{ mod.order }}. {{ mod.title }}</span>
+                </div>
+                {% for les in mod.lessons.all %}
+                <a href="{% url 'formations:lesson_detail' formation.slug les.id %}"
+                   class="flex items-center gap-3 px-6 py-2 text-xs {% if les.id == lesson.id %}text-white bg-[#00E5FF]/10 border-l-2 border-[#00E5FF]{% elif les.id in completed_ids %}text-[#00FF88]/70{% else %}text-gray-400{% endif %}"
+                   onclick="document.getElementById('mobile-sidebar').classList.add('hidden')">
+                    {% if les.id in completed_ids %}<span class="text-[#00FF88]">&#10003;</span>{% elif les.id == lesson.id %}<span class="text-[#00E5FF]">&#9654;</span>{% else %}<span class="text-gray-600">&#9675;</span>{% endif %}
+                    <span class="truncate">{{ les.title }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-            <!-- ===== COLONNE GAUCHE — Infos formation ===== -->
-            <aside class="hidden lg:block lg:w-64 flex-shrink-0">
-                <div class="sticky top-24 rounded-xl p-5 border" style="background-color: #111827; border-color: #1F2937;">
-                    
-                    <!-- Formation info -->
-                    <h3 class="font-bold text-sm mb-3" style="color: #00FF88;">{{ formation.title|truncatewords:5 }}</h3>
-                    
-                    <!-- Progression globale -->
-                    <div class="mb-4">
-                        <div class="flex justify-between text-xs mb-1" style="color: #9ca3af;">
-                            <span>Progression</span>
-                            <span>{{ completed_ids|length }} / {{ total_lessons }}</span>
-                        </div>
-                        <div class="w-full rounded-full h-2" style="background-color: #1F2937;">
-                            <div class="h-2 rounded-full transition-all duration-500" 
-                                 style="background: linear-gradient(90deg, #00FF88, #00E5FF); width: {% widthratio completed_ids|length total_lessons 100 %}%;"></div>
-                        </div>
+    <!-- Layout principal -->
+    <div class="flex">
+
+        <!-- ===== SIDEBAR GAUCHE — Plan du cours ===== -->
+        <aside class="hidden lg:flex flex-col w-72 xl:w-80 flex-shrink-0 border-r border-[#1F2937] bg-[#0D1117] h-[calc(100vh-64px)] sticky top-16 overflow-hidden">
+
+            <!-- Header sidebar -->
+            <div class="p-4 border-b border-[#1F2937]">
+                <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="flex items-center gap-2 text-[#00FF88] hover:text-[#00FF88]/80 transition mb-3">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    <span class="text-xs font-semibold">{{ formation.title|truncatewords:5 }}</span>
+                </a>
+                <!-- Progression globale -->
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 bg-[#1F2937] rounded-full h-1.5">
+                        <div class="h-1.5 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF] transition-all duration-500" style="width: {% widthratio completed_ids|length total_lessons 100 %}%;"></div>
                     </div>
+                    <span class="text-xs text-gray-400 tabular-nums">{% widthratio completed_ids|length total_lessons 100 %}%</span>
+                </div>
+            </div>
 
-                    <!-- Leçon actuelle -->
-                    <div class="rounded-lg p-3 mb-4" style="background-color: #0a0f1a; border: 1px solid #1F2937;">
-                        <div class="text-xs mb-1" style="color: #6b7280;">Leçon {{ current_index }} / {{ total_lessons }}</div>
-                        <div class="text-sm font-semibold" style="color: #ffffff;">{{ lesson.title }}</div>
-                        {% if lesson.duration_minutes %}
-                        <div class="text-xs mt-1" style="color: #6b7280;">⏱️ {{ lesson.duration_minutes }} min</div>
-                        {% endif %}
-                    </div>
+            <!-- Modules & Leçons (scrollable) -->
+            <div class="flex-1 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #1F2937 transparent;">
+                {% for mod in modules %}
+                <div class="border-b border-[#1F2937]/50">
+                    <!-- Module header -->
+                    <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('[data-chevron]').classList.toggle('rotate-180')"
+                            class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-[#1F2937]/30 transition-colors">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold {% if mod.id == module.id %}bg-[#00FF88]/15 text-[#00FF88]{% else %}bg-[#1F2937] text-gray-500{% endif %}">{{ mod.order }}</span>
+                            <span class="text-sm font-semibold truncate {% if mod.id == module.id %}text-white{% else %}text-gray-300{% endif %}">{{ mod.title }}</span>
+                        </div>
+                        <svg data-chevron class="w-4 h-4 text-gray-500 transform transition-transform duration-200 {% if mod.id == module.id %}rotate-180{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
 
-                    <!-- Navigation rapide -->
-                    <div class="space-y-2">
-                        {% if prev_lesson %}
-                        <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" 
-                           class="flex items-center gap-2 text-xs p-2 rounded-lg transition-all hover:bg-white/5" style="color: #9ca3af;">
-                            <span>←</span>
-                            <span class="truncate">{{ prev_lesson.title }}</span>
+                    <!-- Leçons du module -->
+                    <div class="{% if mod.id != module.id %}hidden{% endif %}">
+                        {% for les in mod.lessons.all %}
+                        <a href="{% url 'formations:lesson_detail' formation.slug les.id %}"
+                           class="group flex items-center gap-3 pl-6 pr-4 py-2.5 transition-all duration-200
+                                  {% if les.id == lesson.id %}bg-[#00E5FF]/8 border-l-3 border-[#00E5FF]{% else %}hover:bg-[#1F2937]/20 border-l-3 border-transparent{% endif %}">
+
+                            <!-- Status icon -->
+                            <span class="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full text-[10px]
+                                {% if les.id in completed_ids %}bg-[#00FF88]/15 text-[#00FF88]{% elif les.id == lesson.id %}bg-[#00E5FF]/15 text-[#00E5FF]{% else %}bg-[#1F2937] text-gray-600{% endif %}">
+                                {% if les.id in completed_ids %}&#10003;{% elif les.id == lesson.id %}&#9654;{% else %}{{ forloop.counter }}{% endif %}
+                            </span>
+
+                            <!-- Titre + durée -->
+                            <div class="min-w-0 flex-1">
+                                <div class="text-xs truncate {% if les.id == lesson.id %}text-white font-medium{% elif les.id in completed_ids %}text-gray-400{% else %}text-gray-400 group-hover:text-gray-300{% endif %}">
+                                    {{ les.title }}
+                                </div>
+                            </div>
+
+                            <!-- Durée -->
+                            {% if les.duration_minutes %}
+                            <span class="flex-shrink-0 text-[10px] text-gray-600 tabular-nums">{{ les.duration_minutes }}min</span>
+                            {% endif %}
                         </a>
-                        {% endif %}
-                        {% if next_lesson %}
-                        <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" 
-                           class="flex items-center gap-2 text-xs p-2 rounded-lg transition-all hover:bg-white/5" style="color: #00E5FF;">
-                            <span>→</span>
-                            <span class="truncate">{{ next_lesson.title }}</span>
-                        </a>
-                        {% endif %}
-                    </div>
-
-                    <!-- Bouton retour -->
-                    <div class="mt-4 pt-4" style="border-top: 1px solid #1F2937;">
-                        <a href="{% url 'formations:enrolled_formation' formation.slug %}" 
-                           class="block text-center text-xs py-2 rounded-lg transition-all hover:bg-white/5" style="color: #6b7280;">
-                            ← Voir tous les modules
-                        </a>
+                        {% endfor %}
                     </div>
                 </div>
-            </aside>
+                {% endfor %}
+            </div>
+        </aside>
 
-            <!-- ===== COLONNE CENTRE — Vidéo + Contenu ===== -->
-            <main class="flex-1 min-w-0">
-                
-                <!-- Compteur mobile -->
-                <div class="lg:hidden flex items-center justify-between mb-4">
-                    <span class="text-sm" style="color: #6b7280;">Leçon {{ current_index }} / {{ total_lessons }}</span>
-                    <span class="text-xs px-3 py-1 rounded-full border" style="background-color: #111827; color: #9ca3af; border-color: #1F2937;">
-                        {{ module.title|truncatewords:3 }}
-                    </span>
+        <!-- ===== COLONNE CENTRE — Contenu principal ===== -->
+        <main class="flex-1 min-w-0">
+
+            <!-- Vidéo -->
+            {% if lesson.video_url %}
+            <div class="w-full bg-black">
+                <div class="relative w-full" style="padding-bottom: 56.25%;">
+                    <iframe src="{{ lesson.get_youtube_embed_url }}"
+                            class="absolute inset-0 w-full h-full"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
                 </div>
-
-                <!-- Vidéo -->
-                {% if lesson.video_url %}
-                <div class="mb-6 rounded-xl overflow-hidden border" style="border-color: #1F2937;">
-                    <div class="relative w-full" style="padding-bottom: 56.25%;">
-                        <iframe src="{{ lesson.get_youtube_embed_url }}" 
-                                class="absolute inset-0 w-full h-full" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>
+            </div>
+            {% else %}
+            <!-- Placeholder si pas de vidéo -->
+            <div class="w-full flex items-center justify-center bg-[#0D1117] border-b border-[#1F2937]" style="height: 280px;">
+                <div class="text-center">
+                    <div class="text-5xl mb-3">
+                        {% if lesson.lesson_type == 'quiz' %}📝{% elif lesson.lesson_type == 'video' %}🎥{% else %}📄{% endif %}
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        {% if lesson.lesson_type == 'quiz' %}Quiz interactif{% elif lesson.lesson_type == 'video' %}Vidéo à venir{% else %}Leçon texte{% endif %}
                     </div>
                 </div>
-                {% else %}
-                <!-- Placeholder si pas de vidéo -->
-                <div class="mb-6 rounded-xl border flex items-center justify-center" 
-                     style="background-color: #111827; border-color: #1F2937; height: 300px;">
-                    <div class="text-center">
-                        <div class="text-5xl mb-3">
-                            {% if lesson.lesson_type == 'quiz' %}📝{% elif lesson.lesson_type == 'video' %}🎥{% else %}📄{% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Bouton Session terminée -->
+            <div class="border-b border-[#1F2937] bg-[#0D1117]">
+                <div class="px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <!-- Nav précédent/suivant (desktop inline) -->
+                        <div class="hidden sm:flex items-center gap-2">
+                            {% if prev_lesson %}
+                            <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                Précédent
+                            </a>
+                            {% endif %}
+                            {% if prev_lesson and next_lesson %}<span class="text-gray-700">|</span>{% endif %}
+                            {% if next_lesson %}
+                            <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                                Suivant
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </a>
+                            {% endif %}
                         </div>
-                        <div class="text-sm" style="color: #6b7280;">
-                            {% if lesson.lesson_type == 'quiz' %}Quiz interactif{% elif lesson.lesson_type == 'video' %}Vidéo à venir{% else %}Leçon texte{% endif %}
-                        </div>
                     </div>
+                    <button id="complete-btn" onclick="toggleComplete({{ lesson.id }})"
+                            class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300
+                                   {% if progress.completed %}bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30{% else %}bg-[#1F2937] text-gray-300 border border-[#1F2937] hover:border-[#00FF88]/50 hover:text-[#00FF88]{% endif %}">
+                        <svg id="complete-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span id="btn-text">{% if progress.completed %}Session terminée{% else %}Marquer comme terminée{% endif %}</span>
+                    </button>
                 </div>
-                {% endif %}
+            </div>
+
+            <!-- Contenu de la leçon -->
+            <div class="px-4 sm:px-6 lg:px-8 py-8">
 
                 <!-- Titre -->
-                <h1 class="text-2xl md:text-3xl font-bold mb-6" style="color: #f3f4f6;">{{ lesson.title }}</h1>
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-100 mb-2">{{ lesson.title }}</h1>
 
-                <!-- Contenu -->
+                <!-- Meta info -->
+                <div class="flex flex-wrap items-center gap-3 mb-8 text-sm text-gray-500">
+                    <span>Module {{ module.order }} : {{ module.title }}</span>
+                    {% if lesson.duration_minutes %}
+                    <span class="flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        {{ lesson.duration_minutes }} min
+                    </span>
+                    {% endif %}
+                    <span>Leçon {{ current_index }} / {{ total_lessons }}</span>
+                </div>
+
+                <!-- Contenu texte -->
                 {% if lesson.content %}
-                <div class="rounded-xl p-6 md:p-8 border mb-6" 
-                     style="background-color: #111827; border-color: #1F2937; color: #d1d5db; line-height: 1.8;">
+                <div class="prose prose-invert max-w-none
+                            prose-headings:text-gray-100 prose-p:text-gray-300 prose-p:leading-relaxed
+                            prose-a:text-[#00E5FF] prose-a:no-underline hover:prose-a:underline
+                            prose-strong:text-gray-200
+                            prose-code:text-[#00FF88] prose-code:bg-[#1F2937] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                            prose-pre:bg-[#0D1117] prose-pre:border prose-pre:border-[#1F2937] prose-pre:rounded-xl
+                            prose-img:rounded-xl prose-img:border prose-img:border-[#1F2937]
+                            prose-li:text-gray-300
+                            prose-blockquote:border-[#00FF88] prose-blockquote:text-gray-400">
                     {{ lesson.content|safe }}
                 </div>
                 {% endif %}
 
-                <!-- Bouton Terminé -->
-                <div class="flex justify-center mb-6">
-                    <button id="complete-btn" onclick="toggleComplete({{ lesson.id }})"
-                            class="px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300"
-                            style="{% if progress.completed %}background-color: #111827; color: #00FF88; border: 2px solid #00FF88;{% else %}background: linear-gradient(90deg, #00FF88, #00E5FF); color: #000;{% endif %}">
-                        <span id="btn-text">{% if progress.completed %}Terminé ✅{% else %}Marquer comme terminé{% endif %}</span>
-                    </button>
-                </div>
-
-                <!-- Navigation mobile bas -->
-                <div class="flex items-center justify-between pt-4 border-t" style="border-color: #1F2937;">
+                <!-- Navigation bas de page -->
+                <div class="flex items-center justify-between mt-12 pt-6 border-t border-[#1F2937]">
                     {% if prev_lesson %}
-                    <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" 
-                       class="flex items-center gap-2 transition" style="color: #9ca3af;">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                        <span class="text-sm hidden sm:inline">{{ prev_lesson.title|truncatewords:3 }}</span>
-                        <span class="text-sm sm:hidden">Précédent</span>
-                    </a>
-                    {% else %}<div></div>{% endif %}
-                    
-                    {% if next_lesson %}
-                    <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" 
-                       class="flex items-center gap-2 transition" style="color: #00E5FF;">
-                        <span class="text-sm hidden sm:inline">{{ next_lesson.title|truncatewords:3 }}</span>
-                        <span class="text-sm sm:hidden">Suivant</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                    {% else %}<div></div>{% endif %}
-                </div>
-            </main>
-
-            <!-- ===== COLONNE DROITE — Plan du cours (étapes) ===== -->
-            <aside class="lg:w-72 flex-shrink-0">
-                <div class="sticky top-24 rounded-xl border overflow-hidden" style="background-color: #111827; border-color: #1F2937;">
-                    
-                    <!-- Header sidebar -->
-                    <div class="p-4 border-b" style="border-color: #1F2937; background-color: #0a0f1a;">
-                        <h3 class="font-bold text-sm" style="color: #ffffff;">📚 Plan du cours</h3>
-                    </div>
-
-                    <!-- Modules & Leçons -->
-                    <div class="max-h-[70vh] overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #1F2937 transparent;">
-                        {% for mod in modules %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}"
+                       class="group flex items-center gap-3 text-gray-400 hover:text-white transition">
+                        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                         <div>
-                            <!-- Module header -->
-                            <div class="px-4 py-3 border-b" style="border-color: #1F2937; background-color: {% if mod.id == module.id %}rgba(0,255,136,0.05){% else %}transparent{% endif %};">
-                                <div class="flex items-center gap-2">
-                                    {% if mod.is_free %}<span class="text-xs px-1.5 py-0.5 rounded" style="background-color: rgba(0,255,136,0.15); color: #00FF88;">Gratuit</span>{% endif %}
-                                    <span class="text-xs font-bold {% if mod.id == module.id %}text-[#00FF88]{% endif %}" style="{% if mod.id != module.id %}color: #9ca3af;{% endif %}">
-                                        Module {{ mod.order }}
-                                    </span>
-                                </div>
-                                <div class="text-sm font-semibold mt-1" style="color: {% if mod.id == module.id %}#ffffff{% else %}#d1d5db{% endif %};">
-                                    {{ mod.title|truncatewords:5 }}
-                                </div>
-                            </div>
-
-                            <!-- Leçons du module -->
-                            {% for les in mod.lessons.all %}
-                            <a href="{% url 'formations:lesson_detail' formation.slug les.id %}"
-                               class="flex items-center gap-3 px-4 py-2.5 border-b transition-all duration-200"
-                               style="border-color: #0a0f1a; 
-                                      background-color: {% if les.id == lesson.id %}rgba(0,229,255,0.08){% else %}transparent{% endif %};
-                                      {% if les.id == lesson.id %}border-left: 3px solid #00E5FF;{% endif %}">
-                                
-                                <!-- Icône status -->
-                                <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-xs"
-                                      style="{% if les.id in completed_ids %}background-color: rgba(0,255,136,0.15); color: #00FF88;{% elif les.id == lesson.id %}background-color: rgba(0,229,255,0.15); color: #00E5FF;{% else %}background-color: #1F2937; color: #6b7280;{% endif %}">
-                                    {% if les.id in completed_ids %}✓{% elif les.id == lesson.id %}▶{% else %}{{ forloop.counter }}{% endif %}
-                                </span>
-
-                                <!-- Titre leçon -->
-                                <div class="min-w-0 flex-1">
-                                    <div class="text-xs truncate" 
-                                         style="color: {% if les.id == lesson.id %}#ffffff{% elif les.id in completed_ids %}#00FF88{% else %}#9ca3af{% endif %};">
-                                        {{ les.title }}
-                                    </div>
-                                    {% if les.duration_minutes %}
-                                    <div class="text-xs" style="color: #4b5563;">{{ les.duration_minutes }} min</div>
-                                    {% endif %}
-                                </div>
-
-                                <!-- Type -->
-                                <span class="flex-shrink-0 text-xs">
-                                    {% if les.lesson_type == 'video' %}🎥{% elif les.lesson_type == 'quiz' %}📝{% else %}📄{% endif %}
-                                </span>
-                            </a>
-                            {% endfor %}
+                            <div class="text-xs text-gray-600">Précédent</div>
+                            <div class="text-sm">{{ prev_lesson.title|truncatewords:5 }}</div>
                         </div>
-                        {% endfor %}
+                    </a>
+                    {% else %}<div></div>{% endif %}
+
+                    {% if next_lesson %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}"
+                       class="group flex items-center gap-3 text-right text-gray-400 hover:text-[#00E5FF] transition">
+                        <div>
+                            <div class="text-xs text-gray-600">Suivant</div>
+                            <div class="text-sm">{{ next_lesson.title|truncatewords:5 }}</div>
+                        </div>
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    {% else %}<div></div>{% endif %}
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== SIDEBAR DROITE — Info leçon ===== -->
+        <aside class="hidden xl:flex flex-col w-72 flex-shrink-0 border-l border-[#1F2937] bg-[#0D1117] h-[calc(100vh-64px)] sticky top-16 overflow-hidden">
+
+            <!-- Header : titre leçon + nav -->
+            <div class="p-5 border-b border-[#1F2937]">
+                <div class="flex items-center justify-between mb-3">
+                    {% if prev_lesson %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug prev_lesson.id %}" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Précédent
+                    </a>
+                    {% else %}<span></span>{% endif %}
+                    {% if next_lesson %}
+                    <a href="{% url 'formations:lesson_detail' formation.slug next_lesson.id %}" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                        Suivant
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    {% else %}<span></span>{% endif %}
+                </div>
+                <h2 class="text-base font-bold text-white leading-tight">{{ lesson.title }}</h2>
+            </div>
+
+            <!-- Progression -->
+            <div class="p-5 border-b border-[#1F2937]">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs text-gray-500">Progression</span>
+                    <span class="text-xs font-bold text-[#00FF88]">{% widthratio completed_ids|length total_lessons 100 %}%</span>
+                </div>
+                <div class="w-full bg-[#1F2937] rounded-full h-2 mb-3">
+                    <div class="h-2 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF] transition-all duration-700" style="width: {% widthratio completed_ids|length total_lessons 100 %}%;"></div>
+                </div>
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    <span>{{ completed_ids|length }} / {{ total_lessons }} leçons</span>
+                    <span>Leçon {{ current_index }}</span>
+                </div>
+            </div>
+
+            <!-- Sessions du module courant -->
+            <div class="flex-1 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #1F2937 transparent;">
+                <div class="p-4 border-b border-[#1F2937]">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white">{{ module.order }}. {{ module.title }}</h3>
                     </div>
                 </div>
-            </aside>
 
-        </div>
+                {% for les in module.lessons.all %}
+                <div class="flex items-center gap-3 px-4 py-3 border-b border-[#1F2937]/40
+                            {% if les.id == lesson.id %}bg-[#00E5FF]/5{% endif %}">
+                    <!-- Status -->
+                    <span class="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full text-[10px]
+                        {% if les.id in completed_ids %}bg-[#00FF88]/15 text-[#00FF88]{% elif les.id == lesson.id %}bg-[#00E5FF]/15 text-[#00E5FF]{% else %}bg-[#1F2937] text-gray-600{% endif %}">
+                        {% if les.id in completed_ids %}&#10003;{% elif les.id == lesson.id %}&#9654;{% else %}&#9675;{% endif %}
+                    </span>
+                    <!-- Info -->
+                    <a href="{% url 'formations:lesson_detail' formation.slug les.id %}" class="flex-1 min-w-0">
+                        <div class="text-xs {% if les.id == lesson.id %}text-white font-medium{% elif les.id in completed_ids %}text-gray-500 line-through{% else %}text-gray-400{% endif %} truncate">
+                            {{ les.title }}
+                        </div>
+                    </a>
+                    <!-- Durée -->
+                    {% if les.duration_minutes %}
+                    <span class="flex-shrink-0 text-[10px] text-gray-600 tabular-nums">{{ les.duration_minutes }}min</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </aside>
+
     </div>
 </div>
 
@@ -240,13 +318,17 @@ function toggleComplete(lessonId) {
         const btn = document.getElementById('complete-btn');
         const text = document.getElementById('btn-text');
         if (data.completed) {
-            btn.style.cssText = 'background-color: #111827; color: #00FF88; border: 2px solid #00FF88;';
-            btn.className = 'px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300';
-            text.textContent = 'Terminé ✅';
+            btn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30';
+            text.textContent = 'Session terminée';
         } else {
-            btn.style.cssText = 'background: linear-gradient(90deg, #00FF88, #00E5FF); color: #000;';
-            btn.className = 'px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300';
-            text.textContent = 'Marquer comme terminé';
+            btn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 bg-[#1F2937] text-gray-300 border border-[#1F2937] hover:border-[#00FF88]/50 hover:text-[#00FF88]';
+            text.textContent = 'Marquer comme terminée';
+        }
+
+        // Update sidebar status icon for this lesson
+        const progress = document.querySelector('[data-progress-bar]');
+        if (progress) {
+            progress.style.width = data.overall_progress + '%';
         }
     });
 }

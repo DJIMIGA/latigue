@@ -8,26 +8,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     
     <!-- SEO Meta Tags -->
-    <title>{% block title %}Bolibana - Développeur Python & Django | Portfolio{% endblock %}</title>
+    <title>{% block title %}Djimiga Tech - Développeur Python & Django | Portfolio{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles sur les technologies.{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}Développeur Python, Django, développement web, formation Python, tutoriels Django, Bolibana{% endblock %}" />
-    <meta name="author" content="Bolibana" />
+    <meta name="keywords" content="{% block meta_keywords %}Développeur Python, Django, développement web, formation Python, tutoriels Django, Djimiga Tech{% endblock %}" />
+    <meta name="author" content="Djimiga Tech" />
     <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
     <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}" />
-    <meta property="og:title" content="{% block og_title %}Bolibana - Développeur Python & Django{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}Djimiga Tech - Développeur Python & Django{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles.{% endblock %}" />
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'portfolio/svg/djimi.svg' %}{% endblock %}" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:site_name" content="Bolibana - Portfolio" />
+    <meta property="og:site_name" content="Djimiga Tech - Portfolio" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}" />
-    <meta name="twitter:title" content="{% block twitter_title %}Bolibana - Développeur Python & Django{% endblock %}" />
+    <meta name="twitter:title" content="{% block twitter_title %}Djimiga Tech - Développeur Python & Django{% endblock %}" />
     <meta name="twitter:description" content="{% block twitter_description %}Développeur Python & Django, créateur de contenu pédagogique.{% endblock %}" />
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'portfolio/svg/djimi.svg' %}{% endblock %}" />
     
@@ -54,7 +54,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Bolibana",
+      "name": "Djimiga Tech",
       "jobTitle": "Développeur Python & Django",
       "description": "Développeur Python & Django, créateur de contenu pédagogique. Services de développement web, formations et articles sur les technologies.",
       "url": "{{ request.scheme }}://{{ request.get_host }}",
@@ -105,7 +105,7 @@
         <!-- Logo -->
         <div class="lg:mr-10">
           <a href="{% url 'portfolio-index' %}">
-            <img src="{% static 'portfolio/svg/bolibana-logo-transparent.svg' %}" alt="Bolibana" class="h-16 w-16 lg:h-20 lg:w-20 hover:scale-110 transition-transform duration-300" />
+            <img src="{% static 'portfolio/svg/djimiga-tech-logo-transparent.svg' %}" alt="Djimiga Tech" class="h-16 w-16 lg:h-20 lg:w-20 hover:scale-110 transition-transform duration-300" />
           </a>
         </div>
         
@@ -207,7 +207,7 @@
         </div>
       </div>
       <p class="text-center text-xs lg:text-sm text-gray-500 py-4 px-4 border-t border-[#1F2937]">
-        &copy; Made by <span class="text-[#00FF88]">Bolibana</span>. All rights reserved.
+        &copy; Made by <span class="text-[#00FF88]">Djimiga Tech</span>. All rights reserved.
       </p>
     </footer>
 

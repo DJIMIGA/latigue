@@ -2,11 +2,11 @@
 {% load static %}
 {% load blog_filters %}
 
-{% block title %}{{ post.title }} - Blog | Bolibana{% endblock %}
+{% block title %}{{ post.title }} - Blog | Djimiga Tech{% endblock %}
 
 {% block meta_description %}{{ post.body|striptags|truncatewords:30 }}{% endblock %}
 
-{% block og_title %}{{ post.title }} - Blog | Bolibana{% endblock %}
+{% block og_title %}{{ post.title }} - Blog | Djimiga Tech{% endblock %}
 {% block og_description %}{{ post.body|striptags|truncatewords:30 }}{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_url %}{{ request.build_absolute_uri }}{% endblock %}

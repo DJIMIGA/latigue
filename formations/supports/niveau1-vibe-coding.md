@@ -578,5 +578,5 @@ Chaque participant présente son projet au groupe (5-10 min) :
 
 ---
 
-*Formation créée par Bolibana — https://bolibana.net*
+*Formation créée par Djimiga Tech — https://bolibana.net*
 *© 2026 Djimiga Tech — Tous droits réservés*

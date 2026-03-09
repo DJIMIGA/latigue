@@ -7,7 +7,7 @@ class ContentScript(models.Model):
     
     PILLAR_CHOICES = [
         ('education', 'Éducation / Partage de savoir'),
-        ('demo', 'Démo BoliBana Stock'),
+        ('demo', 'Démo Djimiga Tech Stock'),
         ('story', 'Storytelling / Parcours'),
         ('tips', 'Tips Dev & Tech'),
     ]

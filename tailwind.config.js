@@ -23,7 +23,7 @@ module.exports = {
         'body': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Palette Bolibana Brand Kit v2
+        // Palette Djimiga Tech Brand Kit v2
         neon: {
           green: '#00FF88',
           cyan: '#00E5FF',

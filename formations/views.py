@@ -32,6 +32,17 @@ class FormationDetailView(DetailView):
     def get_queryset(self):
         return Formation.objects.filter(is_active=True)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            enrollment = Enrollment.objects.filter(
+                user=self.request.user, formation=self.object, is_active=True
+            ).first()
+            context['enrollment'] = enrollment
+            if enrollment:
+                context['progress'] = enrollment.get_progress()
+        return context
+
 class FormationIndexView(TemplateView):
     template_name = 'formations/formation_index.html'
     

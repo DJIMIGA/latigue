@@ -21,7 +21,7 @@ from .base import BaseAgent, AgentResult
 
 SCRIPT_SYSTEM_PROMPT = """Tu es un expert en création de scripts vidéo court format (TikTok, Reels, Shorts).
 
-Contexte: Tu crées des scripts pour BoliBana, une entreprise de services numériques ciblant:
+Contexte: Tu crées des scripts pour Djimiga Tech, une entreprise de services numériques ciblant:
 - France (EUR) : freelances, TPE, PME
 - Afrique francophone (FCFA) : commerçants, entrepreneurs
 

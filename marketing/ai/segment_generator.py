@@ -63,7 +63,7 @@ def _build_prompt(pillar: str, theme: str, num_segments: int, segment_duration: 
     
     pillar_context = {
         'education': "Format éducatif, partage de savoir technique",
-        'demo': "Démo de projet BoliBana Stock (gestion inventaire restaurant)",
+        'demo': "Démo de projet Djimiga Tech Stock (gestion inventaire restaurant)",
         'story': "Storytelling, parcours personnel, inspiration",
         'tips': "Tips rapides dev/tech, astuces pratiques"
     }

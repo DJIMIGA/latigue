@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJIMIGA TECH — Logo System Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--g:#00FF88;--c:#00E5FF;--p:#BF5AF2;--bg:#060810;--sf:#0D1117;--cd:#111827;--bd:#1F2937;--t:#F9FAFB;--m:#6B7280;--gd:#F5A623}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:'Inter',sans-serif}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.hdr{padding:60px 80px 48px;border-bottom:1px solid var(--bd)}
+.ey{font-family:'Space Mono',monospace;font-size:11px;color:var(--g);letter-spacing:.35em;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.dt{display:inline-block;width:6px;height:6px;background:var(--g);border-radius:50%;box-shadow:0 0 10px var(--g);animation:p 2s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;letter-spacing:-.03em}
+h1 span{color:var(--g)}
+.sub{font-family:'Space Mono',monospace;font-size:12px;color:var(--m);margin-top:12px;letter-spacing:.1em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:2px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:0 2px 2px}
+.cell{background:var(--sf);padding:56px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:340px;position:relative}
+.cell.light{background:#F0F2F5}
+.cell.white{background:#fff}
+.cell.green{background:var(--g)}
+.cell.deep{background:#020406}
+.num{position:absolute;top:16px;left:20px;font-family:'Space Mono',monospace;font-size:10px;color:var(--g);letter-spacing:.3em;opacity:.5}
+.light .num,.white .num,.green .num{color:#374151}
+.lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--m);letter-spacing:.2em;text-align:center;text-transform:uppercase}
+.light .lbl,.white .lbl,.green .lbl{color:#6B7280}
+.sep{padding:36px 80px 16px;border-bottom:1px solid var(--bd)}
+.sep h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.sep .sn{font-family:'Space Mono',monospace;font-size:11px;color:var(--g);letter-spacing:.35em;margin-bottom:6px}
+.wm{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1}
+.tk{font-family:'Space Mono',monospace;letter-spacing:.2em;font-size:12px;margin-top:4px}
+.ft{padding:40px 80px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.ft-b{font-family:'Syne',sans-serif;font-weight:800;font-size:22px}.ft-b span{color:var(--g)}
+.ft-m{font-family:'Space Mono',monospace;font-size:10px;color:var(--m);letter-spacing:.2em}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="ey"><span class="dt"></span> LOGO SYSTEM — VERSION FINALE</div>
+  <h1>DJIMIGA<span> TECH</span></h1>
+  <p class="sub">// {D} BRACKET · TOUTES VARIANTES · FOND SOMBRE + CLAIR</p>
+</div>
+
+<!-- Reusable SVG defs -->
+<svg style="display:none">
+<defs>
+  <!-- GREEN on dark -->
+  <g id="ico-g">
+    <rect x="3" y="3" width="94" height="94" rx="20" stroke="#00FF88" stroke-width="1.5" opacity=".08"/>
+    <path d="M26 22 Q20 22 20 30 L20 43 Q20 50 14 50 Q20 50 20 57 L20 70 Q20 78 26 78" stroke="#00FF88" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
+    <rect x="34" y="26" width="6" height="48" rx="3" fill="#00FF88"/>
+    <path d="M40 26 Q64 26 64 50 Q64 74 40 74" stroke="#00FF88" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M74 22 Q80 22 80 30 L80 43 Q80 50 86 50 Q80 50 80 57 L80 70 Q80 78 74 78" stroke="#00E5FF" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
+    <circle cx="52" cy="50" r="4" fill="#F5A623"/>
+    <circle cx="52" cy="50" r="7" stroke="#F5A623" stroke-width=".8" fill="none" opacity=".3"/>
+    <line x1="52" y1="43" x2="52" y2="38" stroke="#F5A623" stroke-width="1" stroke-linecap="round" opacity=".35"/>
+    <line x1="58" y1="47" x2="62" y2="44" stroke="#F5A623" stroke-width="1" stroke-linecap="round" opacity=".25"/>
+    <line x1="58" y1="53" x2="62" y2="56" stroke="#F5A623" stroke-width="1" stroke-linecap="round" opacity=".25"/>
+  </g>
+  <!-- DARK on light -->
+  <g id="ico-d">
+    <rect x="3" y="3" width="94" height="94" rx="20" stroke="#111827" stroke-width="1.5" opacity=".06"/>
+    <path d="M26 22 Q20 22 20 30 L20 43 Q20 50 14 50 Q20 50 20 57 L20 70 Q20 78 26 78" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+    <rect x="34" y="26" width="6" height="48" rx="3" fill="#111827"/>
+    <path d="M40 26 Q64 26 64 50 Q64 74 40 74" stroke="#111827" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M74 22 Q80 22 80 30 L80 43 Q80 50 86 50 Q80 50 80 57 L80 70 Q80 78 74 78" stroke="#0077AA" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+    <circle cx="52" cy="50" r="4" fill="#D4850F"/>
+    <circle cx="52" cy="50" r="7" stroke="#D4850F" stroke-width=".8" fill="none" opacity=".25"/>
+  </g>
+  <!-- WHITE -->
+  <g id="ico-w">
+    <rect x="3" y="3" width="94" height="94" rx="20" stroke="white" stroke-width="1.5" opacity=".1"/>
+    <path d="M26 22 Q20 22 20 30 L20 43 Q20 50 14 50 Q20 50 20 57 L20 70 Q20 78 26 78" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+    <rect x="34" y="26" width="6" height="48" rx="3" fill="white"/>
+    <path d="M40 26 Q64 26 64 50 Q64 74 40 74" stroke="white" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M74 22 Q80 22 80 30 L80 43 Q80 50 86 50 Q80 50 80 57 L80 70 Q80 78 74 78" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
+    <circle cx="52" cy="50" r="4" fill="white" opacity=".8"/>
+  </g>
+</defs>
+</svg>
+
+<!-- ===== 01 — PRINCIPAL FOND SOMBRE ===== -->
+<div class="sep"><div class="sn">// 01 — PRINCIPAL</div><h2>Logo principal — fond sombre</h2></div>
+<div class="grid">
+  <div class="cell">
+    <div class="num">// 01.A</div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <svg viewBox="0 0 100 100" width="72" fill="none"><use href="#ico-g"/></svg>
+      <div><div class="wm" style="font-size:34px;color:var(--t)">DJIMIGA</div><div class="tk" style="color:var(--g)">TECH</div></div>
+    </div>
+    <div class="lbl">Horizontal — fond sombre</div>
+  </div>
+  <div class="cell">
+    <div class="num">// 01.B</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+      <svg viewBox="0 0 100 100" width="80" fill="none"><use href="#ico-g"/></svg>
+      <div style="text-align:center"><div class="wm" style="font-size:28px;color:var(--t)">DJIMIGA</div><div class="tk" style="color:var(--g)">TECH</div></div>
+    </div>
+    <div class="lbl">Vertical — fond sombre</div>
+  </div>
+</div>
+
+<!-- ===== 02 — PRINCIPAL FOND CLAIR ===== -->
+<div class="sep"><div class="sn">// 02 — FOND CLAIR</div><h2>Logo principal — fond clair</h2></div>
+<div class="grid">
+  <div class="cell light">
+    <div class="num">// 02.A</div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <svg viewBox="0 0 100 100" width="72" fill="none"><use href="#ico-d"/></svg>
+      <div><div class="wm" style="font-size:34px;color:#111827">DJIMIGA</div><div class="tk" style="color:#374151">TECH</div></div>
+    </div>
+    <div class="lbl">Horizontal — fond clair</div>
+  </div>
+  <div class="cell white">
+    <div class="num">// 02.B</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+      <svg viewBox="0 0 100 100" width="80" fill="none"><use href="#ico-d"/></svg>
+      <div style="text-align:center"><div class="wm" style="font-size:28px;color:#111827">DJIMIGA</div><div class="tk" style="color:#374151">TECH</div></div>
+    </div>
+    <div class="lbl">Vertical — fond blanc</div>
+  </div>
+</div>
+
+<!-- ===== 03 — ICÔNE SEULE ===== -->
+<div class="sep"><div class="sn">// 03 — ICÔNE SEULE</div><h2>Monogramme {D}</h2></div>
+<div class="grid3">
+  <div class="cell">
+    <div class="num">// 03.A</div>
+    <svg viewBox="0 0 100 100" width="96" fill="none"><use href="#ico-g"/></svg>
+    <div class="lbl">Icône — fond sombre</div>
+  </div>
+  <div class="cell light">
+    <div class="num">// 03.B</div>
+    <svg viewBox="0 0 100 100" width="96" fill="none"><use href="#ico-d"/></svg>
+    <div class="lbl">Icône — fond clair</div>
+  </div>
+  <div class="cell">
+    <div class="num">// 03.C</div>
+    <div style="width:96px;height:96px;background:#0D1117;border-radius:22px;border:1px solid rgba(0,255,136,.2);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(0,255,136,.08)">
+      <svg viewBox="0 0 100 100" width="58" fill="none"><use href="#ico-g"/></svg>
+    </div>
+    <div class="lbl">App icon — 96px</div>
+  </div>
+</div>
+
+<!-- ===== 04 — MONOCHROME ===== -->
+<div class="sep"><div class="sn">// 04 — MONOCHROME</div><h2>Versions monochromes</h2></div>
+<div class="grid3">
+  <div class="cell deep">
+    <div class="num">// 04.A</div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <svg viewBox="0 0 100 100" width="56" fill="none"><use href="#ico-w"/></svg>
+      <div><div class="wm" style="font-size:26px;color:white">DJIMIGA</div><div class="tk" style="color:rgba(255,255,255,.5)">TECH</div></div>
+    </div>
+    <div class="lbl">Blanc — fond ultra sombre</div>
+  </div>
+  <div class="cell deep" style="background:#030508">
+    <div class="num">// 04.B</div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <svg viewBox="0 0 100 100" width="56" fill="none" style="filter:drop-shadow(0 0 8px rgba(0,255,136,.3))"><use href="#ico-g"/></svg>
+      <div><div class="wm" style="font-size:26px;color:var(--g);text-shadow:0 0 24px rgba(0,255,136,.25)">DJIMIGA</div><div class="tk" style="color:rgba(0,255,136,.4)">TECH</div></div>
+    </div>
+    <div class="lbl">Neon glow</div>
+  </div>
+  <div class="cell green">
+    <div class="num">// 04.C</div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <svg viewBox="0 0 100 100" width="56" fill="none"><use href="#ico-d"/></svg>
+      <div><div class="wm" style="font-size:26px;color:#060810">DJIMIGA</div><div class="tk" style="color:rgba(6,8,16,.5)">TECH</div></div>
+    </div>
+    <div class="lbl">Sombre — fond neon</div>
+  </div>
+</div>
+
+<!-- ===== 05 — ÉCHELLE ===== -->
+<div class="sep"><div class="sn">// 05 — ÉCHELLE</div><h2>Test de taille</h2></div>
+<div class="grid">
+  <div class="cell">
+    <div class="num">// 05</div>
+    <div style="display:flex;align-items:center;gap:24px">
+      <svg viewBox="0 0 100 100" width="80" fill="none"><use href="#ico-g"/></svg>
+      <svg viewBox="0 0 100 100" width="56" fill="none"><use href="#ico-g"/></svg>
+      <svg viewBox="0 0 100 100" width="40" fill="none"><use href="#ico-g"/></svg>
+      <svg viewBox="0 0 100 100" width="24" fill="none"><use href="#ico-g"/></svg>
+      <svg viewBox="0 0 100 100" width="16" fill="none"><use href="#ico-g"/></svg>
+    </div>
+    <div class="lbl">80 · 56 · 40 · 24 · 16 px</div>
+  </div>
+  <div class="cell light">
+    <div class="num">// 05</div>
+    <div style="display:flex;align-items:center;gap:24px">
+      <svg viewBox="0 0 100 100" width="80" fill="none"><use href="#ico-d"/></svg>
+      <svg viewBox="0 0 100 100" width="56" fill="none"><use href="#ico-d"/></svg>
+      <svg viewBox="0 0 100 100" width="40" fill="none"><use href="#ico-d"/></svg>
+      <svg viewBox="0 0 100 100" width="24" fill="none"><use href="#ico-d"/></svg>
+      <svg viewBox="0 0 100 100" width="16" fill="none"><use href="#ico-d"/></svg>
+    </div>
+    <div class="lbl">80 · 56 · 40 · 24 · 16 px</div>
+  </div>
+</div>
+
+<!-- ===== 06 — AVEC DJIMIGA TECH STOCK ===== -->
+<div class="sep"><div class="sn">// 06 — PRODUIT</div><h2>Logo parent + produit Djimiga Tech Stock</h2></div>
+<div class="grid">
+  <div class="cell">
+    <div class="num">// 06.A</div>
+    <div style="display:flex;flex-direction:column;gap:24px;align-items:flex-start">
+      <div style="display:flex;align-items:center;gap:14px">
+        <svg viewBox="0 0 100 100" width="40" fill="none"><use href="#ico-g"/></svg>
+        <div><div class="wm" style="font-size:22px;color:var(--t)">DJIMIGA</div><div class="tk" style="color:var(--g);font-size:10px">TECH</div></div>
+      </div>
+      <div style="width:100%;height:1px;background:var(--bd)"></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <svg viewBox="0 0 100 100" width="32" fill="none">
+          <circle cx="50" cy="50" r="46" stroke="#00FF88" stroke-width="1.5" fill="rgba(0,255,136,0.03)"/>
+          <path d="M14 50 A 36 36 0 0 1 86 50" stroke="#00FF88" stroke-width="2" fill="none" opacity="0.3"/>
+          <circle cx="50" cy="50" r="5" fill="#F5A623" opacity="0.9"/>
+          <rect x="13" y="20" width="6" height="58" rx="3" fill="#00FF88"/>
+          <path d="M19 20 Q36 20 36 32 Q36 43 19 43" stroke="#00FF88" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M19 43 Q38 43 38 55 Q38 67 19 67" stroke="#00FF88" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <rect x="55" y="20" width="6" height="58" rx="3" fill="#00E5FF"/>
+          <path d="M61 20 Q78 20 78 32 Q78 43 61 43" stroke="#00E5FF" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M61 43 Q80 43 80 55 Q80 67 61 67" stroke="#00E5FF" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--t)">Djimiga Tech Stock</div>
+          <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--m);letter-spacing:.15em">GESTION IA · PAR DJIMIGA TECH</div>
+        </div>
+      </div>
+    </div>
+    <div class="lbl">Hiérarchie parent → produit</div>
+  </div>
+  <div class="cell">
+    <div class="num">// 06.B</div>
+    <div style="display:flex;align-items:center;gap:24px">
+      <div style="display:flex;align-items:center;gap:10px;padding-right:24px;border-right:1px solid var(--bd)">
+        <svg viewBox="0 0 100 100" width="36" fill="none"><use href="#ico-g"/></svg>
+        <div class="wm" style="font-size:18px;color:var(--t)">DJIMIGA<span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--g);margin-left:6px">TECH</span></div>
+      </div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--m)">Djimiga Tech Stock</div>
+    </div>
+    <div class="lbl">Inline parent | produit</div>
+  </div>
+</div>
+
+<div class="ft">
+  <div class="ft-b">DJIMIGA<span> TECH</span></div>
+  <div class="ft-m">LOGO SYSTEM V1.0 FINAL · © 2026 DJIMIGA TECH</div>
+</div>
+
+</body>
+</html>

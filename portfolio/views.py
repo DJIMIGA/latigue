@@ -55,7 +55,7 @@ def about(request):
 
 
 def brand_kit(request):
-    """Page Brand Kit Bolibana — standalone HTML."""
+    """Page Brand Kit Djimiga Tech — standalone HTML."""
     return render(request, "brand-kit.html")
 
 

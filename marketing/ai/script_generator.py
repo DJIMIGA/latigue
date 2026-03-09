@@ -79,7 +79,7 @@ class ScriptGenerator:
         
         pillar_descriptions = {
             'education': "Éducation / Partage de savoir (commerce, entrepreneuriat, culture tech)",
-            'demo': "Démo BoliBana Stock (app de gestion de stock pour primeurs)",
+            'demo': "Démo Djimiga Tech Stock (app de gestion de stock pour primeurs)",
             'story': "Storytelling / Parcours (primeur → développeur)",
             'tips': "Tips Dev & Tech (Python, Django, IA, prompt engineering)"
         }
@@ -105,7 +105,7 @@ class ScriptGenerator:
         prompt = f"""Tu es un expert en création de contenu viral pour TikTok/Reels.
 
 CONTEXTE:
-- **Créateur:** Konimba Djimiga (Bolibana) — "AppBuilder with Prompt & Supervision"
+- **Créateur:** Konimba Djimiga (Djimiga Tech) — "AppBuilder with Prompt & Supervision"
 - **Parcours:** Primeur chez Auchan → Développeur Python/Django
 - **Pilier de contenu:** {description}
 - **Thème:** {theme}

@@ -241,12 +241,12 @@ python manage.py generate_content \
   --subtitles
 ```
 
-### Démo BoliBana Stock
+### Démo Djimiga Tech Stock
 
 ```bash
 python manage.py generate_content \
   --pillar demo \
-  --theme "Scanner 50 produits en 2 minutes avec BoliBana Stock" \
+  --theme "Scanner 50 produits en 2 minutes avec Djimiga Tech Stock" \
   --voice Bella
 ```
 
