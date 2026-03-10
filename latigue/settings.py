@@ -426,6 +426,15 @@ LOGGING = {
         },
     },
 }
+# ======================================================================
+# PAYDUNYA CONFIGURATION
+# ======================================================================
+PAYDUNYA_MASTER_KEY = os.environ.get('PAYDUNYA_MASTER_KEY', '')
+PAYDUNYA_PRIVATE_KEY = os.environ.get('PAYDUNYA_PRIVATE_KEY', '')
+PAYDUNYA_PUBLIC_KEY = os.environ.get('PAYDUNYA_PUBLIC_KEY', '')
+PAYDUNYA_TOKEN = os.environ.get('PAYDUNYA_TOKEN', '')
+PAYDUNYA_MODE = os.environ.get('PAYDUNYA_MODE', 'test')  # 'test' ou 'live'
+
 # Auth
 LOGIN_URL = "/connexion/"
 LOGIN_REDIRECT_URL = "/formations/espace-eleve/"

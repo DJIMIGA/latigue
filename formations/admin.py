@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Formation, Module, Lesson, Enrollment, LessonProgress
+from .models import Formation, Module, Lesson, Enrollment, LessonProgress, Payment
 
 
 class ModuleInline(admin.TabularInline):
@@ -43,6 +43,15 @@ class EnrollmentAdmin(admin.ModelAdmin):
     list_display = ('user', 'formation', 'enrolled_at', 'is_active')
     list_filter = ('is_active', 'formation')
     readonly_fields = ('enrolled_at',)
+
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'formation', 'amount', 'currency', 'status', 'created_at')
+    list_filter = ('status', 'currency', 'formation', 'created_at')
+    search_fields = ('user__username', 'payment_token', 'paydunya_token')
+    readonly_fields = ('payment_token', 'paydunya_token', 'created_at')
+    date_hierarchy = 'created_at'
 
 
 @admin.register(LessonProgress)

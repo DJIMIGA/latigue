@@ -13,6 +13,11 @@ urlpatterns = [
     path('espace-eleve/<slug:slug>/lecon/<int:lesson_id>/', views.lesson_detail, name='lesson_detail'),
     path('espace-eleve/lecon/<int:lesson_id>/complete/', views.mark_lesson_complete, name='mark_lesson_complete'),
     path('inscription/<slug:slug>/', views.enrollment_view, name='enrollment'),
+    # Paiement PayDunya
+    path('paiement/<slug:slug>/', views.initiate_payment, name='initiate_payment'),
+    path('paiement/retour/', views.payment_return, name='payment_return'),
+    path('paiement/annule/', views.payment_cancel, name='payment_cancel'),
+    path('paiement/callback/', views.payment_callback, name='payment_callback'),
     # Existing
     path('<slug:slug>/', views.FormationDetailView.as_view(), name='formation_detail'),
 ]

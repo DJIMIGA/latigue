@@ -1,9 +1,19 @@
+import uuid
+import logging
+
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
-from .models import Formation, Module, Lesson, Enrollment, LessonProgress
+from django.conf import settings
+from django.urls import reverse
+
+from .models import Formation, Module, Lesson, Enrollment, LessonProgress, Payment
+
+logger = logging.getLogger(__name__)
 
 class FormationListView(ListView):
     model = Formation
@@ -74,10 +84,171 @@ class FormationIndexView(TemplateView):
 @login_required
 def enrollment_view(request, slug):
     formation = get_object_or_404(Formation, slug=slug, is_active=True)
-    enrollment, created = Enrollment.objects.get_or_create(
-        user=request.user, formation=formation
-    )
-    return redirect('formations:student_dashboard')
+    # Si déjà inscrit, rediriger vers le dashboard
+    if Enrollment.objects.filter(user=request.user, formation=formation).exists():
+        return redirect('formations:student_dashboard')
+    # Si gratuit, inscription directe
+    if formation.price == 0:
+        Enrollment.objects.get_or_create(user=request.user, formation=formation)
+        return redirect('formations:student_dashboard')
+    # Sinon, rediriger vers le paiement
+    return redirect('formations:initiate_payment', slug=slug)
+
+
+def _setup_paydunya():
+    """Configure PayDunya avec les clés depuis settings."""
+    import paydunya
+    paydunya.api_keys = {
+        'PAYDUNYA-MASTER-KEY': settings.PAYDUNYA_MASTER_KEY,
+        'PAYDUNYA-PRIVATE-KEY': settings.PAYDUNYA_PRIVATE_KEY,
+        'PAYDUNYA-PUBLIC-KEY': settings.PAYDUNYA_PUBLIC_KEY,
+        'PAYDUNYA-TOKEN': settings.PAYDUNYA_TOKEN,
+    }
+    paydunya.debug = (settings.PAYDUNYA_MODE == 'test')
+    return paydunya
+
+
+@login_required
+def initiate_payment(request, slug):
+    formation = get_object_or_404(Formation, slug=slug, is_active=True)
+
+    # Déjà inscrit ?
+    if Enrollment.objects.filter(user=request.user, formation=formation).exists():
+        return redirect('formations:student_dashboard')
+
+    # Gratuit ?
+    if formation.price == 0:
+        Enrollment.objects.get_or_create(user=request.user, formation=formation)
+        return redirect('formations:student_dashboard')
+
+    # Convertir en FCFA pour PayDunya
+    amount_xof = int(Payment.convert_eur_to_xof(formation.price))
+    payment_token = str(uuid.uuid4())
+
+    if request.method == 'POST':
+        paydunya = _setup_paydunya()
+        store = paydunya.Store(name='Bolibana Formations')
+        store.tagline = 'Formations professionnelles'
+        store.website_url = request.build_absolute_uri('/')
+
+        invoice = paydunya.Invoice(store)
+        invoice.add_item(
+            name=formation.title,
+            quantity=1,
+            unit_price=amount_xof,
+            total_price=amount_xof,
+            description=f"Formation : {formation.title}",
+        )
+        invoice.total_amount = amount_xof
+
+        # URLs de callback
+        invoice.return_url = request.build_absolute_uri(reverse('formations:payment_return'))
+        invoice.cancel_url = request.build_absolute_uri(reverse('formations:payment_cancel'))
+        invoice.callback_url = request.build_absolute_uri(reverse('formations:payment_callback'))
+
+        # Données custom
+        invoice.add_custom_data('payment_token', payment_token)
+        invoice.add_custom_data('formation_slug', formation.slug)
+        invoice.add_custom_data('user_id', str(request.user.id))
+
+        # Créer le paiement en base
+        payment = Payment.objects.create(
+            user=request.user,
+            formation=formation,
+            amount=formation.price,
+            currency='EUR',
+            payment_token=payment_token,
+            status='pending',
+        )
+
+        success = invoice.create()
+        if success:
+            payment.paydunya_token = invoice.token
+            payment.save()
+            return redirect(invoice.url)
+        else:
+            payment.status = 'failed'
+            payment.save()
+            logger.error(f"PayDunya invoice creation failed: {invoice.response_text}")
+            return render(request, 'formations/payment_summary.html', {
+                'formation': formation,
+                'amount_xof': amount_xof,
+                'error': "Erreur lors de la création du paiement. Veuillez réessayer.",
+            })
+
+    return render(request, 'formations/payment_summary.html', {
+        'formation': formation,
+        'amount_xof': amount_xof,
+    })
+
+
+@login_required
+def payment_return(request):
+    """Return URL après paiement PayDunya."""
+    token = request.GET.get('token', '')
+    if token:
+        paydunya = _setup_paydunya()
+        invoice = paydunya.Invoice()
+        if invoice.confirm(token):
+            payment = Payment.objects.filter(paydunya_token=token).first()
+            if payment and payment.status != 'completed':
+                payment.status = 'completed'
+                payment.save()
+                Enrollment.objects.get_or_create(
+                    user=payment.user, formation=payment.formation
+                )
+            return render(request, 'formations/payment_summary.html', {
+                'success': True,
+                'formation': payment.formation if payment else None,
+            })
+    return render(request, 'formations/payment_summary.html', {
+        'error': "Impossible de confirmer le paiement. Contactez-nous si le montant a été débité.",
+    })
+
+
+@login_required
+def payment_cancel(request):
+    """Cancel URL après annulation PayDunya."""
+    token = request.GET.get('token', '')
+    if token:
+        payment = Payment.objects.filter(paydunya_token=token).first()
+        if payment and payment.status == 'pending':
+            payment.status = 'cancelled'
+            payment.save()
+    return render(request, 'formations/payment_summary.html', {
+        'cancelled': True,
+    })
+
+
+@csrf_exempt
+@require_POST
+def payment_callback(request):
+    """Webhook IPN PayDunya (POST)."""
+    import json
+    try:
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return HttpResponse(status=400)
+
+    token = data.get('data', {}).get('hash', '') or data.get('token', '')
+    if not token:
+        return HttpResponse(status=400)
+
+    paydunya = _setup_paydunya()
+    invoice = paydunya.Invoice()
+    if invoice.confirm(token):
+        custom_data = invoice.custom_data or {}
+        payment_token = custom_data.get('payment_token', '')
+        payment = Payment.objects.filter(payment_token=payment_token).first()
+        if payment and payment.status != 'completed':
+            payment.status = 'completed'
+            payment.paydunya_token = token
+            payment.save()
+            Enrollment.objects.get_or_create(
+                user=payment.user, formation=payment.formation
+            )
+            logger.info(f"IPN: Payment {payment.id} confirmed for user {payment.user.username}")
+    return HttpResponse(status=200)
 
 
 @login_required

@@ -100,6 +100,50 @@ class Lesson(models.Model):
         return url
 
 
+class Payment(models.Model):
+    CURRENCY_CHOICES = [
+        ('EUR', 'Euro'),
+        ('XOF', 'Franc CFA'),
+    ]
+    STATUS_CHOICES = [
+        ('pending', 'En attente'),
+        ('completed', 'Complété'),
+        ('failed', 'Échoué'),
+        ('cancelled', 'Annulé'),
+    ]
+
+    EUR_TO_XOF_RATE = 656
+
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='payments')
+    formation = models.ForeignKey(Formation, on_delete=models.CASCADE, related_name='payments')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Montant")
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='XOF', verbose_name="Devise")
+    payment_token = models.CharField(max_length=255, unique=True, verbose_name="Token de paiement")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="Statut")
+    paydunya_token = models.CharField(max_length=255, blank=True, null=True, verbose_name="Token PayDunya")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Paiement"
+        verbose_name_plural = "Paiements"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.formation.title} - {self.amount} {self.currency} ({self.status})"
+
+    @classmethod
+    def convert_eur_to_xof(cls, amount_eur):
+        """Convertit un montant EUR en XOF (FCFA)"""
+        from decimal import Decimal
+        return (Decimal(str(amount_eur)) * cls.EUR_TO_XOF_RATE).quantize(Decimal('1'))
+
+    def get_amount_xof(self):
+        """Retourne le montant en XOF"""
+        if self.currency == 'EUR':
+            return self.convert_eur_to_xof(self.amount)
+        return self.amount
+
+
 class Enrollment(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='enrollments')
     formation = models.ForeignKey(Formation, on_delete=models.CASCADE, related_name='enrollments')
