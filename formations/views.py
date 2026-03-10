@@ -132,13 +132,13 @@ def initiate_payment(request, slug):
         store.website_url = request.build_absolute_uri('/')
 
         invoice = paydunya.Invoice(store)
-        invoice.add_item(
-            name=formation.title,
-            quantity=1,
-            unit_price=amount_xof,
-            total_price=amount_xof,
-            description=f"Formation : {formation.title}",
-        )
+        invoice.add_item({
+            'name': formation.title,
+            'quantity': 1,
+            'unit_price': amount_xof,
+            'total_price': amount_xof,
+            'description': f"Formation : {formation.title}",
+        })
         invoice.total_amount = amount_xof
 
         # URLs de callback
