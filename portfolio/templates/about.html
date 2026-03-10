@@ -113,6 +113,177 @@
       </div>
     </div>
 
+    <!-- ═══════════════════ MON PARCOURS ═══════════════════ -->
+    <div class="bg-[#0D1117] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-6 lg:p-10 mb-10">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
+            Mon Parcours
+          </span>
+        </h2>
+        <p class="text-base lg:text-lg text-gray-300 max-w-2xl mx-auto">
+          De primeur à développeur Python — un parcours unique qui nourrit ma vision du métier.
+        </p>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative">
+        <div class="absolute left-2.5 md:left-4 lg:left-1/2 transform lg:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#00FF88] to-[#00E5FF]"></div>
+        <div class="space-y-8">
+          {% for experience in experiences %}
+          <div class="relative flex items-center lg:justify-between {% if experience.position == 'right' %}lg:flex-row-reverse{% endif %} group animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.1"|floatformat:1 }}s;">
+            <div class="flex items-center ml-6 md:ml-10 lg:ml-0 lg:w-5/12 {% if experience.position == 'right' %}lg:justify-end{% endif %}">
+              <div class="bg-[#111827] rounded-xl p-4 md:p-6 shadow-lg border border-[#1F2937] hover:border-[#00FF88]/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.15)] transition-all duration-300 hover:scale-105">
+                <div class="flex items-start space-x-3 mb-3">
+                  <div class="w-12 h-12 flex items-center justify-center overflow-hidden {% if not experience.logo %}p-1{% endif %}">
+                    {% if experience.logo %}
+                    <img src="{{ experience.logo.url }}" alt="Logo {{ experience.company|default:experience.title }}" class="w-full h-full object-contain">
+                    {% else %}
+                    <img src="{% static 'portfolio/svg/header_logo.svg' %}" alt="Logo" class="w-full h-full object-contain">
+                    {% endif %}
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold text-white">{{ experience.title }}{% if experience.company %} - {{ experience.company }}{% endif %}</h3>
+                    <p class="text-sm font-mono text-gray-500">{{ experience.period }}</p>
+                  </div>
+                </div>
+                <p class="text-gray-300 text-sm">{{ experience.description }}</p>
+              </div>
+            </div>
+            <div class="absolute left-2.5 md:left-4 lg:left-1/2 transform lg:-translate-x-1/2 -translate-x-1/2 md:translate-x-0 w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 {% if experience.position == 'right' %}bg-gradient-to-br from-[#00E5FF] to-[#00FF88]{% else %}bg-gradient-to-br from-[#00FF88] to-[#00E5FF]{% endif %} rounded-full border-2 md:border-4 border-[#060810] shadow-lg group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(0,255,136,0.5)] transition-all duration-300"></div>
+          </div>
+          {% empty %}
+          <p class="text-center text-gray-300">Aucune expérience à afficher pour le moment.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ COMPÉTENCES ═══════════════════ -->
+    <div class="bg-[#111827] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-6 lg:p-10 mb-10">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.2301 12.5502C17.9301 13.8502 16.0901 14.3302 14.4301 13.9402L8.70012 19.6702C7.92012 20.4502 6.65012 20.4502 5.87012 19.6702L4.83012 18.6302C4.05012 17.8502 4.05012 16.5802 4.83012 15.8002L10.5601 10.0702C10.1701 8.40021 10.6501 6.57021 11.9501 5.27021C13.6301 3.59021 16.1501 3.30021 18.1101 4.39021L14.0801 8.42021L16.1301 10.4702L20.1501 6.45021C21.2101 8.40021 20.9001 10.8902 19.2401 12.5502H19.2301Z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
+            Mes Compétences
+          </span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+        <!-- Python -->
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,255,136,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00FF88]/50 hover:scale-110 animate-fade-in-up">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center">
+              <img src="{% static 'portfolio/svg/python.svg' %}" alt="Python" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
+            </div>
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00FF88] transition-colors duration-300">Python</h3>
+          </div>
+        </div>
+        <!-- Django -->
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,255,136,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00FF88]/50 hover:scale-110 animate-fade-in-up" style="animation-delay:.2s">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center">
+              <img src="{% static 'portfolio/svg/django.svg' %}" alt="Django" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
+            </div>
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00FF88] transition-colors duration-300">Django</h3>
+          </div>
+        </div>
+        <!-- React Native -->
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00E5FF]/50 hover:scale-110 animate-fade-in-up" style="animation-delay:.4s">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center">
+              <img src="{% static 'portfolio/svg/header_logo.svg' %}" alt="React Native" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
+            </div>
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00E5FF] transition-colors duration-300">React Native</h3>
+          </div>
+        </div>
+        <!-- Tailwind -->
+        <div class="group bg-[#0D1117] rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,229,255,0.2)] transition-all duration-500 border border-[#1F2937] hover:border-[#00E5FF]/50 hover:scale-110 animate-fade-in-up" style="animation-delay:.6s">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 lg:w-20 lg:h-20 mb-4 flex items-center justify-center">
+              <img src="{% static 'portfolio/svg/tailwind.svg' %}" alt="Tailwind CSS" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300">
+            </div>
+            <h3 class="text-lg font-semibold text-white group-hover:text-[#00E5FF] transition-colors duration-300">Tailwind</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ PROJETS RÉALISÉS ═══════════════════ -->
+    <div class="bg-[#0D1117] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-6 lg:p-10 mb-10">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-xl bg-gradient-to-br from-[#00FF88] to-[#00E5FF] mb-4 shadow-lg">
+          <svg class="w-6 h-6 lg:w-8 lg:h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-syne font-extrabold mb-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
+            Projets Réalisés
+          </span>
+        </h2>
+        <p class="text-base lg:text-lg text-gray-300 max-w-2xl mx-auto">
+          Découvrez une sélection de mes réalisations qui reflètent mon parcours et ma passion pour créer des solutions innovantes.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for portfolio in portfolios %}
+        <div class="group bg-[#111827] rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] border border-[#1F2937] hover:border-[#00FF88]/50 mx-auto w-full max-w-sm animate-fade-in-up" style="animation-delay: {{ forloop.counter|add:"0.2" }}s;">
+          <div class="relative overflow-hidden">
+            {% if portfolio.thumbnail %}
+            <img class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110" src="{{ portfolio.thumbnail.url }}" alt="{{ portfolio.title }}">
+            {% else %}
+            <div class="w-full h-48 bg-gradient-to-br from-[#00FF88]/20 to-[#00E5FF]/20 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            {% endif %}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-white mb-3 group-hover:text-[#00FF88] transition-colors duration-300">
+              {{ portfolio.title }}
+            </h3>
+            <p class="text-gray-300 mb-6 leading-relaxed">
+              {{ portfolio.description|truncatewords:20 }}
+            </p>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+              {% if portfolio.lien %}
+              <a href="{{ portfolio.lien }}" target="_blank" rel="noopener noreferrer" class="w-full sm:flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[#00FF88] to-[#00E5FF] text-black rounded-lg hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] transition-all duration-300 text-center font-semibold shadow-lg transform hover:scale-105">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+                Voir le projet
+              </a>
+              {% endif %}
+              {% if portfolio.lien_github %}
+              <a href="{{ portfolio.lien_github }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-3 bg-[#1F2937] text-gray-300 rounded-lg hover:bg-[#00FF88]/20 hover:text-[#00FF88] transition-all duration-300 shadow-lg transform hover:scale-105">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.239 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-gray-300 col-span-full">Aucun projet à afficher pour le moment.</p>
+        {% endfor %}
+      </div>
+    </div>
+
     <!-- Bloc contact -->
     <div class="max-w-4xl mx-auto bg-[#111827] rounded-xl lg:rounded-2xl shadow-lg border border-[#1F2937] p-6 lg:p-10 mt-10 lg:mt-12">
       <div class="text-center mb-8">
@@ -127,7 +298,6 @@
 
       <!-- Boutons de contact rapide -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <!-- WhatsApp -->
         <a href="https://wa.me/22372464294" target="_blank" rel="noopener noreferrer"
            class="flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition-all duration-300 group shadow-lg hover:scale-105" style="background-color: #25D366;">
           <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -138,8 +308,6 @@
             <span class="block text-white/70 text-xs">Réponse rapide</span>
           </div>
         </a>
-
-        <!-- Email -->
         <a href="mailto:pymalien@gmail.com"
            class="flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition-all duration-300 group shadow-lg hover:scale-105" style="background-color: #00E5FF;">
           <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">

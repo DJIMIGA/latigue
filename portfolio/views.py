@@ -10,22 +10,24 @@ from .models import Portfolio, Profile, Experience
 
 # Create your views here.
 def portfolio_index(request):
-    # Optimisation : utiliser only() pour ne récupérer que les champs nécessaires
-    # et order_by pour un ordre cohérent
-    portfolios = Portfolio.objects.all().order_by('order', '-created_at')[:12]  # Limiter à 12 projets
-    profile = Profile.get_profile()  # Récupère ou crée le profil unique
-    # Optimisation : order_by pour un ordre cohérent
-    experiences = Experience.objects.filter(is_active=True).order_by('order', '-created_at')
+    from services.models import Service
+    from formations.models import Formation
+
+    services = Service.objects.filter(category='ia_automation', is_active=True).order_by('price')
+    formations = Formation.objects.filter(is_active=True).order_by('price')
+
     context = {
-        "portfolios": portfolios,
-        "profile": profile,
-        "experiences": experiences,
-        'MEDIA_URL': settings.MEDIA_URL}
+        'services': services,
+        'formations': formations,
+    }
     return render(request, "portfolio_index.html", context)
 
 
 def about(request):
     profile = Profile.get_profile()
+    portfolios = Portfolio.objects.all().order_by('order', '-created_at')[:12]
+    experiences = Experience.objects.filter(is_active=True).order_by('order', '-created_at')
+
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -50,6 +52,9 @@ def about(request):
     context = {
         "form": form,
         "profile": profile,
+        "portfolios": portfolios,
+        "experiences": experiences,
+        'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request, "about.html", context)
 
