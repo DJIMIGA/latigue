@@ -29,11 +29,7 @@
     
     <div class="relative flex flex-col h-full">
         <!-- En-tête menu -->
-        <div class="flex items-center justify-between p-4 border-b border-[#1F2937]/50">
-            <a href="{% url 'portfolio-index' %}" class="flex items-center">
-                <img src="{% static 'portfolio/svg/djimiga-tech-logo-transparent.svg' %}" alt="Djimiga Tech" class="h-9 w-9" />
-                <span class="ml-2 text-lg font-syne font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Djimiga Tech</span>
-            </a>
+        <div class="flex items-center justify-end p-4 border-b border-[#1F2937]/50">
             <button id="close-menu" class="w-10 h-10 flex items-center justify-center rounded-xl transition-colors" style="background-color: #111827;">
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
