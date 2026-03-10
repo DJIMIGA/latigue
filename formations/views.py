@@ -132,24 +132,12 @@ def initiate_payment(request, slug):
         store.website_url = request.build_absolute_uri('/')
 
         invoice = paydunya.Invoice(store)
-        invoice.add_item({
-            'name': formation.title,
-            'quantity': 1,
-            'unit_price': amount_xof,
-            'total_price': amount_xof,
-            'description': f"Formation : {formation.title}",
-        })
         invoice.total_amount = amount_xof
 
         # URLs de callback
         invoice.return_url = request.build_absolute_uri(reverse('formations:payment_return'))
         invoice.cancel_url = request.build_absolute_uri(reverse('formations:payment_cancel'))
         invoice.callback_url = request.build_absolute_uri(reverse('formations:payment_callback'))
-
-        # Données custom
-        invoice.add_custom_data('payment_token', payment_token)
-        invoice.add_custom_data('formation_slug', formation.slug)
-        invoice.add_custom_data('user_id', str(request.user.id))
 
         # Créer le paiement en base
         payment = Payment.objects.create(
@@ -161,7 +149,20 @@ def initiate_payment(request, slug):
             status='pending',
         )
 
-        success = invoice.create()
+        from paydunya.invoice import InvoiceItem
+        items = [InvoiceItem(
+            name=formation.title,
+            quantity=1,
+            unit_price=amount_xof,
+            total_price=amount_xof,
+            description=f"Formation : {formation.title}",
+        )]
+        custom_data = [
+            ('payment_token', payment_token),
+            ('formation_slug', formation.slug),
+            ('user_id', str(request.user.id)),
+        ]
+        success = invoice.create(items=items, custom_data=custom_data)
         if success:
             payment.paydunya_token = invoice.token
             payment.save()
