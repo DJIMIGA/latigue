@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Service
+from .models import Service, ServiceOrder, Subscription
+
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
@@ -31,3 +32,22 @@ class ServiceAdmin(admin.ModelAdmin):
         }),
     )
 
+
+@admin.register(ServiceOrder)
+class ServiceOrderAdmin(admin.ModelAdmin):
+    list_display = ('user', 'service', 'order_type', 'amount', 'status', 'created_at')
+    list_filter = ('status', 'order_type', 'service', 'created_at')
+    search_fields = ('user__username', 'user__email', 'payment_token', 'paydunya_token')
+    readonly_fields = ('payment_token', 'paydunya_token', 'created_at')
+    date_hierarchy = 'created_at'
+    raw_id_fields = ('user', 'service')
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'service', 'status', 'amount', 'start_date', 'end_date', 'auto_renew', 'created_at')
+    list_filter = ('status', 'auto_renew', 'service', 'created_at')
+    search_fields = ('user__username', 'user__email', 'service__title')
+    readonly_fields = ('created_at', 'updated_at')
+    date_hierarchy = 'created_at'
+    raw_id_fields = ('user', 'service')

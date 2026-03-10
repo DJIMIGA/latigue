@@ -437,5 +437,5 @@ PAYDUNYA_MODE = os.environ.get('PAYDUNYA_MODE', 'test')  # 'test' ou 'live'
 
 # Auth
 LOGIN_URL = "/connexion/"
-LOGIN_REDIRECT_URL = "/formations/espace-eleve/"
+LOGIN_REDIRECT_URL = "/formations/espace-client/"
 LOGOUT_REDIRECT_URL = "/"

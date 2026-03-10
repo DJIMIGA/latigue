@@ -12,6 +12,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from .models import Formation, Module, Lesson, Enrollment, LessonProgress, Payment
+from services.models import Subscription
 
 logger = logging.getLogger(__name__)
 
@@ -86,11 +87,11 @@ def enrollment_view(request, slug):
     formation = get_object_or_404(Formation, slug=slug, is_active=True)
     # Si déjà inscrit, rediriger vers le dashboard
     if Enrollment.objects.filter(user=request.user, formation=formation).exists():
-        return redirect('formations:student_dashboard')
+        return redirect('formations:client_dashboard')
     # Si gratuit, inscription directe
     if formation.price == 0:
         Enrollment.objects.get_or_create(user=request.user, formation=formation)
-        return redirect('formations:student_dashboard')
+        return redirect('formations:client_dashboard')
     # Sinon, rediriger vers le paiement
     return redirect('formations:initiate_payment', slug=slug)
 
@@ -114,12 +115,12 @@ def initiate_payment(request, slug):
 
     # Déjà inscrit ?
     if Enrollment.objects.filter(user=request.user, formation=formation).exists():
-        return redirect('formations:student_dashboard')
+        return redirect('formations:client_dashboard')
 
     # Gratuit ?
     if formation.price == 0:
         Enrollment.objects.get_or_create(user=request.user, formation=formation)
-        return redirect('formations:student_dashboard')
+        return redirect('formations:client_dashboard')
 
     # Prix déjà en FCFA dans la DB
     amount_xof = int(formation.price)
@@ -255,7 +256,8 @@ def payment_callback(request):
 
 
 @login_required
-def student_dashboard(request):
+def client_dashboard(request):
+    # Formations
     enrollments = Enrollment.objects.filter(
         user=request.user, is_active=True
     ).select_related('formation')
@@ -267,10 +269,28 @@ def student_dashboard(request):
             'formation': enrollment.formation,
             'progress': enrollment.get_progress(),
         })
-    
-    return render(request, 'formations/student_dashboard.html', {
+
+    # Services & Abonnements
+    subscriptions = Subscription.objects.filter(
+        user=request.user
+    ).select_related('service').order_by('-created_at')
+
+    # Auto-expire subscriptions
+    from django.utils import timezone as tz
+    now = tz.now()
+    for sub in subscriptions:
+        if sub.status == 'active' and sub.end_date and sub.end_date < now:
+            sub.status = 'expired'
+            sub.save()
+
+    return render(request, 'formations/client_dashboard.html', {
         'enrollment_data': enrollment_data,
+        'subscriptions': subscriptions,
     })
+
+
+# Backward compatibility alias
+student_dashboard = client_dashboard
 
 
 @login_required

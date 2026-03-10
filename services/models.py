@@ -1,5 +1,7 @@
+import uuid
 from django.db import models
 from django.utils.text import slugify
+from django.utils import timezone
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 
@@ -112,3 +114,75 @@ class Service(models.Model):
                 features.append("Optimisation SEO")
         
         return features
+
+
+class ServiceOrder(models.Model):
+    ORDER_TYPE_CHOICES = [
+        ('installation', 'Installation'),
+        ('subscription_renewal', 'Renouvellement abonnement'),
+    ]
+    STATUS_CHOICES = [
+        ('pending', 'En attente'),
+        ('completed', 'Complété'),
+        ('failed', 'Échoué'),
+        ('cancelled', 'Annulé'),
+    ]
+
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='service_orders')
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='orders')
+    order_type = models.CharField(max_length=25, choices=ORDER_TYPE_CHOICES, default='installation')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Montant (FCFA)")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    payment_token = models.CharField(max_length=255, unique=True, default=uuid.uuid4)
+    paydunya_token = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Commande Service"
+        verbose_name_plural = "Commandes Services"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.service.title} - {self.amount} FCFA ({self.status})"
+
+
+class Subscription(models.Model):
+    STATUS_CHOICES = [
+        ('active', 'Actif'),
+        ('expired', 'Expiré'),
+        ('cancelled', 'Annulé'),
+        ('pending', 'En attente'),
+    ]
+
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='subscriptions')
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='subscriptions')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Montant mensuel (FCFA)")
+    auto_renew = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Abonnement"
+        verbose_name_plural = "Abonnements"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.service.title} ({self.status})"
+
+    @property
+    def is_active(self):
+        if self.status != 'active':
+            return False
+        if self.end_date and self.end_date < timezone.now():
+            return False
+        return True
+
+    @property
+    def days_remaining(self):
+        if not self.end_date:
+            return 0
+        delta = self.end_date - timezone.now()
+        return max(0, delta.days)

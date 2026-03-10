@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon Espace Client | Djimiga Tech{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#060810]">
+    <div class="container mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-syne font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
+                Mon Espace Client
+            </h1>
+            <p class="text-gray-400">Bienvenue {{ request.user.first_name|default:request.user.username }} — vos formations et services</p>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════ -->
+        <!-- 📚 Mes Formations -->
+        <!-- ══════════════════════════════════════════════════ -->
+        <div class="mb-14">
+            <h2 class="text-2xl font-syne font-bold text-gray-100 mb-6 flex items-center gap-3">
+                <span class="text-2xl">📚</span> Mes Formations
+            </h2>
+
+            {% if enrollment_data %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
+                {% for item in enrollment_data %}
+                <div class="bg-[#111827] rounded-xl border border-[#1F2937] hover:border-[#00FF88]/30 transition-all overflow-hidden">
+                    {% if item.formation.image %}
+                    <img src="{{ item.formation.image.url }}" alt="{{ item.formation.title }}" class="w-full h-40 object-cover">
+                    {% else %}
+                    <div class="w-full h-40 bg-[#0D1117] flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-[#00FF88]/10 text-[#00FF88] px-2 py-1 rounded-full border border-[#00FF88]/20">
+                                {{ item.formation.get_level_display }}
+                            </span>
+                            <span class="text-xs text-gray-500">{{ item.formation.duration }}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-3">{{ item.formation.title }}</h3>
+                        
+                        <!-- Progress bar -->
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-400">Progression</span>
+                                <span class="text-[#00FF88] font-bold">{{ item.progress }}%</span>
+                            </div>
+                            <div class="w-full bg-[#1F2937] rounded-full h-2.5">
+                                <div class="h-2.5 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF] transition-all duration-500" style="width: {{ item.progress }}%"></div>
+                            </div>
+                        </div>
+                        
+                        <a href="{% url 'formations:enrolled_formation' item.formation.slug %}" 
+                           class="block text-center bg-[#00FF88] text-black font-bold py-2 rounded-lg hover:bg-[#00FF88]/90 transition">
+                            {% if item.progress == 0 %}Commencer{% elif item.progress == 100 %}Revoir{% else %}Continuer{% endif %}
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="bg-[#111827] rounded-xl border border-[#1F2937] p-8 text-center max-w-md">
+                <div class="text-4xl mb-3">📚</div>
+                <p class="text-gray-400 mb-4">Aucune formation en cours</p>
+                <a href="{% url 'formations:formation_list' %}" class="inline-block bg-[#00FF88] text-black px-5 py-2 rounded-lg font-bold hover:bg-[#00FF88]/90 transition text-sm">
+                    Découvrir les formations
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ══════════════════════════════════════════════════ -->
+        <!-- 🤖 Mes Services IA & Abonnements -->
+        <!-- ══════════════════════════════════════════════════ -->
+        <div>
+            <h2 class="text-2xl font-syne font-bold text-gray-100 mb-6 flex items-center gap-3">
+                <span class="text-2xl">🤖</span> Mes Services & Abonnements
+            </h2>
+
+            {% if subscriptions %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
+                {% for sub in subscriptions %}
+                <div class="bg-[#111827] rounded-xl border border-[#1F2937] hover:border-[#00E5FF]/30 transition-all p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        {% if sub.is_active %}
+                        <span class="text-xs bg-green-500/10 text-green-400 px-2 py-1 rounded-full border border-green-500/20 font-bold">
+                            🟢 Actif
+                        </span>
+                        {% elif sub.status == 'expired' %}
+                        <span class="text-xs bg-red-500/10 text-red-400 px-2 py-1 rounded-full border border-red-500/20 font-bold">
+                            🔴 Expiré
+                        </span>
+                        {% elif sub.status == 'cancelled' %}
+                        <span class="text-xs bg-gray-500/10 text-gray-400 px-2 py-1 rounded-full border border-gray-500/20 font-bold">
+                            ⚫ Annulé
+                        </span>
+                        {% else %}
+                        <span class="text-xs bg-yellow-500/10 text-yellow-400 px-2 py-1 rounded-full border border-yellow-500/20 font-bold">
+                            🟡 En attente
+                        </span>
+                        {% endif %}
+                        <span class="text-xs text-gray-500">{{ sub.amount|floatformat:0 }} FCFA/mois</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-gray-100 mb-2">{{ sub.service.title }}</h3>
+
+                    {% if sub.end_date %}
+                    <p class="text-sm text-gray-400 mb-1">
+                        {% if sub.is_active %}
+                            Expire le {{ sub.end_date|date:"d/m/Y" }}
+                            <span class="text-[#00E5FF]">({{ sub.days_remaining }} jour{{ sub.days_remaining|pluralize }})</span>
+                        {% else %}
+                            Expiré le {{ sub.end_date|date:"d/m/Y" }}
+                        {% endif %}
+                    </p>
+                    {% endif %}
+
+                    {% if not sub.is_active %}
+                    <a href="{% url 'services:initiate_service_payment' sub.service.slug %}"
+                       class="mt-4 block text-center bg-[#00E5FF] text-black font-bold py-2 rounded-lg hover:bg-[#00E5FF]/90 transition text-sm">
+                        Renouveler
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="bg-[#111827] rounded-xl border border-[#1F2937] p-8 text-center max-w-md">
+                <div class="text-4xl mb-3">🤖</div>
+                <p class="text-gray-400 mb-4">Aucun service souscrit</p>
+                <a href="{% url 'services:service_list' %}" class="inline-block bg-[#00E5FF] text-black px-5 py-2 rounded-lg font-bold hover:bg-[#00E5FF]/90 transition text-sm">
+                    Découvrir les services IA
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ formation.title }} — Espace Élève | Djimiga Tech{% endblock %}
+{% block title %}{{ formation.title }} — Espace Client | Djimiga Tech{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-[#060810]">
     <div class="container mx-auto px-4 py-12">
         <!-- Breadcrumb -->
         <nav class="flex items-center text-sm text-gray-500 mb-8 space-x-2">
-            <a href="{% url 'formations:student_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Élève</a>
+            <a href="{% url 'formations:client_dashboard' %}" class="hover:text-[#00FF88] transition">Espace Client</a>
             <svg class="w-3.5 h-3.5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             <span class="text-gray-300">{{ formation.title }}</span>
         </nav>

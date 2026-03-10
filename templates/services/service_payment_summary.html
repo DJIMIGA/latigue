@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Paiement | Formations{% endblock %}
+{% block title %}Paiement | Service IA{% endblock %}
 
 {% block content %}
 <section class="min-h-screen py-20 px-4 bg-white">
@@ -14,22 +14,10 @@
         <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
       </div>
       <h2 class="text-2xl font-bold text-gray-900 mb-2">Paiement réussi !</h2>
-      <p class="text-gray-600 mb-6">Vous êtes inscrit{% if formation %} à <strong class="text-gray-900">{{ formation.title }}</strong>{% endif %}.</p>
+      <p class="text-gray-600 mb-2">Votre abonnement au service{% if service %} <strong class="text-gray-900">{{ service.title }}</strong>{% endif %} est maintenant actif.</p>
+      <p class="text-sm text-gray-500 mb-6">Durée : 30 jours. Renouvelable depuis votre espace client.</p>
       <a href="{% url 'formations:client_dashboard' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-green-600 hover:bg-green-700 transition">
         Accéder à mon espace client
-      </a>
-    </div>
-
-    {% elif cancelled %}
-    <!-- Paiement annulé -->
-    <div class="bg-yellow-50 rounded-2xl p-8 text-center border border-yellow-200">
-      <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100">
-        <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-      </div>
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">Paiement annulé</h2>
-      <p class="text-gray-600 mb-6">Votre paiement a été annulé. Aucun montant n'a été débité.</p>
-      <a href="{% url 'formations:formation_list' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-gray-800 hover:bg-gray-900 transition">
-        Retour aux formations
       </a>
     </div>
 
@@ -41,8 +29,8 @@
       </div>
       <h2 class="text-2xl font-bold text-gray-900 mb-2">Erreur</h2>
       <p class="text-gray-600 mb-6">{{ error }}</p>
-      <a href="{% url 'formations:formation_list' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-gray-800 hover:bg-gray-900 transition">
-        Retour aux formations
+      <a href="{% url 'services:service_list' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-gray-800 hover:bg-gray-900 transition">
+        Retour aux services
       </a>
     </div>
 
@@ -53,21 +41,25 @@
 
       <div class="space-y-4 mb-8">
         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-          <span class="text-gray-500">Formation</span>
-          <span class="text-gray-900 font-semibold text-right max-w-[60%]">{{ formation.title }}</span>
+          <span class="text-gray-500">Service</span>
+          <span class="text-gray-900 font-semibold text-right max-w-[60%]">{{ service.title }}</span>
         </div>
         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-          <span class="text-gray-500">Niveau</span>
-          <span class="text-gray-900">{{ formation.get_level_display }}</span>
+          <span class="text-gray-500">Catégorie</span>
+          <span class="text-gray-900">{{ service.get_category_display }}</span>
         </div>
         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-          <span class="text-gray-500">Durée</span>
-          <span class="text-gray-900">{{ formation.duration }}</span>
+          <span class="text-gray-500">Type</span>
+          <span class="text-gray-900">Installation + Abonnement</span>
         </div>
         <div class="flex justify-between items-center py-3">
-          <span class="text-gray-500">Montant à payer</span>
+          <span class="text-gray-500">Montant installation</span>
           <span class="text-2xl font-bold text-green-600">{{ amount_xof|floatformat:0 }} FCFA</span>
         </div>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-800">
+        <strong>ℹ️ Abonnement mensuel :</strong> Après l'installation, un abonnement mensuel de {{ amount_xof|floatformat:0 }} FCFA sera nécessaire pour maintenir le service actif. Renouvelable depuis votre espace client.
       </div>
 
       <form method="post">
