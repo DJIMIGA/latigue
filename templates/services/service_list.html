@@ -51,6 +51,13 @@
         </div>
     </div>
 
+    <!-- Toggle Devise -->
+    <div class="mb-6 flex items-center gap-3">
+        <span class="text-gray-400 text-sm">Devise :</span>
+        <button id="btn-fcfa" onclick="setCurrency('fcfa')" class="px-3 py-1 rounded-full text-sm font-bold bg-[#00FF88] text-black transition">FCFA</button>
+        <button id="btn-eur" onclick="setCurrency('eur')" class="px-3 py-1 rounded-full text-sm font-bold bg-[#111827] text-gray-300 border border-[#1F2937] transition">EUR €</button>
+    </div>
+
     <!-- Liste des services -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for service in services %}
@@ -60,6 +67,12 @@
             {% endif %}
             <div class="p-6 flex flex-col items-center text-center">
                 <h2 class="text-xl font-semibold mb-2 text-gray-100 group-hover:text-[#00FF88] transition-colors">{{ service.title }}</h2>
+                {% if service.price %}
+                <div class="mt-2">
+                    <span class="price-fcfa text-lg font-bold text-[#00FF88]">{{ service.price|floatformat:0 }} FCFA</span>
+                    <span class="price-eur text-lg font-bold text-[#00FF88] hidden">{{ service.price|floatformat:0 }} €</span>
+                </div>
+                {% endif %}
                 <a href="{% url 'services:service_detail' service.slug %}" 
                    class="mt-4 inline-flex items-center justify-center px-4 py-2 bg-[#00FF88] text-black text-sm font-bold rounded-full hover:bg-[#00FF88]/90 transition">
                     Voir le détail
@@ -118,4 +131,49 @@
     </div>
     {% endif %}
 </div>
+
+<script>
+const RATE = 656;
+function setCurrency(currency) {
+    const fcfaEls = document.querySelectorAll('.price-fcfa');
+    const eurEls = document.querySelectorAll('.price-eur');
+    const btnFcfa = document.getElementById('btn-fcfa');
+    const btnEur = document.getElementById('btn-eur');
+    
+    if (currency === 'eur') {
+        fcfaEls.forEach(el => el.classList.add('hidden'));
+        eurEls.forEach(el => {
+            // Convertir le prix FCFA en EUR
+            const fcfaSibling = el.previousElementSibling;
+            if (fcfaSibling) {
+                const fcfaPrice = parseInt(fcfaSibling.textContent.replace(/[^\d]/g, ''));
+                const eurPrice = Math.round(fcfaPrice / RATE);
+                el.textContent = eurPrice + ' €';
+            }
+            el.classList.remove('hidden');
+        });
+        btnEur.className = 'px-3 py-1 rounded-full text-sm font-bold bg-[#00FF88] text-black transition';
+        btnFcfa.className = 'px-3 py-1 rounded-full text-sm font-bold bg-[#111827] text-gray-300 border border-[#1F2937] transition';
+    } else {
+        fcfaEls.forEach(el => el.classList.remove('hidden'));
+        eurEls.forEach(el => el.classList.add('hidden'));
+        btnFcfa.className = 'px-3 py-1 rounded-full text-sm font-bold bg-[#00FF88] text-black transition';
+        btnEur.className = 'px-3 py-1 rounded-full text-sm font-bold bg-[#111827] text-gray-300 border border-[#1F2937] transition';
+    }
+    localStorage.setItem('preferred_currency', currency);
+}
+
+// Auto-detect: si timezone Europe → EUR par défaut
+document.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('preferred_currency');
+    if (saved) {
+        setCurrency(saved);
+    } else {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (tz && tz.startsWith('Europe')) {
+            setCurrency('eur');
+        }
+    }
+});
+</script>
 {% endblock %}

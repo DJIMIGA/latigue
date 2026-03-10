@@ -65,8 +65,13 @@
         <!-- Prix et CTA -->
         <div class="bg-[#0D1117] rounded-lg p-8 text-center border border-[#1F2937]">
             {% if service.price %}
+            <div class="mb-2 flex items-center justify-center gap-3">
+                <button id="btn-fcfa" onclick="setCurrency('fcfa')" class="px-3 py-1 rounded-full text-xs font-bold bg-[#00FF88] text-black transition">FCFA</button>
+                <button id="btn-eur" onclick="setCurrency('eur')" class="px-3 py-1 rounded-full text-xs font-bold bg-[#111827] text-gray-300 border border-[#1F2937] transition">EUR €</button>
+            </div>
             <div class="text-3xl font-bold text-[#00FF88] mb-4">
-                {{ service.price }} €
+                <span class="price-fcfa">{{ service.price|floatformat:0 }} FCFA</span>
+                <span class="price-eur hidden" data-fcfa="{{ service.price|floatformat:0 }}"></span>
             </div>
             {% endif %}
             <p class="text-gray-400 mb-6">
@@ -101,4 +106,39 @@
         </div>
     </div>
 </div>
+
+<script>
+const RATE = 656;
+function setCurrency(currency) {
+    const fcfaEls = document.querySelectorAll('.price-fcfa');
+    const eurEls = document.querySelectorAll('.price-eur');
+    const btnFcfa = document.getElementById('btn-fcfa');
+    const btnEur = document.getElementById('btn-eur');
+    
+    if (currency === 'eur') {
+        fcfaEls.forEach(el => el.classList.add('hidden'));
+        eurEls.forEach(el => {
+            const fcfa = parseInt(el.dataset.fcfa || el.previousElementSibling.textContent.replace(/[^\d]/g, ''));
+            el.textContent = Math.round(fcfa / RATE) + ' €';
+            el.classList.remove('hidden');
+        });
+        btnEur.className = 'px-3 py-1 rounded-full text-xs font-bold bg-[#00FF88] text-black transition';
+        btnFcfa.className = 'px-3 py-1 rounded-full text-xs font-bold bg-[#111827] text-gray-300 border border-[#1F2937] transition';
+    } else {
+        fcfaEls.forEach(el => el.classList.remove('hidden'));
+        eurEls.forEach(el => el.classList.add('hidden'));
+        btnFcfa.className = 'px-3 py-1 rounded-full text-xs font-bold bg-[#00FF88] text-black transition';
+        btnEur.className = 'px-3 py-1 rounded-full text-xs font-bold bg-[#111827] text-gray-300 border border-[#1F2937] transition';
+    }
+    localStorage.setItem('preferred_currency', currency);
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('preferred_currency');
+    if (saved) { setCurrency(saved); }
+    else {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (tz && tz.startsWith('Europe')) { setCurrency('eur'); }
+    }
+});
+</script>
 {% endblock %}
