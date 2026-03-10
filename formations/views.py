@@ -121,8 +121,8 @@ def initiate_payment(request, slug):
         Enrollment.objects.get_or_create(user=request.user, formation=formation)
         return redirect('formations:student_dashboard')
 
-    # Convertir en FCFA pour PayDunya
-    amount_xof = int(Payment.convert_eur_to_xof(formation.price))
+    # Prix déjà en FCFA dans la DB
+    amount_xof = int(formation.price)
     payment_token = str(uuid.uuid4())
 
     if request.method == 'POST':
@@ -156,7 +156,7 @@ def initiate_payment(request, slug):
             user=request.user,
             formation=formation,
             amount=formation.price,
-            currency='EUR',
+            currency='XOF',
             payment_token=payment_token,
             status='pending',
         )
