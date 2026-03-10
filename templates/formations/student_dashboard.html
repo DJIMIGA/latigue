@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Mon Espace Client | Djimiga Tech{% endblock %}
+{% block title %}Mon Compte | Djimiga Tech{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-[#060810]">
@@ -8,7 +8,7 @@
         <!-- Header -->
         <div class="mb-10">
             <h1 class="text-3xl md:text-4xl font-syne font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">
-                Mon Espace Client
+                Mon Compte
             </h1>
             <p class="text-gray-400">Bienvenue {{ request.user.first_name|default:request.user.username }} — suivez votre progression</p>
         </div>
