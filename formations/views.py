@@ -162,15 +162,17 @@ def initiate_payment(request, slug):
             ('formation_slug', formation.slug),
             ('user_id', str(request.user.id)),
         ]
-        success = invoice.create(items=items, custom_data=custom_data)
-        if success:
-            payment.paydunya_token = invoice.token
+        successful, response = invoice.create(items=items, custom_data=custom_data)
+        if successful is True:
+            payment.paydunya_token = response.get('token', '')
             payment.save()
-            return redirect(invoice.url)
+            # L'URL de redirection est dans response_text
+            redirect_url = response.get('response_text', '')
+            return redirect(redirect_url)
         else:
             payment.status = 'failed'
             payment.save()
-            logger.error(f"PayDunya invoice creation failed: {invoice.response_text}")
+            logger.error(f"PayDunya invoice creation failed: {response}")
             return render(request, 'formations/payment_summary.html', {
                 'formation': formation,
                 'amount_xof': amount_xof,
