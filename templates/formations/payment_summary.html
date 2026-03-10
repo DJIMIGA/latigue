@@ -72,14 +72,15 @@
 
       <form method="post">
         {% csrf_token %}
-        <button type="submit" class="w-full py-4 rounded-lg font-bold text-black text-lg transition-all hover:opacity-90 cursor-pointer" style="background-color: #00FF88;">
-          💳 Payer avec PayDunya
+        <button type="submit" class="w-full transition-all hover:opacity-90 hover:scale-[1.02] cursor-pointer bg-transparent border-0 p-0">
+          <img src="{% static 'portfolio/images/bouton-senegal-01.png' %}" alt="Payer avec PayDunya" class="w-full rounded-lg" />
         </button>
       </form>
 
-      <p class="text-center text-gray-500 text-sm mt-4">
-        Paiement sécurisé par PayDunya — Mobile Money & Carte bancaire
-      </p>
+      <!-- Méthodes acceptées -->
+      <div class="mt-4">
+        <img src="{% static 'portfolio/images/bouton-senegal-03.png' %}" alt="Méthodes de paiement" class="w-full opacity-70" />
+      </div>
     </div>
     {% endif %}
 
