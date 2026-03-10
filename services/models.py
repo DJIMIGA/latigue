@@ -6,6 +6,7 @@ from ckeditor.fields import RichTextField
 class Service(models.Model):
     CATEGORY_CHOICES = [
         ('web_app', 'Application Web'),
+        ('ia_automation', 'IA & Automatisation'),
         ('maintenance', 'Maintenance & Optimisation'),
     ]
 
