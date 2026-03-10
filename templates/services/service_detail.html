@@ -7,7 +7,7 @@
 
 {% block og_title %}{{ service.title }} | Djimiga Tech{% endblock %}
 {% block og_description %}{{ service.description|striptags|truncatewords:30 }}{% endblock %}
-{% if service.image %}
+{% if service.image and service.image.name %}
 {% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}{% endblock %}
 {% endif %}
 
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        {% if service.image %}
+        {% if service.image and service.image.name %}
         <div class="mb-8">
             <img src="{{ service.image.url }}" alt="{{ service.title }}" 
                  class="w-full h-auto max-h-64 sm:max-h-80 md:max-h-96 object-contain bg-[#0D1117] rounded-lg shadow-lg border border-[#1F2937] max-w-full">

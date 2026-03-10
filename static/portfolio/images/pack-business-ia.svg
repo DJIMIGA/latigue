@@ -1,0 +1,37 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1117"/>
+      <stop offset="100%" style="stop-color:#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg2)" rx="16"/>
+  <!-- Multi-channel icons -->
+  <!-- Phone -->
+  <rect x="60" y="100" width="80" height="140" rx="12" stroke="#00FF88" stroke-width="2" fill="none" opacity="0.7"/>
+  <rect x="70" y="120" width="60" height="95" rx="3" fill="#00FF88" opacity="0.08"/>
+  <!-- Laptop -->
+  <rect x="165" y="120" width="120" height="80" rx="6" stroke="#00E5FF" stroke-width="2" fill="none" opacity="0.7"/>
+  <rect x="150" y="200" width="150" height="8" rx="4" fill="#00E5FF" opacity="0.3"/>
+  <!-- Cart icon -->
+  <circle cx="340" cy="170" r="35" stroke="#F5A623" stroke-width="2" fill="none" opacity="0.6"/>
+  <text x="340" y="178" font-size="28" text-anchor="middle" fill="#F5A623" opacity="0.7">🛒</text>
+  <!-- Connections -->
+  <line x1="145" y1="170" x2="165" y2="170" stroke="#00FF88" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 3"/>
+  <line x1="290" y1="170" x2="305" y2="170" stroke="#00E5FF" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 3"/>
+  <!-- Automation gears -->
+  <circle cx="120" cy="280" r="20" stroke="#8B5CF6" stroke-width="2" fill="none" opacity="0.5"/>
+  <circle cx="155" cy="265" r="14" stroke="#8B5CF6" stroke-width="2" fill="none" opacity="0.5"/>
+  <text x="120" y="286" font-size="16" text-anchor="middle" fill="#8B5CF6" opacity="0.7">⚙️</text>
+  <!-- Chart -->
+  <rect x="220" y="260" width="120" height="70" rx="6" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <polyline points="235,310 255,295 275,300 295,280 315,270 325,275" stroke="#00FF88" stroke-width="2" fill="none" opacity="0.6"/>
+  <!-- Text -->
+  <text x="440" y="130" font-family="Syne, sans-serif" font-size="36" font-weight="800" fill="#F9FAFB">Pack Business</text>
+  <text x="440" y="165" font-family="Syne, sans-serif" font-size="20" fill="#00E5FF" font-weight="700">E-commerce + Automatisations</text>
+  <text x="440" y="205" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">🛒 Boutique en ligne + Mobile Money</text>
+  <text x="440" y="230" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">📊 Rapports de ventes automatiques</text>
+  <text x="440" y="255" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">📧 Marketing IA automatisé</text>
+  <text x="440" y="280" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">📋 Devis et factures par message</text>
+  <text x="440" y="330" font-family="Syne, sans-serif" font-size="28" font-weight="800" fill="#00E5FF">200 000 FCFA</text>
+</svg>

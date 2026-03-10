@@ -55,7 +55,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for service in services %}
         <div class="bg-[#111827] rounded-lg shadow-lg overflow-hidden border border-[#1F2937] hover:border-[#00FF88]/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.1)] transition-all group">
-            {% if service.image %}
+            {% if service.image and service.image.name %}
             <img src="{{ service.image.url }}" alt="{{ service.title }}" class="w-full h-40 sm:h-48 object-contain bg-[#0D1117] max-w-full">
             {% endif %}
             <div class="p-6 flex flex-col items-center text-center">

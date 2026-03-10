@@ -1,0 +1,44 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1117"/>
+      <stop offset="100%" style="stop-color:#1a1025"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00FF88;stop-opacity:0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg3)" rx="16"/>
+  <!-- Central brain/AI -->
+  <circle cx="200" cy="180" r="60" fill="url(#glow)" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="200" y="190" font-size="44" text-anchor="middle">🧠</text>
+  <!-- Connected nodes -->
+  <circle cx="80" cy="100" r="22" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="80" y="107" font-size="16" text-anchor="middle">📱</text>
+  <line x1="100" y1="115" x2="150" y2="150" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
+  <circle cx="320" cy="90" r="22" stroke="#00E5FF" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="320" y="97" font-size="16" text-anchor="middle">🛒</text>
+  <line x1="300" y1="105" x2="250" y2="145" stroke="#00E5FF" stroke-width="1" opacity="0.3"/>
+  <circle cx="330" cy="200" r="22" stroke="#F5A623" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="330" y="207" font-size="16" text-anchor="middle">📊</text>
+  <line x1="310" y1="195" x2="260" y2="185" stroke="#F5A623" stroke-width="1" opacity="0.3"/>
+  <circle cx="300" cy="290" r="22" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="300" y="297" font-size="16" text-anchor="middle">🎬</text>
+  <line x1="282" y1="278" x2="240" y2="230" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
+  <circle cx="100" cy="280" r="22" stroke="#FF6B6B" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="100" y="287" font-size="16" text-anchor="middle">👥</text>
+  <line x1="118" y1="268" x2="155" y2="225" stroke="#FF6B6B" stroke-width="1" opacity="0.3"/>
+  <circle cx="60" cy="190" r="22" stroke="#00E5FF" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="60" y="197" font-size="16" text-anchor="middle">📧</text>
+  <line x1="82" y1="188" x2="140" y2="182" stroke="#00E5FF" stroke-width="1" opacity="0.3"/>
+  <!-- Text -->
+  <text x="420" y="120" font-family="Syne, sans-serif" font-size="36" font-weight="800" fill="#F9FAFB">Pack Enterprise</text>
+  <text x="420" y="155" font-family="Syne, sans-serif" font-size="20" fill="#8B5CF6" font-weight="700">Système IA Complet Sur-Mesure</text>
+  <text x="420" y="195" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">🧠 IA multi-canal illimitée</text>
+  <text x="420" y="220" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">📊 Analytics prédictif</text>
+  <text x="420" y="245" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">🎬 Marketing vidéo IA</text>
+  <text x="420" y="270" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">👥 CRM intelligent</text>
+  <text x="420" y="295" font-family="Inter, sans-serif" font-size="15" fill="#9CA3AF">🚀 Scalez sans recruter</text>
+  <text x="420" y="345" font-family="Syne, sans-serif" font-size="28" font-weight="800" fill="#8B5CF6">500 000 FCFA</text>
+</svg>
