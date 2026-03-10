@@ -44,3 +44,6 @@ Pygments==2.17.2  # Pour la coloration syntaxique du code
 
 # WebSocket client pour le chatbot (communication avec OpenClaw gateway)
 websockets==12.0
+
+# Paiement mobile (Orange Money, etc.)
+paydunya
