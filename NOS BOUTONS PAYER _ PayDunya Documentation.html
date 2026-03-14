@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- META Tags -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>NOS BOUTONS PAYER | PayDunya Documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- SEO -->
+        <meta name="author" content="PayDunya">
+        <meta name="description" content="PayDunya Developers">
+        <meta name="keywords" content="PayDunya, Developers, Documentation">
+        <meta name="twitter:card" value="summary">
+                    <link rel="canonical" href="https://developers.paydunya.com/doc/FR/nos_boutons_payer" />
+                                                                <meta property="og:title" content="PayDunya Documentation en ligne" />
+                                                                <meta property="og:type" content="article" />
+                                                                                                                        
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://developers.paydunya.com/vendor/binarytorch/larecipe/assets/css/app.css">
+
+                    <!-- Favicon -->
+            <link rel="apple-touch-icon" href="https://developers.paydunya.com/images/favicon.png">
+            <link rel="shortcut icon" type="image/png" href="https://developers.paydunya.com/images/favicon.png"/>
+        
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://developers.paydunya.com/vendor/binarytorch/larecipe/assets/css/font-awesome.css">
+                    <link rel="stylesheet" href="https://developers.paydunya.com/vendor/binarytorch/larecipe/assets/css/font-awesome-v4-shims.css">
+        
+        <!-- Dynamic Colors -->
+        <style>
+    :root {
+        --primary: #787AF6;
+        --secondary: #1894dd;
+    }
+
+    :not(pre)>code[class*=language-], pre[class*=language-] {
+        border-top: 3px solid #787AF6;
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(87deg, #787AF6 0, #1894dd 100%) !important;
+    }
+
+    [v-cloak] > * { 
+        display: none; 
+    }
+    
+    [v-cloak]::before { 
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #F2F6FA;
+    }
+</style>
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="">
+
+        
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <div class="fixed pin-t pin-x z-40">
+    <div class="text-white h-1" style="background-color: #fff;"></div>
+
+    <nav class="flex items-center justify-between text-black bg-navbar shadow-xs h-16">
+        <div class="flex items-center flex-no-shrink">
+            <a href="https://paydunya.com" class="flex items-center flex-no-shrink text-black mx-4">
+                <div class="p-1">
+    <img src="https://developers.paydunya.com/logo_doc.png" alt="" width="60px">
+</div>
+            <p class="inline-block font-semibold mx-1 text-grey-dark">
+                    &nbsp;
+                    <!-- PayDunya Documentation -->
+                </p>
+            </a>
+
+            <div class="switch">
+                <input type="checkbox" name="1" id="1" v-model="sidebar" class="switch-checkbox"/>
+                <label class="switch-label" style="background-color: #1894dd;" for="1"></label>
+            </div>
+        </div>
+
+        <div class="block mx-4 flex items-center">
+            
+            <larecipe-button tag="a" href="https://github.com/paydunyadev?tab=repositories" target="__blank" type="black" class="mx-2 px-4">
+                <i class="fab fa-github"></i>
+            </larecipe-button>
+
+            
+            <larecipe-dropdown>
+                <larecipe-button type="secondary" class="flex">
+                    FR <i class="mx-1 fa fa-angle-down"></i>
+                </larecipe-button>
+
+                <template slot="list">
+                    <ul class="list-reset">
+                                                    <li class="py-2 hover:bg-grey-lightest">
+                                <a class="px-6 text-grey-darkest" href="https://developers.paydunya.com/doc/FR/nos_boutons_payer">FR</a>
+                            </li>
+                                                    <li class="py-2 hover:bg-grey-lightest">
+                                <a class="px-6 text-grey-darkest" href="https://developers.paydunya.com/doc/EN/nos_boutons_payer">EN</a>
+                            </li>
+                                            </ul>
+                </template>
+            </larecipe-dropdown>
+            
+
+                    </div>
+    </nav>
+</div>
+            
+            <div>
+	<div id="app" class="sidebar" :class="[{'is-hidden': !sidebar}]">
+    <ul>
+<li>
+<h2>DOCUMENTATION</h2>
+<ul>
+<li><a href="/doc/FR/introduction">Introduction</a></li>
+<li><a href="/doc/FR/definitions">Quelle API choisir ?</a></li>
+</ul>
+</li>
+<li>
+<h2>Recevoir de l'argent</h2>
+<ul>
+<li>
+<details style="margin-left:30px;"> <summary>API PAR </summary>
+    <ul class="nav row">
+        <li><a href="/doc/FR/api_par_index" style="color:#1894dd; text-transform:uppercase;">Definition</a></li>
+        <li><a href="/doc/FR/Android" style="color:#1894dd; text-transform:uppercase">Android</a></li>
+        <li><a href="/doc/FR/http_json" style="color:#1894dd; text-transform:uppercase">HTTP/JSON</a></li>
+        <li><a href="/doc/FR/Java" style="color:#1894dd; text-transform:uppercase">Java</a></li>
+        <li><a href="/doc/FR/Magento" style="color:#1894dd; text-transform:uppercase">Magento</a></li>
+        <li><a href="/doc/FR/NET" style="color:#1894dd; text-transform:uppercase">.NET</a></li>
+        <li><a href="/doc/FR/NodeJS" style="color:#1894dd; text-transform:uppercase">NodeJS</a></li>
+        <li><a href="/doc/FR/php" style="color:#1894dd; text-transform:uppercase">Php</a></li>
+        <li><a href="/doc/FR/Prestashop" style="color:#1894dd; text-transform:uppercase">Prestashop</a></li>
+        <li><a href="/doc/FR/Python" style="color:#1894dd; text-transform:uppercase">Python</a></li>
+        <li><a href="/doc/FR/Ruby" style="color:#1894dd; text-transform:uppercase">Ruby</a></li>
+        <li><a href="/doc/FR/whmcs" style="color:#1894dd; text-transform:uppercase">WHMCS</a></li>
+        <li><a href="/doc/FR/wordpress" style="color:#1894dd; text-transform:uppercase">Wordpress</a></li>
+    </ul>
+</details>
+</li>
+<li>
+<details style="margin-left:30px;"> <summary> API PSR </summary>
+     <ul>
+          <li><a href="/doc/FR/api_psr_index" style="color:#1894dd; text-transform:uppercase">Definition</a></li>
+          <li><a href="/doc/FR/psr_plugins/ios" style="color:#1894dd; text-transform:uppercase">IOS</a></li>
+          <li><a href="/doc/FR/psr_plugins/magento_psr" style="color:#1894dd; text-transform:uppercase">Magento</a></li>
+          <li><a href="/doc/FR/psr_plugins/prestashop_psr" style="color:#1894dd; text-transform:uppercase">Prestashop</a></li>
+          <li><a href="/doc/FR/psr_plugins/api_psr" style="color:#1894dd; text-transform:uppercase">Web Api</a></li>
+          <li><a href="/doc/FR/psr_plugins/wordpress_psr" style="color:#1894dd; text-transform:uppercase">Wordpress</a></li>
+     </ul>
+</details>
+</li>
+<li>
+<details style="margin-left:30px;"> <summary> SoftPay </summary>
+     <ul>
+          <li><a href="/doc/FR/api_softpay_index" style="color:#1894dd; text-transform:uppercase">Definition</a></li>
+           <li><a href="/doc/FR/sandbox_softpay" style="color:#1894dd; text-transform:uppercase">Sandbox</a></li>
+          <li><a href="/doc/FR/softpay" style="color:#1894dd; text-transform:uppercase">API SoftPay</a></li>
+     </ul>
+</details>
+</li>
+</ul>
+</li>
+<li>
+<h2>Envoyer de l'argent</h2>
+<ul>
+<li><a href="/doc/FR/api_deboursement">API PUSH</a></li>
+</ul>
+</li>
+<li>
+<h2>Vérification Statut Transaction</h2>
+<ul>
+<li><a href="/doc/FR/http_json#section-4">PAIEMENT</a></li>
+<li><a href="/doc/FR/api_deboursement#section-2">DEBOURSEMENT</a></li>
+</ul>
+</li>
+<li>
+<h2>Demander des paiements</h2>
+<ul>
+<li><a href="/doc/FR/dmp">API Demande de paiement</a></li>
+</ul>
+</li>
+<li>
+<h2>Support Technique</h2>
+<ul>
+<li><a href="/doc/FR/introduction#section-7">Contact</a></li>
+</ul>
+</li>
+<li>
+<h2>Consulter le solde</h2>
+<ul>
+<li><a href="/doc/FR/get_balance">Balance</a></li>
+</ul>
+</li>
+<li>
+<h2>Boutons de paiement</h2>
+<ul>
+<li><a href="/doc/FR/nos_boutons_payer">Nos Boutons Payer</a></li>
+</ul>
+</li>
+</ul>
+</div>	
+	<div class="documentation is-dark" :class="{'expanded': ! sidebar}">
+		<h1>NOS BOUTONS PAYER</h1>
+<hr />
+<ul>
+<li><a href="/doc/FR/nos_boutons_payer#section-1">Images, logos &amp; brandind paydunya</a></li>
+</ul>
+<p><a name="section-1"></a></p>
+<h2>Images, logos &amp; brandind paydunya</h2>
+<larecipe-card style="outline: none;box-shadow: none;border-bottom: 0px; border-right: 0px; border-left: 0px; border-top: 0px">
+
+<p style="text-align: justify;">Nous mettons à votre disposition nos images de branding et logos afin que vous puissiez
+les utiliser au niveau de vos applications web et mobile au cas où le besoin se ferait ressentir. Faites un clic droit sur l'image que vous souhaitez télécharger et choisissez l'option <code style="color:#0070B2; text-transform:uppercase"><strong>"Enregistrer l'image sous"</strong></code>.</p>
+</larecipe-card>
+<p><a name="section-2"></a></p>
+<larecipe-card style="box-shadow: 0px 0px 0px 0px">
+    <img src="/images/bouton-senegal-01.png" alt="Payer avec PayDunya" style="width:auto; display: block; margin:auto;">
+</larecipe-card>
+<larecipe-card style="box-shadow: 0px 0px 0px 0px">
+    <img src="/images/bouton-senegal-02.png" alt="Payer avec PayDunya" style="width:auto; display: block; margin:auto;">
+</larecipe-card>
+<larecipe-card style="box-shadow: 0px 0px 0px 0px">
+    <img src="/images/bouton-senegal-03.png" alt="Payer avec PayDunya" style="width:auto; display: block; margin:auto;">
+</larecipe-card>
+			</div>
+</div>
+
+            <larecipe-back-to-top></larecipe-back-to-top>
+        </div>
+
+
+        <script>
+            window.config = [];
+        </script>
+
+        <script type="text/javascript">
+            if(localStorage.getItem('larecipeSidebar') == null) {
+                localStorage.setItem('larecipeSidebar', !! 1);
+            }
+        </script>
+
+        <script src="https://developers.paydunya.com/vendor/binarytorch/larecipe/assets/js/app.js"></script>
+
+        <script>
+            window.LaRecipe = new CreateLarecipe(config)
+        </script>
+
+        <!-- Google Analytics -->
+                <!-- /Google Analytics -->
+
+        
+        <script>
+            LaRecipe.run()
+        </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6bca5bbf470c45b0928fd85ec79ca39a","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
