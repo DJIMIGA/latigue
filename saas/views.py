@@ -17,7 +17,7 @@ from django.db.models.functions import TruncDate
 
 from .models import Organization, SaaSPlan, AgentConfig, SaaSSubscription, UsageLog, APIKey
 from .services.openclaw_client import OpenClawClient
-from .services.agent_provisioner import create_agent as provision_agent, update_agent as update_agent_files, update_bindings, get_agent_bindings, is_whatsapp_connected
+from .services.agent_provisioner import create_agent as provision_agent, update_agent as update_agent_files, update_bindings, get_agent_bindings, is_whatsapp_connected, disconnect_whatsapp
 from .services.openclaw_ws import start_whatsapp_login, wait_whatsapp_login
 from .services.paydunya_billing import create_subscription_invoice, activate_subscription, setup_paydunya
 
@@ -904,6 +904,25 @@ def whatsapp_qr_wait(request):
     except Exception as e:
         logger.error(f'WhatsApp QR wait failed for {agent.agent_id}: {e}')
         return JsonResponse({'error': str(e), 'connected': False}, status=500)
+
+
+@login_required
+@require_POST
+def whatsapp_disconnect(request):
+    """Deconnecte le compte WhatsApp (supprime les credentials)."""
+    org = Organization.objects.filter(owner=request.user, is_active=True).first()
+    if not org:
+        return JsonResponse({'error': 'Pas d\'organisation'}, status=403)
+    agent = AgentConfig.objects.filter(organization=org, status='active').first()
+    if not agent:
+        return JsonResponse({'error': 'Pas d\'agent actif'}, status=404)
+
+    try:
+        disconnect_whatsapp(agent.agent_id)
+        return JsonResponse({'disconnected': True})
+    except Exception as e:
+        logger.error(f'WhatsApp disconnect failed for {agent.agent_id}: {e}')
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 # ============================================================

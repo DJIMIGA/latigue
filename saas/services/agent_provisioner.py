@@ -365,6 +365,18 @@ def is_whatsapp_connected(agent_id):
     return os.path.isfile(creds_file)
 
 
+def disconnect_whatsapp(agent_id):
+    """Supprime les credentials WhatsApp pour forcer une re-liaison."""
+    import shutil
+    creds_dir = os.path.join(_credentials_dir(), 'whatsapp', agent_id)
+    if os.path.isdir(creds_dir):
+        shutil.rmtree(creds_dir)
+        os.makedirs(creds_dir, exist_ok=True)
+        _chown_recursive(creds_dir)
+        logger.info(f'WhatsApp credentials cleared for {agent_id}')
+    return True
+
+
 def delete_agent(agent_id):
     """Retire l'agent de openclaw.json + compte WhatsApp + bindings."""
     config = _read_config()
