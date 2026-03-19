@@ -216,15 +216,6 @@
                   <p class="text-xs text-amber-700">Scannez le QR code avec WhatsApp sur le telephone de votre entreprise pour activer l'assistant.</p>
                 </div>
 
-                <!-- Numero WhatsApp du client -->
-                <div class="mb-3">
-                  <label for="whatsapp_number" class="text-xs font-medium text-gray-700">Votre numero WhatsApp Business</label>
-                  <input type="tel" name="whatsapp_number" id="whatsapp_number" value="{{ agent.whatsapp_number }}"
-                    class="w-full mt-1 px-3 py-2 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none text-sm"
-                    placeholder="+223 70 00 12 34">
-                  <p class="text-xs text-gray-400 mt-1">Le numero que vos clients utiliseront pour vous contacter.</p>
-                </div>
-
                 <!-- Bouton pour generer le QR -->
                 <button type="button" id="wa-qr-btn" onclick="startWhatsAppLink()"
                         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700 shadow-sm transition-all">
@@ -259,6 +250,14 @@
                     <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <p class="text-sm text-green-700 font-medium">WhatsApp connecte avec succes ! Rechargement...</p>
                   </div>
+                </div>
+
+                <!-- Numero WhatsApp (optionnel, pour le QR wa.me apres connexion) -->
+                <div class="mt-3">
+                  <label for="whatsapp_number" class="text-xs text-gray-400">Numero WhatsApp (optionnel)</label>
+                  <input type="tel" name="whatsapp_number" id="whatsapp_number" value="{{ agent.whatsapp_number }}"
+                    class="w-full mt-1 px-3 py-1.5 rounded-lg border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none text-xs text-gray-500"
+                    placeholder="+223 70 00 12 34">
                 </div>
               </div>
               {% endif %}
