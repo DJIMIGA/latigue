@@ -360,9 +360,21 @@ def get_agent_bindings(agent_id):
 
 
 def is_whatsapp_connected(agent_id):
-    """Verifie si le compte WhatsApp du client est connecte (creds.json existe)."""
+    """Verifie si le compte WhatsApp du client est reellement connecte.
+
+    Un creds.json partiel (login echoue) n'a pas de me.name — on le detecte.
+    """
     creds_file = os.path.join(_credentials_dir(), 'whatsapp', agent_id, 'creds.json')
-    return os.path.isfile(creds_file)
+    if not os.path.isfile(creds_file):
+        return False
+    try:
+        with open(creds_file, 'r') as f:
+            creds = json.load(f)
+        me = creds.get('me', {})
+        # Un login complet a toujours me.id ET me.name
+        return bool(me.get('id')) and bool(me.get('name'))
+    except (json.JSONDecodeError, OSError):
+        return False
 
 
 def disconnect_whatsapp(agent_id):
