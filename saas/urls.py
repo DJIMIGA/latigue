@@ -37,6 +37,7 @@ urlpatterns = [
     # WhatsApp QR code (AJAX)
     path('whatsapp/qr/start/', views.whatsapp_qr_start, name='whatsapp_qr_start'),
     path('whatsapp/qr/wait/', views.whatsapp_qr_wait, name='whatsapp_qr_wait'),
+    path('whatsapp/qr/full/', views.whatsapp_qr_full, name='whatsapp_qr_full'),
     path('whatsapp/disconnect/', views.whatsapp_disconnect, name='whatsapp_disconnect'),
 
     # API proxy

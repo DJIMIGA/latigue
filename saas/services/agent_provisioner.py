@@ -362,7 +362,9 @@ def get_agent_bindings(agent_id):
 def is_whatsapp_connected(agent_id):
     """Verifie si le compte WhatsApp du client est reellement connecte.
 
-    Un creds.json partiel (login echoue) n'a pas de me.name — on le detecte.
+    Un creds.json partiel (login echoue) n'a pas de me.lid ni
+    account.deviceSignature. WhatsApp ordinaire n'a pas me.name
+    (seul WhatsApp Business l'a), donc on verifie me.lid + deviceSignature.
     """
     creds_file = os.path.join(_credentials_dir(), 'whatsapp', agent_id, 'creds.json')
     if not os.path.isfile(creds_file):
@@ -371,8 +373,11 @@ def is_whatsapp_connected(agent_id):
         with open(creds_file, 'r') as f:
             creds = json.load(f)
         me = creds.get('me', {})
-        # Un login complet a toujours me.id ET me.name
-        return bool(me.get('id')) and bool(me.get('name'))
+        account = creds.get('account', {})
+        # Un login complet a: me.id + me.lid + account.deviceSignature
+        return (bool(me.get('id'))
+                and bool(me.get('lid'))
+                and bool(account.get('deviceSignature')))
     except (json.JSONDecodeError, OSError):
         return False
 

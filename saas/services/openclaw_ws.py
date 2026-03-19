@@ -5,8 +5,8 @@ Utilise le protocole JSON-RPC du gateway pour :
 - web.login.start : genere un QR code WhatsApp (base64 PNG)
 - web.login.wait  : attend le scan du QR code
 
-Auth simplifiee par token (sans device signature) — confirmee
-par le code source du gateway (sharedAuthOk bypass).
+Flux en UNE seule connexion WS (start + wait) pour eviter
+les erreurs 515 causees par la perte de session entre deux connexions.
 """
 import asyncio
 import json
@@ -109,6 +109,55 @@ async def _call_method(ws, method, params, timeout):
         # Sinon c'est un event ou une autre reponse — on l'ignore
 
 
+async def _full_login(account_id):
+    """
+    Flux complet sur UNE seule connexion WS :
+    1. web.login.start → retourne le QR
+    2. web.login.wait → attend le scan (sur la MEME connexion)
+    Retourne (qr_data_url, connected)
+    """
+    async with websockets.connect(_ws_url()) as ws:
+        await _connect_and_auth(ws)
+
+        # 1. Generer le QR
+        start_res = await _call_method(ws, 'web.login.start', {
+            'accountId': account_id,
+            'timeoutMs': 30000,
+            'force': True,
+        }, timeout=REQUEST_TIMEOUT)
+
+        if not start_res.get('ok'):
+            error = start_res.get('error', {})
+            raise RuntimeError(error.get('message', 'web.login.start failed'))
+
+        payload = start_res.get('payload', {})
+        qr_data_url = payload.get('qrDataUrl', '')
+
+        if not qr_data_url:
+            # Deja connecte ou pas de QR
+            msg = payload.get('message', '')
+            if 'already linked' in msg.lower():
+                return ('', True)
+            raise RuntimeError(msg or 'Pas de QR code genere')
+
+        # 2. Attendre le scan (MEME connexion)
+        wait_res = await _call_method(ws, 'web.login.wait', {
+            'accountId': account_id,
+            'timeoutMs': WAIT_SCAN_TIMEOUT * 1000,
+        }, timeout=WAIT_SCAN_TIMEOUT + 10)
+
+        if not wait_res.get('ok'):
+            error = wait_res.get('error', {})
+            raise RuntimeError(error.get('message', 'web.login.wait failed'))
+
+        wait_payload = wait_res.get('payload', {})
+        connected = wait_payload.get('connected', False)
+
+        return (qr_data_url, connected)
+
+
+# ─── Ancien API (2 etapes separees — conserve pour compat) ──
+
 async def _start_login(account_id):
     """Ouvre WS, s'authentifie, appelle web.login.start, retourne le QR."""
     async with websockets.connect(_ws_url()) as ws:
@@ -116,7 +165,7 @@ async def _start_login(account_id):
         res = await _call_method(ws, 'web.login.start', {
             'accountId': account_id,
             'timeoutMs': 30000,
-            'force': False,
+            'force': True,
         }, timeout=REQUEST_TIMEOUT)
 
     if not res.get('ok'):
@@ -145,6 +194,15 @@ async def _wait_login(account_id):
 
 
 # ─── API synchrone (pour les views Django) ─────────────────
+
+def full_whatsapp_login(account_id):
+    """
+    Flux complet: genere QR + attend scan sur une seule connexion WS.
+    Retourne (qr_data_url, connected).
+    Leve une exception en cas d'erreur.
+    """
+    return asyncio.run(_full_login(account_id))
+
 
 def start_whatsapp_login(account_id):
     """

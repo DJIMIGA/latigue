@@ -435,7 +435,7 @@
   toggle();
 })();
 
-/* ── WhatsApp QR code self-service ── */
+/* ── WhatsApp QR code self-service (flux unique start+wait) ── */
 function startWhatsAppLink() {
   var btn = document.getElementById('wa-qr-btn');
   var zone = document.getElementById('wa-qr-zone');
@@ -451,45 +451,39 @@ function startWhatsAppLink() {
   successBox.classList.add('hidden');
   zone.classList.add('hidden');
   btn.disabled = true;
-  btn.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Generation du QR...';
+  btn.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Preparation...';
 
   var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-  // 1. Demander le QR code
-  fetch('{% url "saas:whatsapp_qr_start" %}', {
+  // Afficher le QR placeholder + spinner pendant que le serveur fait start+wait
+  zone.classList.remove('hidden');
+  btn.classList.add('hidden');
+  status.textContent = 'Connexion en cours... Le QR code va apparaitre.';
+  spinner.classList.remove('hidden');
+  img.src = '';
+
+  // Flux unique : start + wait sur une seule connexion WS (cote serveur)
+  // Cette requete dure ~90s max (long-polling)
+  fetch('{% url "saas:whatsapp_qr_full" %}', {
     method: 'POST',
     headers: {'X-CSRFToken': csrfToken, 'Content-Type': 'application/json'},
-  })
-  .then(function(r) { return r.json().then(function(d) { return {ok: r.ok, data: d}; }); })
-  .then(function(res) {
-    if (!res.ok || !res.data.qr_data_url) {
-      throw new Error(res.data.error || 'Impossible de generer le QR code');
-    }
-
-    // Afficher le QR
-    img.src = res.data.qr_data_url;
-    zone.classList.remove('hidden');
-    btn.classList.add('hidden');
-    status.textContent = 'Scannez ce QR code avec WhatsApp sur votre telephone...';
-    spinner.classList.remove('hidden');
-
-    // 2. Attendre le scan (long-polling)
-    return fetch('{% url "saas:whatsapp_qr_wait" %}', {
-      method: 'POST',
-      headers: {'X-CSRFToken': csrfToken, 'Content-Type': 'application/json'},
-    });
   })
   .then(function(r) { return r.json().then(function(d) { return {ok: r.ok, data: d}; }); })
   .then(function(res) {
     spinner.classList.add('hidden');
 
     if (res.data.connected) {
-      // Succes !
       zone.classList.add('hidden');
       successBox.classList.remove('hidden');
       setTimeout(function() { window.location.reload(); }, 2000);
+    } else if (res.data.error) {
+      zone.classList.add('hidden');
+      errBox.classList.remove('hidden');
+      errMsg.textContent = res.data.error;
+      btn.classList.remove('hidden');
+      btn.disabled = false;
+      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Reessayer';
     } else {
-      // Timeout — QR pas scanne
       status.textContent = 'Le QR code a expire. Cliquez pour reessayer.';
       btn.classList.remove('hidden');
       btn.disabled = false;

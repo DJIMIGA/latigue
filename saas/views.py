@@ -18,7 +18,7 @@ from django.db.models.functions import TruncDate
 from .models import Organization, SaaSPlan, AgentConfig, SaaSSubscription, UsageLog, APIKey
 from .services.openclaw_client import OpenClawClient
 from .services.agent_provisioner import create_agent as provision_agent, update_agent as update_agent_files, update_bindings, get_agent_bindings, is_whatsapp_connected, disconnect_whatsapp
-from .services.openclaw_ws import start_whatsapp_login, wait_whatsapp_login
+from .services.openclaw_ws import start_whatsapp_login, wait_whatsapp_login, full_whatsapp_login
 from .services.paydunya_billing import create_subscription_invoice, activate_subscription, setup_paydunya
 
 logger = logging.getLogger(__name__)
@@ -903,6 +903,47 @@ def whatsapp_qr_wait(request):
         return JsonResponse({'connected': connected})
     except Exception as e:
         logger.error(f'WhatsApp QR wait failed for {agent.agent_id}: {e}')
+        return JsonResponse({'error': str(e), 'connected': False}, status=500)
+
+
+@login_required
+@require_POST
+def whatsapp_qr_full(request):
+    """Flux complet: genere QR + attend scan sur une seule connexion WS.
+
+    Retourne en streaming: d'abord le QR, puis le resultat du scan.
+    Comme c'est du long-polling (~90s), on retourne tout a la fin.
+    """
+    org = Organization.objects.filter(owner=request.user, is_active=True).first()
+    if not org:
+        return JsonResponse({'error': 'Pas d\'organisation'}, status=403)
+    agent = AgentConfig.objects.filter(organization=org, status='active').first()
+    if not agent:
+        return JsonResponse({'error': 'Pas d\'agent actif'}, status=404)
+    if agent.channels not in ('whatsapp', 'both'):
+        return JsonResponse({'error': 'WhatsApp non active'}, status=400)
+
+    # Nettoyer les creds partielles avant de commencer
+    disconnect_whatsapp(agent.agent_id)
+
+    try:
+        qr_data_url, connected = full_whatsapp_login(agent.agent_id)
+
+        if connected and not qr_data_url:
+            # Deja connecte
+            return JsonResponse({'connected': True, 'already_linked': True})
+
+        if connected:
+            return JsonResponse({'connected': True, 'qr_data_url': qr_data_url})
+
+        # Pas connecte (timeout ou erreur) — nettoyer les creds partielles
+        disconnect_whatsapp(agent.agent_id)
+        return JsonResponse({'connected': False, 'qr_data_url': qr_data_url})
+
+    except Exception as e:
+        # Nettoyer les creds partielles apres echec
+        disconnect_whatsapp(agent.agent_id)
+        logger.error(f'WhatsApp full login failed for {agent.agent_id}: {e}')
         return JsonResponse({'error': str(e), 'connected': False}, status=500)
 
 
