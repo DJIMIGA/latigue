@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Creer votre assistant IA — DJIMIGA TECH{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-10">
+  <div class="container mx-auto px-4 max-w-3xl">
+
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <h1 class="text-3xl md:text-4xl font-syne font-bold text-gray-900">Votre Assistant IA</h1>
+      <p class="text-gray-500 mt-2">Configurez votre assistant intelligent en 2 etapes</p>
+    </div>
+
+    <!-- Stepper -->
+    <div class="flex items-center justify-center mb-10">
+      {% for s in "12" %}
+      <div class="flex items-center">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold
+          {% if step == s %}bg-emerald-600 text-white{% elif step > s %}bg-emerald-100 text-emerald-600{% else %}bg-gray-100 text-gray-400{% endif %}">
+          {{ s }}
+        </div>
+        {% if not forloop.last %}
+        <div class="w-16 h-0.5 {% if step > s %}bg-emerald-300{% else %}bg-gray-200{% endif %}"></div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if from_service_obj %}
+    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5 mb-6 flex items-start gap-4">
+      {% if from_service_obj.image and from_service_obj.image.name %}
+      <img src="{{ from_service_obj.image.url }}" alt="{{ from_service_obj.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-emerald-200">
+      {% else %}
+      <div class="w-16 h-16 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      {% endif %}
+      <div>
+        <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wide">Service selectionne</p>
+        <h3 class="text-lg font-syne font-bold text-gray-900">{{ from_service_obj.title }}</h3>
+        <p class="text-sm text-gray-600 mt-1">{{ from_service_obj.get_type_display }} — {{ from_service_obj.duration }}</p>
+        {% if from_service_obj.price %}
+        <p class="text-sm font-bold text-emerald-600 mt-1">{{ from_service_obj.price|floatformat:0 }} FCFA/mois</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if from_formation_obj %}
+    <div class="bg-cyan-50 border border-cyan-200 rounded-xl p-5 mb-6 flex items-start gap-4">
+      {% if from_formation_obj.image and from_formation_obj.image.name %}
+      <img src="{{ from_formation_obj.image.url }}" alt="{{ from_formation_obj.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-cyan-200">
+      {% else %}
+      <div class="w-16 h-16 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
+        <svg class="w-8 h-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      {% endif %}
+      <div>
+        <p class="text-xs text-cyan-600 font-semibold uppercase tracking-wide">Formation selectionnee</p>
+        <h3 class="text-lg font-syne font-bold text-gray-900">{{ from_formation_obj.title }}</h3>
+        <p class="text-sm text-gray-600 mt-1">{{ from_formation_obj.get_level_display }} — {{ from_formation_obj.duration }}</p>
+        {% if from_formation_obj.price %}
+        <p class="text-sm font-bold text-cyan-600 mt-1">{{ from_formation_obj.price|floatformat:0 }} FCFA</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+      <p class="text-sm text-red-600">{{ error }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Etape 1 : Organisation -->
+    {% if step == "1" %}
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+      <h2 class="text-xl font-syne font-bold text-gray-900 mb-6">Votre entreprise</h2>
+      <form method="post" action="{% url 'saas:onboarding_create_org' %}">
+        {% csrf_token %}
+        {% if from_service %}<input type="hidden" name="from_service" value="{{ from_service }}">{% endif %}
+        {% if from_formation %}<input type="hidden" name="from_formation" value="{{ from_formation }}">{% endif %}
+        <div class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom de l'entreprise *</label>
+            <input type="text" name="name" id="name" required
+              value="{{ org.name|default:'' }}"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              placeholder="Ex: Boulangerie Chez Mamadou">
+          </div>
+          <div>
+            <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-1">Email de contact *</label>
+            <input type="email" name="contact_email" id="contact_email" required
+              value="{{ org.contact_email|default:'' }}"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              placeholder="contact@entreprise.com">
+          </div>
+          <div>
+            <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
+            <input type="tel" name="contact_phone" id="contact_phone"
+              value="{{ org.contact_phone|default:'' }}"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              placeholder="+223 XX XX XX XX">
+          </div>
+        </div>
+        <button type="submit" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+          Continuer
+        </button>
+      </form>
+    </div>
+    {% endif %}
+
+    <!-- Etape 2 : Plan + Agent -->
+    {% if step == "2" %}
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+      <h2 class="text-xl font-syne font-bold text-gray-900 mb-6">Choisissez votre plan</h2>
+      <form method="post" action="{% url 'saas:onboarding_choose_plan' %}" id="plan-form">
+        {% csrf_token %}
+        {% if from_formation %}<input type="hidden" name="from_formation" value="{{ from_formation }}">{% endif %}
+
+        <!-- Plans -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          {% for plan in plans %}
+          <label class="relative cursor-pointer">
+            <input type="radio" name="plan_slug" value="{{ plan.slug }}" class="peer sr-only plan-radio"
+              data-trial="{% if trial_enabled and plan.slug == 'starter' %}true{% else %}false{% endif %}"
+              {% if preselected_plan == plan.slug %}checked{% elif not preselected_plan and forloop.first %}checked{% endif %}>
+            <div class="border-2 border-gray-200 rounded-xl p-4 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
+              {% if trial_enabled and plan.slug == 'starter' %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 mb-2">Essai gratuit {{ trial_days }}j</span>
+              {% endif %}
+              <h3 class="font-syne font-bold text-gray-900">{{ plan.name }}</h3>
+              <p class="text-2xl font-bold text-emerald-600 mt-2">
+                {% if trial_enabled and plan.slug == 'starter' %}
+                <span class="text-amber-600">Gratuit</span> <span class="text-sm font-normal text-gray-400 line-through">{{ plan.price_xof|floatformat:0 }} FCFA</span>
+                {% else %}
+                {{ plan.price_xof|floatformat:0 }} <span class="text-sm font-normal text-gray-500">FCFA/mois</span>
+                {% endif %}
+              </p>
+              <ul class="mt-3 space-y-1">
+                {% for feature in plan.get_features_list %}
+                <li class="text-xs text-gray-600 flex items-start gap-1">
+                  <svg class="w-3 h-3 text-emerald-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  {{ feature }}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </label>
+          {% endfor %}
+        </div>
+
+        <!-- Nom de l'agent -->
+        <div class="space-y-4 mt-6 border-t border-gray-100 pt-6">
+          <div>
+            <label for="agent_name" class="block text-sm font-medium text-gray-700 mb-1">Nom de votre assistant</label>
+            <input type="text" name="agent_name" id="agent_name"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              placeholder="Ex: Nour, Awa, Moussa...">
+            <p class="text-xs text-gray-400 mt-1">Le nom que vos clients verront</p>
+          </div>
+          <div>
+            <label for="company_info" class="block text-sm font-medium text-gray-700 mb-1">Informations sur votre entreprise</label>
+            <textarea name="company_info" id="company_info" rows="5"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              placeholder="Decrivez vos produits, services, horaires, tarifs...&#10;L'assistant utilisera ces infos pour repondre aux clients."></textarea>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-btn" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+          Continuer
+        </button>
+        <p id="submit-hint" class="text-xs text-gray-400 mt-3 text-center"></p>
+      </form>
+    </div>
+
+    {% if trial_enabled %}
+    <script>
+    (function() {
+      var radios = document.querySelectorAll('.plan-radio');
+      var btn = document.getElementById('submit-btn');
+      var hint = document.getElementById('submit-hint');
+      function update() {
+        var checked = document.querySelector('.plan-radio:checked');
+        if (checked && checked.dataset.trial === 'true') {
+          btn.textContent = 'Activer l\'essai gratuit ({{ trial_days }} jours)';
+          hint.textContent = 'Essai gratuit — aucun paiement requis';
+        } else {
+          btn.textContent = 'Soumettre la demande';
+          hint.textContent = 'Votre demande sera validee par notre equipe sous 24h';
+        }
+      }
+      radios.forEach(function(r) { r.addEventListener('change', update); });
+      update();
+    })();
+    </script>
+    {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

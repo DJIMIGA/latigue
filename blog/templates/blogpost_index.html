@@ -11,10 +11,10 @@
     <!-- Header Section -->
     <div class="container mx-auto px-4 py-6">
         <div class="text-center mb-6">
-            <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-2">
-                Centre d'<span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Information</span>
+            <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-800 mb-2">
+                Centre d'<span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600">Information</span>
             </h1>
-            <p class="text-sm md:text-base text-gray-400 max-w-xl mx-auto">
+            <p class="text-sm md:text-base text-gray-500 max-w-xl mx-auto">
                 Découvrez nos articles sur le développement web, les technologies et les bonnes pratiques
             </p>
         </div>
@@ -26,8 +26,8 @@
                     <input type="text" 
                            id="searchInput"
                            placeholder="Rechercher un article..." 
-                           class="w-full px-3 py-2 pl-10 bg-[#111827] border border-[#1F2937] rounded-lg focus:ring-2 focus:ring-[#00FF88] focus:border-transparent text-gray-100 placeholder-gray-500 text-sm md:text-base transition-all duration-300">
-                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           class="w-full px-3 py-2 pl-10 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-600 focus:border-transparent text-gray-800 placeholder-gray-500 text-sm md:text-base transition-all duration-300">
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
@@ -37,9 +37,9 @@
         <!-- Articles Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16" id="articlesGrid">
             {% for post in posts %}
-            <article class="group bg-[#111827] rounded-xl shadow-md hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] border border-[#1F2937] hover:border-[#00FF88]/30 transition-all duration-300 overflow-hidden flex flex-col">
+            <article class="group bg-gray-50 rounded-xl shadow-md hover:shadow-lg border border-gray-200 hover:border-emerald-600/30 transition-all duration-300 overflow-hidden flex flex-col">
                 {% if post.thumbnail %}
-                <div class="relative h-44 overflow-hidden bg-[#0D1117]">
+                <div class="relative h-44 overflow-hidden bg-[#FAF9F5]">
                     <a href="{{ post.get_absolute_url }}">
                         <img class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" 
                              src="{{ post.thumbnail.url }}" 
@@ -49,7 +49,7 @@
                     </a>
                     {% if post.categories.all %}
                     <div class="absolute top-4 left-4">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/20">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-600/10 text-emerald-600 border border-emerald-600/20">
                             {{ post.categories.first.name }}
                         </span>
                     </div>
@@ -58,14 +58,14 @@
                 {% endif %}
 
                 <div class="p-4 lg:p-5 flex flex-col flex-1 items-center text-center">
-                    <h2 class="text-base lg:text-lg font-bold text-gray-100 mb-2 group-hover:text-[#00FF88] transition-colors">
+                    <h2 class="text-base lg:text-lg font-bold text-gray-800 mb-2 group-hover:text-emerald-600 transition-colors">
                         {{ post.title }}
                     </h2>
-                    <p class="text-gray-400 text-xs lg:text-sm leading-relaxed mb-3 line-clamp-3">
+                    <p class="text-gray-500 text-xs lg:text-sm leading-relaxed mb-3 line-clamp-3">
                         {{ post.body|safe_excerpt:8 }}
                     </p>
                     <a href="{{ post.get_absolute_url }}"
-                      class="mt-auto inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-full bg-[#0D1117] text-[#00FF88] hover:bg-[#00FF88]/10 border border-[#1F2937] hover:border-[#00FF88]/30 transition-colors">
+                      class="mt-auto inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-full bg-[#FAF9F5] text-emerald-600 hover:bg-emerald-600/10 border border-gray-200 hover:border-emerald-600/30 transition-colors">
                       Lire l'article
                       <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -79,8 +79,8 @@
                     <svg class="w-24 h-24 mx-auto text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Aucun article trouvé</h3>
-                    <p class="text-gray-400">Les articles apparaîtront ici une fois publiés.</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Aucun article trouvé</h3>
+                    <p class="text-gray-500">Les articles apparaîtront ici une fois publiés.</p>
                 </div>
             </div>
             {% endfor %}
@@ -88,7 +88,7 @@
 
         {% if posts|length >= 6 %}
         <div class="text-center">
-            <button class="inline-flex items-center px-6 py-3 bg-[#00FF88] hover:bg-[#00FF88]/90 text-black font-bold rounded-lg transition-colors duration-300 transform hover:scale-105">
+            <button class="inline-flex items-center px-6 py-3 bg-emerald-600 hover:bg-emerald-600/90 text-white font-bold rounded-lg transition-colors duration-300 transform hover:scale-105">
                 Charger plus d'articles
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

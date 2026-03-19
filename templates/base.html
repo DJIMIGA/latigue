@@ -93,13 +93,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-[#060810] flex flex-col min-h-screen text-gray-100 font-inter overflow-x-hidden">
+  <body class="bg-[#FAF9F5] flex flex-col min-h-screen text-gray-700 font-inter overflow-x-hidden">
     {% include 'components/header_desktop.html' %}
     {% include 'components/header_mobile.html' %}
     <main class="mx-auto">
       {% block content %} {% endblock %}
     </main>
-    <footer class="bg-[#0D1117] border-t border-[#1F2937] mt-auto font-inter">
+    <footer class="bg-white border-t border-gray-200 mt-auto font-inter">
       <div class="flex flex-col lg:flex-row items-center justify-center px-4 py-8 space-y-6 lg:space-y-0">
         <!-- Logo -->
         <div class="lg:mr-10">
@@ -111,7 +111,7 @@
         <!-- Réseaux sociaux -->
         <div id="social-icons" class="flex items-center space-x-2 lg:space-x-4">
             <a
-                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00FF88] transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-emerald-600 transition-colors duration-300"
                     href="https://www.tiktok.com/@djimiga1"
             >
                 <svg
@@ -126,7 +126,7 @@
                 </svg>
             </a>
             <a
-                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00FF88] transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-emerald-600 transition-colors duration-300"
                     href="https://www.youtube.com/@pythonmalien"
             >
                 <svg
@@ -143,7 +143,7 @@
                 </svg>
             </a>
             <a
-                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00E5FF] transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-cyan-600 transition-colors duration-300"
                     href="https://x.com/pymalien"
             >
                 <svg
@@ -160,7 +160,7 @@
                 </svg>
             </a>
             <a
-                    class="flex items-center rounded p-2 text-gray-400 hover:text-[#00E5FF] transition-colors duration-300"
+                    class="flex items-center rounded p-2 text-gray-400 hover:text-cyan-600 transition-colors duration-300"
                     href="https://linkedin.com/in/pymalien"
             >
                 <svg
@@ -182,31 +182,31 @@
         <div class="flex flex-wrap items-center justify-center text-sm lg:text-base space-x-4 lg:space-x-8 lg:mx-10">
           <a
             href="{% url 'about' %}"
-            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
+            class="font-semibold text-gray-600 hover:text-emerald-600 transition-colors duration-300"
             >À propos</a
           >
           <a
             href="{% url 'blog-index' %}"
             target="_blank"
             rel="noreferrer"
-            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
+            class="font-semibold text-gray-600 hover:text-emerald-600 transition-colors duration-300"
             >Blog</a>
           <a
             href="{% url 'services:service_list' %}"
             target="_blank"
             rel="noreferrer"
-            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
+            class="font-semibold text-gray-600 hover:text-emerald-600 transition-colors duration-300"
             >Services</a>
           <a
             href="{% url 'formations:formation_index' %}"
             target="_blank"
             rel="noreferrer"
-            class="font-semibold text-gray-300 hover:text-[#00FF88] transition-colors duration-300"
+            class="font-semibold text-gray-600 hover:text-emerald-600 transition-colors duration-300"
             >Formations</a>
         </div>
       </div>
-      <p class="text-center text-xs lg:text-sm text-gray-500 py-4 px-4 border-t border-[#1F2937]">
-        &copy; Made by <span class="text-[#00FF88]">Djimiga Tech</span>. All rights reserved.
+      <p class="text-center text-xs lg:text-sm text-gray-500 py-4 px-4 border-t border-gray-200">
+        &copy; Made by <span class="text-emerald-600">Djimiga Tech</span>. All rights reserved.
       </p>
     </footer>
 

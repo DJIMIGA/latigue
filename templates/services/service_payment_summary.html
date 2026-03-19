@@ -16,7 +16,7 @@
       <h2 class="text-2xl font-bold text-gray-900 mb-2">Paiement réussi !</h2>
       <p class="text-gray-600 mb-2">Votre abonnement au service{% if service %} <strong class="text-gray-900">{{ service.title }}</strong>{% endif %} est maintenant actif.</p>
       <p class="text-sm text-gray-500 mb-6">Durée : 30 jours. Renouvelable depuis votre espace client.</p>
-      <a href="{% url 'formations:client_dashboard' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-green-600 hover:bg-green-700 transition">
+      <a href="{% url 'saas:client_dashboard' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-gray-900 bg-green-600 hover:bg-green-700 transition">
         Accéder à mon espace client
       </a>
     </div>
@@ -29,7 +29,7 @@
       </div>
       <h2 class="text-2xl font-bold text-gray-900 mb-2">Erreur</h2>
       <p class="text-gray-600 mb-6">{{ error }}</p>
-      <a href="{% url 'services:service_list' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-gray-800 hover:bg-gray-900 transition">
+      <a href="{% url 'services:service_list' %}" class="inline-block px-6 py-3 rounded-lg font-semibold text-gray-900 bg-gray-800 hover:bg-gray-900 transition">
         Retour aux services
       </a>
     </div>

@@ -83,6 +83,9 @@ INSTALLED_APPS = [
     'formations',
     'chatbot',
     'marketing',
+    'newsletter',
+    'dashboard',
+    'saas',
 ]
 
 MIDDLEWARE = [
@@ -437,5 +440,21 @@ PAYDUNYA_MODE = os.environ.get('PAYDUNYA_MODE', 'test')  # 'test' ou 'live'
 
 # Auth
 LOGIN_URL = "/connexion/"
-LOGIN_REDIRECT_URL = "/formations/espace-client/"
+LOGIN_REDIRECT_URL = "/saas/dashboard/"
 LOGOUT_REDIRECT_URL = "/"
+
+# ======================================================================
+# OPENCLAW GATEWAY CONFIGURATION (SaaS IA)
+# ======================================================================
+OPENCLAW_GATEWAY_URL = os.environ.get('OPENCLAW_GATEWAY_URL', 'http://openclaw-gateway:18789')
+OPENCLAW_GATEWAY_TOKEN = os.environ.get('OPENCLAW_GATEWAY_TOKEN', '')
+OPENCLAW_CONFIG_PATH = os.environ.get('OPENCLAW_CONFIG_PATH', '/opt/app/openclaw/config/openclaw.json')
+OPENCLAW_CLIENTS_DIR = os.environ.get('OPENCLAW_CLIENTS_DIR', '/opt/app/openclaw/config/clients')
+OPENCLAW_AGENTS_DIR = os.environ.get('OPENCLAW_AGENTS_DIR', '/opt/app/openclaw/config/agents')
+
+# Numero WhatsApp du bot OpenClaw (pour QR codes et liens wa.me)
+OPENCLAW_WHATSAPP_NUMBER = os.environ.get('OPENCLAW_WHATSAPP_NUMBER', '+22372464294')
+
+# SaaS Trial Mode (desactiver quand PayDunya est active)
+SAAS_TRIAL_ENABLED = os.environ.get('SAAS_TRIAL_ENABLED', 'true').lower() == 'true'
+SAAS_TRIAL_DAYS = int(os.environ.get('SAAS_TRIAL_DAYS', '7'))

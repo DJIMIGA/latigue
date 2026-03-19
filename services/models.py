@@ -117,6 +117,37 @@ class Service(models.Model):
         return features
 
 
+class Capacite(models.Model):
+    CATEGORY_CHOICES = [
+        ('dev', 'Développement'),
+        ('ia', 'Intelligence Artificielle'),
+        ('marketing', 'Marketing'),
+        ('business', 'Business'),
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="Titre")
+    description = models.TextField(verbose_name="Description courte")
+    icon = models.CharField(max_length=10, verbose_name="Emoji/Icône", help_text="Ex: 🌐, 🤖, 📱")
+    image = models.ImageField(upload_to='capacites/', verbose_name="Image", null=True, blank=True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, verbose_name="Catégorie")
+    order = models.PositiveIntegerField(default=0, verbose_name="Ordre d'affichage")
+    is_active = models.BooleanField(default=True, verbose_name="Actif")
+    STATUS_CHOICES = [
+        ('active', 'Actif'),
+        ('configuring', 'En configuration'),
+        ('available', 'Disponible'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available', verbose_name="Statut")
+    
+    class Meta:
+        verbose_name = "Capacité IA"
+        verbose_name_plural = "Capacités IA"
+        ordering = ['order', 'category']
+    
+    def __str__(self):
+        return f"{self.icon} {self.title}"
+
+
 class ServiceOrder(models.Model):
     ORDER_TYPE_CHOICES = [
         ('installation', 'Installation'),

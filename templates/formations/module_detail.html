@@ -3,30 +3,30 @@
 {% block title %}{{ module.title }} — {{ formation.title }} | Djimiga Tech{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-[#060810]">
+<div class="min-h-screen bg-white">
     <div class="container mx-auto px-4 py-12 max-w-4xl">
         <!-- Breadcrumb -->
         <div class="flex flex-wrap items-center text-sm text-gray-500 mb-6 space-x-2">
-            <a href="{% url 'formations:client_dashboard' %}" class="hover:text-[#00FF88] transition">Mon Compte</a>
+            <a href="{% url 'saas:client_dashboard' %}" class="hover:text-emerald-600 transition">Mon Espace</a>
             <span>/</span>
-            <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="hover:text-[#00FF88] transition">{{ formation.title|truncatewords:4 }}</a>
+            <a href="{% url 'formations:enrolled_formation' formation.slug %}" class="hover:text-emerald-600 transition">{{ formation.title|truncatewords:4 }}</a>
             <span>/</span>
-            <span class="text-gray-300">{{ module.title }}</span>
+            <span class="text-gray-600">{{ module.title }}</span>
         </div>
 
-        <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-100 mb-2">{{ module.title }}</h1>
+        <h1 class="text-2xl md:text-3xl font-syne font-extrabold text-gray-800 mb-2">{{ module.title }}</h1>
         {% if module.description %}
-        <p class="text-gray-400 mb-6">{{ module.description }}</p>
+        <p class="text-gray-500 mb-6">{{ module.description }}</p>
         {% endif %}
 
         <!-- Progress -->
-        <div class="bg-[#111827] rounded-lg p-4 border border-[#1F2937] mb-8">
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-8">
             <div class="flex justify-between text-sm mb-2">
-                <span class="text-gray-400">Progression du module</span>
-                <span class="text-[#00FF88] font-bold">{{ progress }}%</span>
+                <span class="text-gray-500">Progression du module</span>
+                <span class="text-emerald-600 font-bold">{{ progress }}%</span>
             </div>
-            <div class="w-full bg-[#1F2937] rounded-full h-2.5">
-                <div class="h-2.5 rounded-full bg-gradient-to-r from-[#00FF88] to-[#00E5FF]" style="width: {{ progress }}%"></div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="h-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-cyan-600" style="width: {{ progress }}%"></div>
             </div>
         </div>
 
@@ -34,7 +34,7 @@
         <div class="space-y-3">
             {% for item in lesson_list %}
             <a href="{% url 'formations:lesson_detail' formation.slug item.lesson.id %}" 
-               class="flex items-center justify-between bg-[#111827] rounded-lg p-4 border border-[#1F2937] hover:border-[#00FF88]/30 transition">
+               class="flex items-center justify-between bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-emerald-600/30 transition">
                 <div class="flex items-center space-x-4">
                     <span class="text-xl">
                         {% if item.completed %}✅
@@ -43,7 +43,7 @@
                         {% else %}📄{% endif %}
                     </span>
                     <div>
-                        <h3 class="font-semibold text-gray-100">{{ item.lesson.title }}</h3>
+                        <h3 class="font-semibold text-gray-800">{{ item.lesson.title }}</h3>
                         <p class="text-xs text-gray-500">{{ item.lesson.get_lesson_type_display }}{% if item.lesson.duration_minutes %} • {{ item.lesson.duration_minutes }} min{% endif %}</p>
                     </div>
                 </div>

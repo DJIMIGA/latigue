@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Changer de plan — DJIMIGA TECH{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-10">
+  <div class="container mx-auto px-4 max-w-3xl">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <a href="{% url 'saas:client_dashboard' %}" class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-emerald-600 transition-colors mb-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Mon Espace
+      </a>
+      <h1 class="text-3xl md:text-4xl font-syne font-bold text-gray-900">Changer de plan</h1>
+      <p class="text-gray-500 mt-1">{{ org.name }}</p>
+    </div>
+
+    {% if error %}
+    <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3">
+      <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <p class="text-sm text-red-700 font-medium">{{ error }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Plan actuel -->
+    {% if current_sub %}
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 mb-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Plan actuel</p>
+          <h2 class="font-syne font-bold text-xl text-gray-900">{{ current_sub.plan.name }}</h2>
+          <p class="text-sm text-gray-500 mt-1">
+            {% if current_sub.status == 'trial' %}
+              Essai gratuit — expire le {{ current_sub.end_date|date:"d/m/Y" }}
+            {% else %}
+              {{ current_sub.amount_xof|floatformat:0 }} FCFA/mois
+              {% if current_sub.end_date %} — renouvellement le {{ current_sub.end_date|date:"d/m/Y" }}{% endif %}
+            {% endif %}
+          </p>
+        </div>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+          {% if current_sub.status == 'trial' %}bg-amber-50 text-amber-600
+          {% else %}bg-emerald-50 text-emerald-600{% endif %}">
+          {% if current_sub.status == 'trial' %}Essai{% else %}Actif{% endif %}
+        </span>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Choix du nouveau plan -->
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {% for plan in plans %}
+        <label class="relative cursor-pointer">
+          <input type="radio" name="plan_slug" value="{{ plan.slug }}" class="peer sr-only"
+            {% if current_sub and current_sub.plan.slug == plan.slug %}{% else %}{% if forloop.first %}checked{% endif %}{% endif %}>
+          <div class="border-2 rounded-2xl p-5 transition-all
+            {% if current_sub and current_sub.plan.slug == plan.slug %}
+              border-gray-300 bg-gray-50
+            {% else %}
+              border-gray-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 hover:border-gray-300
+            {% endif %}">
+
+            {% if current_sub and current_sub.plan.slug == plan.slug %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-200 text-gray-600 mb-2">Plan actuel</span>
+            {% endif %}
+
+            <h3 class="font-syne font-bold text-gray-900">{{ plan.name }}</h3>
+            <p class="text-2xl font-bold text-emerald-600 mt-2">
+              {{ plan.price_xof|floatformat:0 }} <span class="text-sm font-normal text-gray-500">FCFA/mois</span>
+            </p>
+            <p class="text-xs text-gray-400 mt-1">{{ plan.model_id }}</p>
+
+            <ul class="mt-3 space-y-1">
+              {% for feature in plan.get_features_list %}
+              <li class="text-xs text-gray-600 flex items-start gap-1.5">
+                <svg class="w-3 h-3 text-emerald-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                {{ feature }}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </label>
+        {% endfor %}
+      </div>
+
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6">
+        <p class="text-sm text-gray-600">
+          <svg class="w-4 h-4 inline text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Votre demande sera validee par notre equipe sous 24h. Votre agent actuel <strong>{{ agent.agent_name }}</strong> restera actif pendant la transition.
+        </p>
+      </div>
+
+      <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+        Demander le changement de plan
+      </button>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

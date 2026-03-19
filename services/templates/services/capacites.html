@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nos Capacités IA - DJIMIGA TECH{% endblock %}
+{% block meta_description %}{{ total_count }} capacités IA de DJIMIGA TECH : création web, apps mobiles, chatbots, design IA, vidéos marketing et plus. Tout depuis WhatsApp.{% endblock %}
+
+{% block head_extra %}
+<style>
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .cap-card {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  .cap-card.hidden-card {
+    display: none;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="relative py-16 lg:py-24 font-inter">
+  <!-- Fond décoratif -->
+  <div class="absolute inset-0 -z-10 pointer-events-none">
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-emerald-600/5 to-cyan-600/5 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-gradient-to-tr from-cyan-600/5 to-emerald-600/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-violet-600/5 to-emerald-600/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- En-tête -->
+    <div class="text-center mb-14 lg:mb-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-emerald-600 mb-3">
+        DJIMIGA TECH
+      </p>
+      <h1 class="text-3xl lg:text-5xl font-syne font-extrabold text-gray-800 mb-4">
+        Nos Capacités <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">IA</span>
+      </h1>
+      <p class="text-base lg:text-lg text-gray-500 max-w-2xl mx-auto">
+        {{ total_count }} outils. 1 assistant. Tout depuis WhatsApp.
+      </p>
+    </div>
+
+    <!-- Filtres -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+      <button onclick="filterCaps('all')" data-filter="all" class="filter-btn active px-4 py-2 text-sm font-bold rounded-full border border-emerald-600/40 text-emerald-600 bg-emerald-600/10 transition-all duration-300 hover:bg-emerald-600/20">
+        Tous <span class="ml-1 opacity-60">({{ total_count }})</span>
+      </button>
+      {% for code, info in categories.items %}
+      <button onclick="filterCaps('{{ code }}')" data-filter="{{ code }}" class="filter-btn px-4 py-2 text-sm font-bold rounded-full border border-gray-200 text-gray-500 transition-all duration-300 hover:border-emerald-600/30 hover:text-gray-200">
+        {% if code == 'dev' %}🛠{% elif code == 'ia' %}🤖{% elif code == 'marketing' %}📣{% elif code == 'business' %}💼{% endif %}
+        {{ info.label }} <span class="ml-1 opacity-60">({{ info.count }})</span>
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Grille de capacités -->
+    <div id="caps-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {% for cap in capacites %}
+      <div class="cap-card group bg-gray-50 rounded-2xl border border-gray-200 hover:border-emerald-600/40 hover:shadow-lg transition-all duration-300 hover:scale-[1.03] overflow-hidden" data-cat="{{ cap.category }}" style="animation-delay: {{ forloop.counter0|floatformat:0 }}00ms;">
+        {% if cap.image %}
+        <div class="w-full h-48 overflow-hidden">
+          <img src="{{ cap.image.url }}" alt="{{ cap.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        {% else %}
+        <div class="w-full h-48 flex items-center justify-center bg-gradient-to-br from-white to-gray-50">
+          <span class="text-7xl">{{ cap.icon }}</span>
+        </div>
+        {% endif %}
+        <div class="p-6">
+          <h3 class="text-lg font-bold text-gray-800 group-hover:text-emerald-600 transition-colors mb-2">{{ cap.title }}</h3>
+          <p class="text-sm text-gray-500 mb-4">{{ cap.description }}</p>
+          <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full 
+            {% if cap.category == 'dev' %}bg-blue-500/10 text-blue-400 border border-blue-500/20
+            {% elif cap.category == 'ia' %}bg-emerald-600/10 text-emerald-600 border border-emerald-600/20
+            {% elif cap.category == 'marketing' %}bg-purple-500/10 text-purple-400 border border-purple-500/20
+            {% elif cap.category == 'business' %}bg-cyan-50 text-cyan-600 border border-cyan-600/20
+            {% endif %}">
+            {{ cap.get_category_display }}
+          </span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <script>
+    function filterCaps(cat) {
+      const cards = document.querySelectorAll('.cap-card');
+      const btns = document.querySelectorAll('.filter-btn');
+      
+      btns.forEach(b => {
+        b.classList.remove('active', 'text-emerald-600', 'bg-emerald-600/10', 'border-emerald-600/40');
+        b.classList.add('text-gray-500', 'border-gray-200');
+      });
+      const activeBtn = document.querySelector(`[data-filter="${cat}"]`);
+      activeBtn.classList.add('active', 'text-emerald-600', 'bg-emerald-600/10', 'border-emerald-600/40');
+      activeBtn.classList.remove('text-gray-500', 'border-gray-200');
+      
+      let visibleIndex = 0;
+      cards.forEach((card) => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.classList.remove('hidden-card');
+          card.style.opacity = '0';
+          card.style.animation = `fadeInUp 0.4s ease forwards ${visibleIndex * 0.05}s`;
+          visibleIndex++;
+        } else {
+          card.classList.add('hidden-card');
+        }
+      });
+    }
+    </script>
+
+    <!-- CTA -->
+    <div class="text-center mt-14 lg:mt-20">
+      <p class="text-gray-500 mb-6 text-base">Prêt à transformer votre business avec l'IA ?</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="{% url 'services:service_list' %}"
+          class="inline-flex items-center px-8 py-3 text-sm font-bold rounded-full bg-gradient-to-r from-emerald-600 to-cyan-600 text-white hover:shadow-lg transition-all duration-300 hover:scale-105">
+          Découvrir nos services
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        <a href="https://wa.me/22372464294?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20services%20IA"
+          target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center px-8 py-3 text-sm font-bold rounded-full border border-emerald-600/30 text-emerald-600 hover:bg-emerald-600/10 hover:border-emerald-600/60 transition-all duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-5 h-5 mr-2" fill="currentColor">
+            <path d="M16.003 3C9.935 3 5 7.935 5 14.003c0 2.422.796 4.663 2.143 6.486L5 27l6.708-2.1A10.9 10.9 0 0 0 16.003 25C22.07 25 27 20.065 27 13.997 27 7.93 22.07 3 16.003 3z"/>
+          </svg>
+          Commencez maintenant
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

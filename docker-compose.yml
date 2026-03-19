@@ -26,6 +26,7 @@ services:
       - ./staticfiles:/app/staticfiles
       - ./media:/app/media
       - ./logs:/app/logs
+      - /opt/app/openclaw/config:/opt/app/openclaw/config
     depends_on:
       db:
         condition: service_healthy
@@ -38,6 +39,7 @@ services:
       start_period: 90s
     networks:
       - app_network
+      - shared_saas
 
   db:
     image: postgres:15-alpine
@@ -65,3 +67,5 @@ volumes:
 networks:
   app_network:
     driver: bridge
+  shared_saas:
+    external: true

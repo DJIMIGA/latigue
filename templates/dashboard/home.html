@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+{% load dashboard_tags %}
+
+{% block title %}Dashboard — DJIMIGA TECH{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-10">
+  <div class="container mx-auto px-4 max-w-7xl">
+
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl md:text-4xl font-syne font-bold text-gray-900">Dashboard DJIMIGA TECH</h1>
+      <p class="text-gray-500 mt-2">Vue d'ensemble de votre plateforme IA</p>
+    </div>
+
+    <!-- Row 1: Stats principales -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+      <!-- Users -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Utilisateurs</p>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_users }}</p>
+        <p class="text-xs text-gray-400 mt-1">+{{ new_users_month }} ce mois</p>
+      </div>
+
+      <!-- Formations vendues -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Formations vendues</p>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_enrollments }}</p>
+        <p class="text-xs text-gray-400 mt-1">+{{ new_enrollments_month }} ce mois</p>
+      </div>
+
+      <!-- Revenus -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Revenus total</p>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_revenue|currency_xof }}</p>
+        <p class="text-xs text-gray-400 mt-1">+{{ month_revenue|currency_xof }} ce mois</p>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Abonnés newsletter</p>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_subscribers }}</p>
+        <p class="text-xs text-gray-400 mt-1">Actifs</p>
+      </div>
+    </div>
+
+    <!-- Row 2: Contenu -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Articles blog</p>
+          <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_posts }}</p>
+        <p class="text-xs text-gray-400 mt-1">Publiés</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Services</p>
+          <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_services }}</p>
+        <p class="text-xs text-gray-400 mt-1">Disponibles</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Formations</p>
+          <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ total_formations }}</p>
+        <p class="text-xs text-gray-400 mt-1">Catalogue</p>
+      </div>
+    </div>
+
+    <!-- Row 3: SaaS IA -->
+    <h2 class="text-xl font-syne font-bold text-gray-900 mb-4 mt-10">SaaS IA — Assistants Clients</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+      <!-- Clients PME -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Clients PME</p>
+          <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ saas_clients }}</p>
+        <p class="text-xs text-gray-400 mt-1">{{ saas_active_subs }} abonnement{{ saas_active_subs|pluralize }} actif{{ saas_active_subs|pluralize }}</p>
+      </div>
+
+      <!-- Agents actifs -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Agents IA</p>
+          <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ saas_agents_active }}</p>
+        <p class="text-xs text-gray-400 mt-1">/ {{ saas_agents_total }} total</p>
+      </div>
+
+      <!-- MRR SaaS -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">MRR SaaS</p>
+          <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          </div>
+        </div>
+        <p class="text-3xl font-syne font-bold text-gray-900">{{ saas_mrr|floatformat:0 }} <span class="text-sm font-normal text-gray-500">FCFA</span></p>
+        <p class="text-xs text-gray-400 mt-1">Revenus mensuels recurrents</p>
+      </div>
+
+      <!-- Gateway -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-gray-500">Gateway OpenClaw</p>
+          <div class="w-10 h-10 rounded-xl {% if gateway_healthy %}bg-emerald-50{% else %}bg-red-50{% endif %} flex items-center justify-center">
+            {% if gateway_healthy %}
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% else %}
+            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% endif %}
+          </div>
+        </div>
+        <p class="text-xl font-syne font-bold {% if gateway_healthy %}text-emerald-600{% else %}text-red-600{% endif %}">
+          {% if gateway_healthy %}En ligne{% else %}Hors ligne{% endif %}
+        </p>
+        <p class="text-xs text-gray-400 mt-1"><a href="{% url 'saas:admin_overview' %}" class="text-violet-600 hover:underline">Admin SaaS &rarr;</a></p>
+      </div>
+    </div>
+
+    {% if recent_saas_subs %}
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 mb-8">
+      <h3 class="font-syne font-bold text-gray-900 mb-4">Derniers abonnements SaaS</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b border-gray-100">
+              <th class="pb-2 font-medium">Client</th>
+              <th class="pb-2 font-medium">Plan</th>
+              <th class="pb-2 font-medium text-right">Montant</th>
+              <th class="pb-2 font-medium">Depuis</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            {% for sub in recent_saas_subs %}
+            <tr>
+              <td class="py-2 text-gray-700 font-medium">{{ sub.organization.name }}</td>
+              <td class="py-2 text-gray-600">{{ sub.plan.name }}</td>
+              <td class="py-2 text-right font-medium text-gray-900">{{ sub.amount_xof|floatformat:0 }} FCFA</td>
+              <td class="py-2 text-gray-400 text-xs">{{ sub.start_date|date:"d/m/Y"|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- ═══════════════════ CAPACITÉS IA ═══════════════════ -->
+    <div class="mt-12">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-syne font-bold text-gray-900">Capacités IA</h2>
+          <p class="text-sm text-gray-500 mt-1">{{ total_capacites }} outils disponibles sur la plateforme</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">✅ {{ active_count }} actifs</span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 border border-amber-200">🔧 {{ configuring_count }} en config</span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-50 text-gray-500 border border-gray-200">📋 {{ available_count }} disponibles</span>
+        </div>
+      </div>
+
+      {% for category, caps in capacites_by_category.items %}
+      <div class="mb-8">
+        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">{{ category }}</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {% for cap in caps %}
+          <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all duration-300 flex items-start gap-3">
+            <span class="text-2xl">{{ cap.icon }}</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2">
+                <h4 class="text-sm font-bold text-gray-900 truncate">{{ cap.title }}</h4>
+                {% if cap.status == 'active' %}
+                <span class="flex-shrink-0 w-2 h-2 rounded-full bg-emerald-500" title="Actif"></span>
+                {% elif cap.status == 'configuring' %}
+                <span class="flex-shrink-0 w-2 h-2 rounded-full bg-amber-500" title="En configuration"></span>
+                {% else %}
+                <span class="flex-shrink-0 w-2 h-2 rounded-full bg-gray-300" title="Disponible"></span>
+                {% endif %}
+              </div>
+              <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ cap.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Row 4: Activité récente -->
+    <h2 class="text-xl font-syne font-bold text-gray-900 mb-4 mt-10">📊 Activité récente</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
+      <!-- Derniers paiements -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+        <h3 class="font-syne font-bold text-gray-900 mb-4">Derniers paiements</h3>
+        {% if recent_payments %}
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b border-gray-100">
+                <th class="pb-2">Utilisateur</th>
+                <th class="pb-2">Formation</th>
+                <th class="pb-2 text-right">Montant</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              {% for p in recent_payments %}
+              <tr>
+                <td class="py-2 text-gray-700">{{ p.user.username }}</td>
+                <td class="py-2 text-gray-600">{{ p.formation.title|truncatechars:25 }}</td>
+                <td class="py-2 text-right font-medium text-gray-900">{{ p.amount|currency_xof }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="text-sm text-gray-400">Aucun paiement récent</p>
+        {% endif %}
+      </div>
+
+      <!-- Nouveaux utilisateurs -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+        <h3 class="font-syne font-bold text-gray-900 mb-4">Nouveaux utilisateurs (30j)</h3>
+        {% if new_users_daily %}
+        <ul class="space-y-2">
+          {% for entry in new_users_daily %}
+          <li class="flex items-center justify-between text-sm">
+            <span class="text-gray-600">{{ entry.date_joined__date }}</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">+{{ entry.count }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-sm text-gray-400">Aucune inscription récente</p>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

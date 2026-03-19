@@ -62,46 +62,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {% block content %}
 <!-- Hero Section -->
-<div class="bg-gradient-to-r from-[#0D1117] to-[#111827] border-b border-[#1F2937]">
+<div class="bg-gradient-to-r from-white to-gray-50 border-b border-gray-200">
     <div class="container mx-auto px-4 py-16">
         <div class="text-center">
-            <h1 class="text-4xl md:text-6xl font-syne font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Apprenez le Vibe Coding</h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto text-gray-300">
-                Créez des applications <strong class="text-gray-100">en décrivant ce que vous voulez à l'IA</strong>. 
-                Plus besoin de tout coder ligne par ligne — <strong class="text-gray-100">l'IA code, vous guidez</strong>. 
+            <h1 class="text-4xl md:text-6xl font-syne font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600">Apprenez le Vibe Coding</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto text-gray-600">
+                Créez des applications <strong class="text-gray-800">en décrivant ce que vous voulez à l'IA</strong>. 
+                Plus besoin de tout coder ligne par ligne — <strong class="text-gray-800">l'IA code, vous guidez</strong>. 
                 Outils 100% gratuits, résultats immédiats.
             </p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 max-w-5xl mx-auto">
-                <div class="bg-[#111827]/80 backdrop-blur-sm rounded-lg p-4 border border-[#1F2937]">
+                <div class="bg-gray-50/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
                     <div class="text-3xl mb-2">⚡</div>
-                    <h3 class="font-bold mb-1 text-gray-100">Vibe Coding</h3>
-                    <p class="text-sm text-gray-400">Décrivez, l'IA code pour vous</p>
+                    <h3 class="font-bold mb-1 text-gray-800">Vibe Coding</h3>
+                    <p class="text-sm text-gray-500">Décrivez, l'IA code pour vous</p>
                 </div>
-                <div class="bg-[#111827]/80 backdrop-blur-sm rounded-lg p-4 border border-[#1F2937]">
+                <div class="bg-gray-50/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
                     <div class="text-3xl mb-2">🎯</div>
-                    <h3 class="font-bold mb-1 text-gray-100">Antigravity</h3>
-                    <p class="text-sm text-gray-400">L'IDE IA de Google, 100% gratuit</p>
+                    <h3 class="font-bold mb-1 text-gray-800">Antigravity</h3>
+                    <p class="text-sm text-gray-500">L'IDE IA de Google, 100% gratuit</p>
                 </div>
-                <div class="bg-[#111827]/80 backdrop-blur-sm rounded-lg p-4 border border-[#1F2937]">
+                <div class="bg-gray-50/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
                     <div class="text-3xl mb-2">🚀</div>
-                    <h3 class="font-bold mb-1 text-gray-100">Résultats rapides</h3>
-                    <p class="text-sm text-gray-400">Votre première app dès la formation</p>
+                    <h3 class="font-bold mb-1 text-gray-800">Résultats rapides</h3>
+                    <p class="text-sm text-gray-500">Votre première app dès la formation</p>
                 </div>
-                <div class="bg-[#111827]/80 backdrop-blur-sm rounded-lg p-4 border border-[#1F2937]">
+                <div class="bg-gray-50/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
                     <div class="text-3xl mb-2">💰</div>
-                    <h3 class="font-bold mb-1 text-gray-100">100% Gratuit</h3>
-                    <p class="text-sm text-gray-400">Tous les outils sont gratuits</p>
+                    <h3 class="font-bold mb-1 text-gray-800">100% Gratuit</h3>
+                    <p class="text-sm text-gray-500">Tous les outils sont gratuits</p>
                 </div>
             </div>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{% url 'formations:formation_list' %}" 
-                   class="bg-[#00FF88] text-black px-8 py-3 rounded-lg font-bold hover:bg-[#00FF88]/90 transition">
+                   class="bg-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-emerald-600/90 transition">
                     Découvrir nos formations
                 </a>
                 <a href="#formations-recentes" 
-                   class="border-2 border-[#00FF88] text-[#00FF88] px-8 py-3 rounded-lg font-bold hover:bg-[#00FF88] hover:text-black transition">
+                   class="border-2 border-emerald-600 text-emerald-600 px-8 py-3 rounded-lg font-bold hover:bg-emerald-600 hover:text-white transition">
                     Voir les parcours
                 </a>
             </div>
@@ -110,20 +110,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <!-- Statistiques -->
-<div class="bg-[#0D1117] py-12 border-b border-[#1F2937]">
+<div class="bg-[#FAF9F5] py-12 border-b border-gray-200">
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-                <div class="text-4xl font-bold text-[#00FF88] mb-2">{{ total_formations }}</div>
-                <div class="text-gray-400">Formations disponibles</div>
+                <div class="text-4xl font-bold text-emerald-600 mb-2">{{ total_formations }}</div>
+                <div class="text-gray-500">Formations disponibles</div>
             </div>
             <div>
-                <div class="text-4xl font-bold text-[#00FF88] mb-2">{{ levels|length }}</div>
-                <div class="text-gray-400">Niveaux de formation</div>
+                <div class="text-4xl font-bold text-emerald-600 mb-2">{{ levels|length }}</div>
+                <div class="text-gray-500">Niveaux de formation</div>
             </div>
             <div>
-                <div class="text-4xl font-bold text-[#00FF88] mb-2">100%</div>
-                <div class="text-gray-400">Satisfaction client</div>
+                <div class="text-4xl font-bold text-emerald-600 mb-2">100%</div>
+                <div class="text-gray-500">Satisfaction client</div>
             </div>
         </div>
     </div>
@@ -132,27 +132,27 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Niveaux de formation -->
 <div class="py-16">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-syne font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Nos Niveaux de Formation</h2>
+        <h2 class="text-3xl font-syne font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600">Nos Niveaux de Formation</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {% for value, label in levels.items %}
-            <div class="bg-[#111827] rounded-lg shadow-lg p-8 text-center border border-[#1F2937] hover:border-[#00FF88]/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.1)] transition-all">
-                <div class="w-16 h-16 bg-[#00FF88]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="bg-gray-50 rounded-lg shadow-lg p-8 text-center border border-gray-200 hover:border-emerald-600/30 hover:shadow-lg transition-all">
+                <div class="w-16 h-16 bg-emerald-600/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     {% if value == 'debutant' %}
-                        <svg class="w-8 h-8 text-[#00FF88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     {% elif value == 'intermediaire' %}
-                        <svg class="w-8 h-8 text-[#00FF88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                     {% else %}
-                        <svg class="w-8 h-8 text-[#00FF88]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                         </svg>
                     {% endif %}
                 </div>
-                <h3 class="text-xl font-semibold mb-2 text-gray-100">{{ label }}</h3>
-                <p class="text-gray-400 mb-4">
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">{{ label }}</h3>
+                <p class="text-gray-500 mb-4">
                     {% if value == 'debutant' %}
                         Parfait pour débuter et acquérir les bases fondamentales
                     {% elif value == 'intermediaire' %}
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% endif %}
                 </p>
                 <a href="{% url 'formations:formation_list' %}?level={{ value }}" 
-                   class="inline-block bg-[#00FF88] text-black px-6 py-2 rounded-lg font-bold hover:bg-[#00FF88]/90 transition">
+                   class="inline-block bg-emerald-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-emerald-600/90 transition">
                     Voir les formations
                 </a>
             </div>
@@ -172,11 +172,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <!-- Tableau Comparatif -->
-<div class="py-16 bg-[#0D1117] border-y border-[#1F2937]">
+<div class="py-16 bg-[#FAF9F5] border-y border-gray-200">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-syne font-extrabold text-gray-100 mb-4">Choisissez votre parcours</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto">
+            <h2 class="text-3xl font-syne font-extrabold text-gray-800 mb-4">Choisissez votre parcours</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto">
                 Nous avons conçu trois parcours adaptés à vos besoins, que vous soyez débutant ou que vous cherchiez à vous perfectionner.
             </p>
         </div>
@@ -184,14 +184,14 @@ document.addEventListener('DOMContentLoaded', function() {
         {% if formation_plans|length == 3 %}
         <!-- Version Desktop -->
         <div class="hidden lg:block overflow-x-auto">
-            <div class="max-w-5xl mx-auto bg-[#111827] rounded-lg shadow-xl border border-[#1F2937]">
-                <table class="w-full text-sm text-left text-gray-400">
-                    <thead class="text-xs text-gray-300 uppercase bg-[#0D1117]">
+            <div class="max-w-5xl mx-auto bg-gray-50 rounded-lg shadow-xl border border-gray-200">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-600 uppercase bg-[#FAF9F5]">
                         <tr>
                             <th scope="col" class="px-6 py-4 rounded-tl-lg">Fonctionnalités</th>
                             {% for plan in formation_plans %}
                             <th scope="col" class="px-6 py-3 text-center">
-                                <a href="{% url 'formations:formation_detail' plan.slug %}" class="hover:text-[#00FF88] transition-colors">
+                                <a href="{% url 'formations:formation_detail' plan.slug %}" class="hover:text-emerald-600 transition-colors">
                                     <span class="block font-bold text-lg">{{ plan.get_level_display }}</span>
                                     <span class="block text-xs">{{ plan.title }}</span>
                                 </a>
@@ -200,69 +200,69 @@ document.addEventListener('DOMContentLoaded', function() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Modules d'Introduction</th>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Modules d'Introduction</th>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
                         </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Préparation de l'Environnement</th>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Préparation de l'Environnement</th>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
                         </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Méthode de Génération de Code</th>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Méthode de Génération de Code</th>
                             <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
                         </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Création d'une App de A à Z</th>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Création d'une App de A à Z</th>
                             <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
                         </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Optimisation & Déploiement</th>
-                            <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
-                            <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                        </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Forum Communautaire</th>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                        </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Sessions Q&R de Groupe</th>
-                            <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
-                        </tr>
-                        <tr class="border-b border-[#1F2937]">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Coaching Individuel</th>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Optimisation & Déploiement</th>
                             <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
                             <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
-                            <td class="px-6 py-4 text-center text-[#00FF88] font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Forum Communautaire</th>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Sessions Q&R de Groupe</th>
+                            <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Coaching Individuel</th>
+                            <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
+                            <td class="px-6 py-4 text-center text-red-500 font-bold text-xl">❌</td>
+                            <td class="px-6 py-4 text-center text-emerald-600 font-bold text-xl">✓</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">Prix</th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">Prix</th>
                              {% for plan in formation_plans %}
-                            <td class="px-6 py-4 text-center font-bold text-xl text-[#00FF88]">
+                            <td class="px-6 py-4 text-center font-bold text-xl text-emerald-600">
                                 <span data-price="{{ plan.price|floatformat:0 }}">{{ plan.price|floatformat:0 }} FCFA</span>
                             </td>
                             {% endfor %}
                         </tr>
                     </tbody>
                     <tfoot>
-                        <tr class="bg-[#0D1117]">
+                        <tr class="bg-[#FAF9F5]">
                             <td class="px-6 py-4"></td>
                             {% for plan in formation_plans %}
                             <td class="px-6 py-4 text-center">
-                                <a href="{% url 'formations:formation_detail' plan.slug %}" class="font-bold text-black bg-[#00FF88] hover:bg-[#00FF88]/90 py-2 px-4 rounded-lg transition">
+                                <a href="{% url 'formations:formation_detail' plan.slug %}" class="font-bold text-white bg-emerald-600 hover:bg-emerald-600/90 py-2 px-4 rounded-lg transition">
                                     Voir le détail
                                 </a>
                             </td>
@@ -276,66 +276,66 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- Version Mobile -->
         <div class="lg:hidden space-y-6">
             {% for plan in formation_plans %}
-            <div class="bg-[#111827] rounded-lg shadow-lg p-6 border border-[#1F2937]">
+            <div class="bg-gray-50 rounded-lg shadow-lg p-6 border border-gray-200">
                 <div class="text-center mb-6">
-                    <a href="{% url 'formations:formation_detail' plan.slug %}" class="hover:text-[#00FF88] transition-colors">
-                        <h3 class="text-2xl font-bold text-gray-100 mb-2">{{ plan.get_level_display }}</h3>
-                        <p class="text-sm text-gray-400">{{ plan.title }}</p>
+                    <a href="{% url 'formations:formation_detail' plan.slug %}" class="hover:text-emerald-600 transition-colors">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ plan.get_level_display }}</h3>
+                        <p class="text-sm text-gray-500">{{ plan.title }}</p>
                     </a>
                     <div class="mt-4">
-                        <span class="text-3xl font-bold text-[#00FF88]" data-price="{{ plan.price|floatformat:0 }}">{{ plan.price|floatformat:0 }} FCFA</span>
+                        <span class="text-3xl font-bold text-emerald-600" data-price="{{ plan.price|floatformat:0 }}">{{ plan.price|floatformat:0 }} FCFA</span>
                     </div>
                 </div>
                 
                 <div class="space-y-4">
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Modules d'Introduction</span>
-                        <span class="text-[#00FF88] font-bold">✓</span>
+                        <span class="text-gray-600">Modules d'Introduction</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Préparation de l'Environnement</span>
-                        <span class="text-[#00FF88] font-bold">✓</span>
+                        <span class="text-gray-600">Préparation de l'Environnement</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Méthode de Génération de Code</span>
+                        <span class="text-gray-600">Méthode de Génération de Code</span>
                         {% if plan.level == 'debutant' %}
                             <span class="text-red-500 font-bold">❌</span>
                         {% else %}
-                            <span class="text-[#00FF88] font-bold">✓</span>
+                            <span class="text-emerald-600 font-bold">✓</span>
                         {% endif %}
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Création d'une App de A à Z</span>
+                        <span class="text-gray-600">Création d'une App de A à Z</span>
                         {% if plan.level == 'debutant' %}
                             <span class="text-red-500 font-bold">❌</span>
                         {% else %}
-                            <span class="text-[#00FF88] font-bold">✓</span>
+                            <span class="text-emerald-600 font-bold">✓</span>
                         {% endif %}
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Optimisation & Déploiement</span>
+                        <span class="text-gray-600">Optimisation & Déploiement</span>
                         {% if plan.level == 'avance' %}
-                            <span class="text-[#00FF88] font-bold">✓</span>
+                            <span class="text-emerald-600 font-bold">✓</span>
                         {% else %}
                             <span class="text-red-500 font-bold">❌</span>
                         {% endif %}
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Forum Communautaire</span>
-                        <span class="text-[#00FF88] font-bold">✓</span>
+                        <span class="text-gray-600">Forum Communautaire</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Sessions Q&R de Groupe</span>
+                        <span class="text-gray-600">Sessions Q&R de Groupe</span>
                         {% if plan.level == 'debutant' %}
                             <span class="text-red-500 font-bold">❌</span>
                         {% else %}
-                            <span class="text-[#00FF88] font-bold">✓</span>
+                            <span class="text-emerald-600 font-bold">✓</span>
                         {% endif %}
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-300">Coaching Individuel</span>
+                        <span class="text-gray-600">Coaching Individuel</span>
                         {% if plan.level == 'avance' %}
-                            <span class="text-[#00FF88] font-bold">✓</span>
+                            <span class="text-emerald-600 font-bold">✓</span>
                         {% else %}
                             <span class="text-red-500 font-bold">❌</span>
                         {% endif %}
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="mt-6 text-center">
-                    <a href="{% url 'formations:formation_detail' plan.slug %}" class="inline-block font-bold text-black bg-[#00FF88] hover:bg-[#00FF88]/90 py-3 px-6 rounded-lg transition w-full">
+                    <a href="{% url 'formations:formation_detail' plan.slug %}" class="inline-block font-bold text-white bg-emerald-600 hover:bg-emerald-600/90 py-3 px-6 rounded-lg transition w-full">
                         Voir le détail
                     </a>
                 </div>
@@ -351,17 +351,17 @@ document.addEventListener('DOMContentLoaded', function() {
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-center text-gray-400">Le tableau comparatif est en cours de préparation.</p>
+        <p class="text-center text-gray-500">Le tableau comparatif est en cours de préparation.</p>
         {% endif %}
     </div>
 </div>
 
 <!-- Formations récentes -->
-<div id="formations-recentes" class="bg-[#0D1117] py-16">
+<div id="formations-recentes" class="bg-[#FAF9F5] py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-syne font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00FF88] to-[#00E5FF]">Formations Récentes</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto">
+            <h2 class="text-3xl font-syne font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600">Formations Récentes</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto">
                 Découvrez nos dernières formations ajoutées à notre catalogue
             </p>
         </div>
@@ -369,11 +369,11 @@ document.addEventListener('DOMContentLoaded', function() {
         {% if recent_formations %}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for formation in recent_formations %}
-            <div class="bg-[#111827] rounded-lg shadow-lg overflow-hidden border border-[#1F2937] hover:border-[#00FF88]/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.1)] transition-all">
+            <div class="bg-gray-50 rounded-lg shadow-lg overflow-hidden border border-gray-200 hover:border-emerald-600/30 hover:shadow-lg transition-all">
                 {% if formation.image %}
                 <img src="{{ formation.image.url }}" alt="{{ formation.title }}" class="w-full h-48 object-cover">
                 {% else %}
-                <div class="w-full h-48 bg-[#0D1117] flex items-center justify-center">
+                <div class="w-full h-48 bg-[#FAF9F5] flex items-center justify-center">
                     <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
@@ -381,18 +381,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 {% endif %}
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xl font-semibold text-gray-100">{{ formation.title }}</h3>
-                        <span class="bg-[#00FF88]/10 text-[#00FF88] px-2 py-1 rounded-full text-sm border border-[#00FF88]/20">
+                        <h3 class="text-xl font-semibold text-gray-800">{{ formation.title }}</h3>
+                        <span class="bg-emerald-600/10 text-emerald-600 px-2 py-1 rounded-full text-sm border border-emerald-600/20">
                             {{ formation.get_level_display }}
                         </span>
                     </div>
-                    <div class="prose max-w-none text-gray-400 mb-6 min-h-[4rem]">{{ formation.description|truncatewords_html:20|safe }}</div>
+                    <div class="prose max-w-none text-gray-500 mb-6 min-h-[4rem]">{{ formation.description|truncatewords_html:20|safe }}</div>
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-[#00FF88] font-bold" data-price="{{ formation.price|floatformat:0 }}">{{ formation.price|floatformat:0 }} FCFA</span>
-                        <span class="text-gray-400">{{ formation.duration }}</span>
+                        <span class="text-emerald-600 font-bold" data-price="{{ formation.price|floatformat:0 }}">{{ formation.price|floatformat:0 }} FCFA</span>
+                        <span class="text-gray-500">{{ formation.duration }}</span>
                     </div>
                     <a href="{% url 'formations:formation_detail' formation.slug %}" 
-                       class="block text-center bg-[#00FF88] text-black font-bold py-2 rounded-lg hover:bg-[#00FF88]/90 transition">
+                       class="block text-center bg-emerald-600 text-white font-bold py-2 rounded-lg hover:bg-emerald-600/90 transition">
                         En savoir plus
                     </a>
                 </div>
@@ -402,27 +402,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         <div class="text-center mt-8">
             <a href="{% url 'formations:formation_list' %}" 
-               class="inline-block bg-[#00FF88] text-black px-8 py-3 rounded-lg font-bold hover:bg-[#00FF88]/90 transition">
+               class="inline-block bg-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-emerald-600/90 transition">
                 Voir toutes les formations
             </a>
         </div>
         {% else %}
         <div class="text-center py-8">
-            <p class="text-gray-400">Aucune formation disponible pour le moment.</p>
+            <p class="text-gray-500">Aucune formation disponible pour le moment.</p>
         </div>
         {% endif %}
     </div>
 </div>
 
 <!-- Call to Action -->
-<div class="bg-gradient-to-r from-[#00FF88]/10 to-[#00E5FF]/10 border-y border-[#1F2937] py-16">
+<div class="bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border-y border-gray-200 py-16">
     <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-syne font-extrabold text-gray-100 mb-4">Prêt à commencer votre formation ?</h2>
-        <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-400">
+        <h2 class="text-3xl font-syne font-extrabold text-gray-800 mb-4">Prêt à commencer votre formation ?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-500">
             Rejoignez nos formations et développez vos compétences avec nos experts
         </p>
         <a href="{% url 'formations:formation_list' %}" 
-           class="bg-[#00FF88] text-black px-8 py-3 rounded-lg font-bold hover:bg-[#00FF88]/90 transition">
+           class="bg-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-emerald-600/90 transition">
             Découvrir nos formations
         </a>
     </div>

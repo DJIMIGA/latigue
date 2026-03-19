@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Inscription — Djimiga Tech{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center px-4 py-20">
+    <div class="w-full max-w-md">
+        <!-- Card -->
+        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200 shadow-2xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="text-4xl mb-3">🤖</div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Creer un compte</h1>
+                <p class="text-gray-500">Inscrivez-vous pour acceder a votre espace</p>
+            </div>
+
+            <!-- Erreurs -->
+            {% if error %}
+            <div class="mb-6 p-4 rounded-xl" style="background-color: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #f87171; font-size: 14px;">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <!-- Formulaire -->
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-600 mb-2">Nom d'utilisateur</label>
+                    <input type="text" name="username" id="id_username" required autofocus
+                        class="w-full px-4 py-3 rounded-xl focus:outline-none transition-all duration-300"
+                        style="background-color: #F9FAFB; border: 1px solid #E5E7EB; color: #111827; caret-color: #059669;"
+                        placeholder="Choisissez un identifiant"
+                        value="{{ request.POST.username|default:'' }}">
+                </div>
+
+                <div>
+                    <label for="id_email" class="block text-sm font-medium text-gray-600 mb-2">Adresse email</label>
+                    <input type="email" name="email" id="id_email" required
+                        class="w-full px-4 py-3 rounded-xl focus:outline-none transition-all duration-300"
+                        style="background-color: #F9FAFB; border: 1px solid #E5E7EB; color: #111827; caret-color: #059669;"
+                        placeholder="votre@email.com"
+                        value="{{ request.POST.email|default:'' }}">
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-sm font-medium text-gray-600 mb-2">Mot de passe</label>
+                    <input type="password" name="password" id="id_password" required
+                        class="w-full px-4 py-3 rounded-xl focus:outline-none transition-all duration-300"
+                        style="background-color: #F9FAFB; border: 1px solid #E5E7EB; color: #111827; caret-color: #059669;"
+                        placeholder="8 caracteres minimum">
+                </div>
+
+                <div>
+                    <label for="id_password2" class="block text-sm font-medium text-gray-600 mb-2">Confirmer le mot de passe</label>
+                    <input type="password" name="password2" id="id_password2" required
+                        class="w-full px-4 py-3 rounded-xl focus:outline-none transition-all duration-300"
+                        style="background-color: #F9FAFB; border: 1px solid #E5E7EB; color: #111827; caret-color: #059669;"
+                        placeholder="Retapez votre mot de passe">
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-bold text-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+                    Creer mon compte
+                </button>
+
+                {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+                {% endif %}
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center space-y-2">
+                <p class="text-sm text-gray-500">
+                    Deja inscrit ?
+                    <a href="{% url 'login' %}{% if next %}?next={{ next }}{% endif %}" class="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
+                        Se connecter
+                    </a>
+                </p>
+                <a href="{% url 'portfolio-index' %}" class="text-sm text-gray-500 hover:text-emerald-600 transition-colors block">
+                    &larr; Retour a l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

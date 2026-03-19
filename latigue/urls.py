@@ -21,6 +21,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
+from saas.views import signup as saas_signup
 from .sitemaps import (
     StaticViewSitemap,
     BlogPostSitemap,
@@ -52,7 +53,11 @@ urlpatterns = [
     path('formations/', include('formations.urls')),
     path('chatbot/', include('chatbot.urls')),
     path('marketing/', include('marketing.urls')),
+    path('newsletter/', include('newsletter.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('saas/', include('saas.urls')),
     path('connexion/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
+    path('inscription/', saas_signup, name='signup'),
     path('deconnexion/', auth_views.LogoutView.as_view(), name='logout'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     # Sitemap pour le SEO

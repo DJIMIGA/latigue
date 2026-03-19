@@ -54,7 +54,7 @@
         <nav class="mb-8" aria-label="Breadcrumb">
             <ol class="flex flex-wrap items-center space-x-1 sm:space-x-2 text-sm">
                 <li class="flex items-center">
-                    <a href="/" class="flex items-center text-gray-400 hover:text-[#00FF88] transition-colors duration-200">
+                    <a href="/" class="flex items-center text-gray-500 hover:text-emerald-600 transition-colors duration-200">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                         </svg>
@@ -67,7 +67,7 @@
                     </svg>
                 </li>
                 <li class="flex items-center">
-                    <a href="{% url 'blog-index' %}" class="flex items-center text-gray-400 hover:text-[#00FF88] transition-colors duration-200">
+                    <a href="{% url 'blog-index' %}" class="flex items-center text-gray-500 hover:text-emerald-600 transition-colors duration-200">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
@@ -81,7 +81,7 @@
                 </li>
                 {% if post.categories.all %}
                 <li class="flex items-center">
-                    <a href="{{ post.categories.first.get_absolute_url }}" class="flex items-center text-gray-400 hover:text-[#00FF88] transition-colors duration-200">
+                    <a href="{{ post.categories.first.get_absolute_url }}" class="flex items-center text-gray-500 hover:text-emerald-600 transition-colors duration-200">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                         </svg>
@@ -96,7 +96,7 @@
                 </li>
                 {% endif %}
                 <li class="flex items-center">
-                    <span class="flex items-center text-gray-100 font-medium">
+                    <span class="flex items-center text-gray-800 font-medium">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
@@ -108,24 +108,24 @@
         </nav>
 
         <!-- Article Container -->
-        <article class="max-w-4xl mx-auto bg-[#111827] rounded-xl shadow-lg overflow-hidden border border-[#1F2937]">
+        <article class="max-w-4xl mx-auto bg-gray-50 rounded-xl shadow-lg overflow-hidden border border-gray-200">
             <!-- Header -->
-            <div class="p-4 md:p-8 border-b border-[#1F2937]">
+            <div class="p-4 md:p-8 border-b border-gray-200">
                 {% if post.categories.all %}
                 <div class="mb-4">
                     {% for category in post.categories.all %}
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/20 mr-2 mb-2">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-600/10 text-emerald-600 border border-emerald-600/20 mr-2 mb-2">
                         {{ category.name }}
                     </span>
                     {% endfor %}
                 </div>
                 {% endif %}
 
-                <h1 class="text-2xl md:text-3xl lg:text-4xl font-syne font-extrabold text-gray-100 mb-4 leading-tight">
+                <h1 class="text-2xl md:text-3xl lg:text-4xl font-syne font-extrabold text-gray-800 mb-4 leading-tight">
                     {{ post.title }}
                 </h1>
 
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-400 space-y-2 sm:space-y-0">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-500 space-y-2 sm:space-y-0">
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                         <div class="flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,20 +160,20 @@
 
             <!-- Content -->
             <div class="p-3 sm:p-4 md:p-8 overflow-hidden">
-                <div class="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-invert prose-headings:text-gray-100 prose-p:text-gray-300 prose-a:text-[#00FF88] prose-strong:text-gray-100 prose-code:bg-[#0D1117] prose-code:text-gray-200 prose-pre:bg-[#0D1117] break-words">
+                <div class="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-invert prose-headings:text-gray-800 prose-p:text-gray-600 prose-a:text-emerald-600 prose-strong:text-gray-800 prose-code:bg-[#FAF9F5] prose-code:text-gray-200 prose-pre:bg-[#FAF9F5] break-words">
                     {{ post.body|safe }}
                 </div>
             </div>
 
             <!-- Footer -->
-            <div class="p-4 md:p-8 border-t border-[#1F2937] bg-[#0D1117]">
+            <div class="p-4 md:p-8 border-t border-gray-200 bg-[#FAF9F5]">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-                    <div class="text-sm text-gray-400 text-center sm:text-left">
+                    <div class="text-sm text-gray-500 text-center sm:text-left">
                         Dernière modification : {{ post.last_modified|french_datetime }}
                     </div>
                     <div class="flex justify-center sm:justify-end">
                         <a href="{% url 'blog-index' %}" 
-                           class="inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 bg-[#00FF88] hover:bg-[#00FF88]/90 text-black font-bold rounded-lg transition-colors duration-300 transform hover:scale-105 w-full sm:w-auto">
+                           class="inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 bg-emerald-600 hover:bg-emerald-600/90 text-white font-bold rounded-lg transition-colors duration-300 transform hover:scale-105 w-full sm:w-auto">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                             </svg>
@@ -187,22 +187,22 @@
         <!-- Related Articles -->
         {% if post.categories.all %}
         <div class="max-w-4xl mx-auto mt-8 md:mt-12">
-            <h2 class="text-xl md:text-2xl font-syne font-extrabold text-gray-100 mb-4 md:mb-6 text-center sm:text-left">Articles similaires</h2>
+            <h2 class="text-xl md:text-2xl font-syne font-extrabold text-gray-800 mb-4 md:mb-6 text-center sm:text-left">Articles similaires</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 {% for category in post.categories.all %}
                     {% for related_post in category.posts.all %}
                         {% if related_post != post and forloop.counter <= 4 %}
-                        <div class="bg-[#111827] rounded-lg shadow-md overflow-hidden hover:shadow-[0_0_20px_rgba(0,255,136,0.1)] border border-[#1F2937] hover:border-[#00FF88]/30 transition-all">
+                        <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-lg border border-gray-200 hover:border-emerald-600/30 transition-all">
                             {% if related_post.thumbnail and related_post.thumbnail.name %}
                             <img class="w-full h-32 object-cover" src="{{ related_post.thumbnail.url }}" alt="{{ related_post.title }}">
                             {% endif %}
                             <div class="p-3 md:p-4">
-                                <h3 class="font-semibold text-gray-100 mb-2 text-sm md:text-base">
-                                    <a href="{{ related_post.get_absolute_url }}" class="hover:text-[#00FF88]">
+                                <h3 class="font-semibold text-gray-800 mb-2 text-sm md:text-base">
+                                    <a href="{{ related_post.get_absolute_url }}" class="hover:text-emerald-600">
                                         {{ related_post.title }}
                                     </a>
                                 </h3>
-                                <p class="text-xs md:text-sm text-gray-400">{{ related_post.created_on|french_date }}</p>
+                                <p class="text-xs md:text-sm text-gray-500">{{ related_post.created_on|french_date }}</p>
                             </div>
                         </div>
                         {% endif %}
@@ -231,11 +231,11 @@
 .prose li { margin-bottom: 0.25rem; }
 .prose code { padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.75rem; }
 .prose pre { padding: 0.75rem; border-radius: 0.375rem; overflow-x: auto; margin: 1rem 0; font-size: 0.875rem; }
-.prose blockquote { border-left: 3px solid #00FF88; padding-left: 0.75rem; margin: 1rem 0; font-style: italic; color: #9ca3af; }
+.prose blockquote { border-left: 3px solid #059669; padding-left: 0.75rem; margin: 1rem 0; font-style: italic; color: #9ca3af; }
 .prose img { border-radius: 0.375rem; margin: 1rem 0; }
 .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
-.prose th, .prose td { border: 1px solid #1F2937; padding: 0.5rem; text-align: left; }
-.prose th { background-color: #0D1117; font-weight: 600; }
+.prose th, .prose td { border: 1px solid #E5E7EB; padding: 0.5rem; text-align: left; }
+.prose th { background-color: #FFFFFF; font-weight: 600; }
 
 @media (min-width: 640px) {
     .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 { margin-top: 2rem; margin-bottom: 1rem; }
@@ -244,7 +244,7 @@
     .prose li { margin-bottom: 0.5rem; }
     .prose code { padding: 0.25rem 0.5rem; font-size: 0.875rem; }
     .prose pre { padding: 1rem; font-size: 1rem; }
-    .prose blockquote { border-left: 4px solid #00FF88; padding-left: 1rem; margin: 1.5rem 0; }
+    .prose blockquote { border-left: 4px solid #059669; padding-left: 1rem; margin: 1.5rem 0; }
     .prose img { margin: 1.5rem 0; }
     .prose table { margin: 1.5rem 0; font-size: 1rem; }
     .prose th, .prose td { padding: 0.75rem; }

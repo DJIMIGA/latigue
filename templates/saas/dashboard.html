@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Mon Espace — DJIMIGA TECH{% endblock %}
+
+{% block content %}
+<div class="py-4 md:py-6">
+  <div class="container mx-auto px-3 md:px-4 max-w-2xl">
+
+    <!-- Header compact -->
+    <div class="flex items-center justify-between mb-4">
+      <div class="min-w-0 flex-1">
+        <h1 class="text-xl font-syne font-bold text-gray-900 truncate">{% if org %}{{ org.name }}{% else %}Mon Espace{% endif %}</h1>
+        <p class="text-xs text-gray-400">{{ user.get_full_name|default:user.username }}</p>
+      </div>
+      <a href="{% url 'saas:edit_profile' %}" class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 hover:scale-110 transition-transform">
+        {{ user.first_name|first|default:user.username|first|upper }}
+      </a>
+    </div>
+
+    {% if org %}
+
+    <!-- Abonnement inline -->
+    {% if subscription %}
+    <div class="flex items-center gap-2 px-3 py-2 rounded-xl mb-4
+      {% if subscription.status == 'trial' %}bg-amber-50 border border-amber-200
+      {% elif subscription.is_active %}bg-emerald-50 border border-emerald-200
+      {% else %}bg-red-50 border border-red-200{% endif %}">
+      <span class="w-2 h-2 rounded-full flex-shrink-0
+        {% if subscription.status == 'trial' %}bg-amber-400
+        {% elif subscription.is_active %}bg-emerald-400
+        {% else %}bg-red-400{% endif %}"></span>
+      <p class="text-xs flex-1 min-w-0 truncate
+        {% if subscription.status == 'trial' %}text-amber-700
+        {% elif subscription.is_active %}text-emerald-700
+        {% else %}text-red-700{% endif %}">
+        <span class="font-semibold">{{ subscription.plan.name }}</span>
+        {% if subscription.status == 'trial' %}
+        — essai, {{ subscription.days_remaining }}j restant{{ subscription.days_remaining|pluralize }}
+        {% elif subscription.is_active %}
+        — {{ subscription.amount_xof|floatformat:0 }} FCFA/mois
+        {% else %}
+        — {{ subscription.get_status_display }}
+        {% endif %}
+      </p>
+      <a href="{% url 'saas:change_plan' %}" class="text-xs font-medium underline flex-shrink-0
+        {% if subscription.status == 'trial' %}text-amber-600
+        {% elif subscription.is_active %}text-emerald-600
+        {% else %}text-red-600{% endif %}">Changer</a>
+    </div>
+    {% endif %}
+
+    <!-- Stats 2x2 compactes -->
+    <div class="grid grid-cols-2 gap-2.5 mb-4">
+      <div class="bg-white border border-gray-200 rounded-xl p-3">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="w-2 h-2 rounded-full {% if agent and agent.status == 'active' %}bg-emerald-400{% else %}bg-amber-400{% endif %}"></span>
+          <span class="text-[10px] uppercase tracking-wider text-gray-400 font-medium">Agent</span>
+        </div>
+        {% if agent %}
+        <p class="text-sm font-bold text-gray-900 truncate">{{ agent.agent_name }}</p>
+        <p class="text-[10px] {% if agent.status == 'active' %}text-emerald-600{% elif agent.status == 'error' %}text-red-500{% else %}text-amber-500{% endif %}">{{ agent.get_status_display }}</p>
+        {% else %}
+        <p class="text-sm font-bold text-gray-400">Non configure</p>
+        {% endif %}
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-xl p-3">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="w-2 h-2 rounded-full {% if gateway_healthy %}bg-emerald-400{% else %}bg-red-400{% endif %}"></span>
+          <span class="text-[10px] uppercase tracking-wider text-gray-400 font-medium">Gateway</span>
+        </div>
+        <p class="text-sm font-bold text-gray-900">{% if gateway_healthy %}En ligne{% else %}Hors ligne{% endif %}</p>
+        <p class="text-[10px] text-gray-400">OpenClaw</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-xl p-3">
+        <div class="flex items-center gap-2 mb-1">
+          <svg class="w-3 h-3 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <span class="text-[10px] uppercase tracking-wider text-gray-400 font-medium">Appels 30j</span>
+        </div>
+        <p class="text-lg font-bold text-gray-900">{{ usage_stats.total_calls|default:"0" }}</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-xl p-3">
+        <div class="flex items-center gap-2 mb-1">
+          <svg class="w-3 h-3 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span class="text-[10px] uppercase tracking-wider text-gray-400 font-medium">Tokens</span>
+        </div>
+        <p class="text-lg font-bold text-gray-900">{{ usage_stats.total_tokens|default:"0" }}</p>
+        {% if agent and agent.plan %}<p class="text-[10px] text-gray-400">/ {{ agent.plan.max_tokens_month }}</p>{% endif %}
+      </div>
+    </div>
+
+    <!-- Actions rapides compactes -->
+    <div class="space-y-1.5 mb-4">
+      <a href="{% url 'saas:agent_settings' %}" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3 py-2.5 hover:border-emerald-300 transition-colors group">
+        <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">Configurer l'agent</p>
+          <p class="text-[11px] text-gray-400">Personnalite, infos, canaux</p>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="{% url 'saas:usage' %}" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3 py-2.5 hover:border-cyan-300 transition-colors group">
+        <div class="w-8 h-8 rounded-lg bg-cyan-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900 group-hover:text-cyan-600 transition-colors">Voir l'usage</p>
+          <p class="text-[11px] text-gray-400">Tokens et conversations</p>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="{% url 'saas:change_plan' %}" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3 py-2.5 hover:border-violet-300 transition-colors group">
+        <div class="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900 group-hover:text-violet-600 transition-colors">Changer de plan</p>
+          <p class="text-[11px] text-gray-400">Starter, Business, Enterprise</p>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    {% else %}
+    <!-- Hero CTA compact mobile-first -->
+    <div class="bg-gradient-to-br from-emerald-600 to-cyan-700 rounded-xl p-5 mb-4">
+      <h2 class="text-lg font-syne font-bold text-white mb-1.5">Votre assistant IA en 3 min</h2>
+      <p class="text-xs text-emerald-100 mb-3">Repond a vos clients 24h/24 sur WhatsApp et Telegram.</p>
+      <div class="flex flex-wrap gap-x-4 gap-y-1 mb-4">
+        <span class="text-[11px] text-white/80 flex items-center gap-1">
+          <svg class="w-3 h-3 text-emerald-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          WhatsApp + Telegram
+        </span>
+        <span class="text-[11px] text-white/80 flex items-center gap-1">
+          <svg class="w-3 h-3 text-emerald-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          En francais
+        </span>
+        <span class="text-[11px] text-white/80 flex items-center gap-1">
+          <svg class="w-3 h-3 text-emerald-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          24h/24
+        </span>
+      </div>
+      <a href="{% url 'saas:onboarding' %}" class="flex items-center justify-center gap-2 w-full bg-white text-emerald-700 py-2.5 rounded-lg font-bold text-sm shadow hover:shadow-md transition-all">
+        Essayer gratuitement
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </a>
+      <p class="text-[11px] text-white/60 text-center mt-2">7 jours gratuit — sans carte bancaire</p>
+    </div>
+
+    <!-- Plans en scroll horizontal sur mobile -->
+    <div class="flex gap-2.5 overflow-x-auto pb-2 mb-4 snap-x snap-mandatory -mx-3 px-3 scrollbar-hide">
+      {% for plan in plans %}
+      <a href="{% url 'saas:onboarding' %}" class="flex-shrink-0 w-[70%] sm:w-auto sm:flex-1 snap-start bg-white border border-gray-200 rounded-xl p-3.5 hover:border-emerald-300 transition-all group">
+        <div class="flex items-baseline justify-between mb-1">
+          <h3 class="text-sm font-syne font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">{{ plan.name }}</h3>
+          <span class="text-xs text-gray-400">{{ plan.get_model_id_display }}</span>
+        </div>
+        <p class="text-lg font-bold text-emerald-600">{{ plan.price_xof|floatformat:0 }} <span class="text-[10px] font-normal text-gray-400">FCFA/mois</span></p>
+        <ul class="mt-2 space-y-0.5">
+          {% for feature in plan.get_features_list|slice:":3" %}
+          <li class="text-[11px] text-gray-500 flex items-center gap-1">
+            <svg class="w-2.5 h-2.5 text-emerald-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            {{ feature }}
+          </li>
+          {% endfor %}
+        </ul>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Actions non-abonne -->
+    <div class="space-y-1.5 mb-4">
+      <a href="{% url 'formations:formation_list' %}" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3 py-2.5 hover:border-cyan-300 transition-colors group">
+        <div class="w-8 h-8 rounded-lg bg-cyan-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900">Formations</p>
+          <p class="text-[11px] text-gray-400">Python, Django et IA</p>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      <a href="{% url 'services:service_list' %}" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3 py-2.5 hover:border-violet-300 transition-colors group">
+        <div class="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900">Services IA</p>
+          <p class="text-[11px] text-gray-400">Assistants pour votre entreprise</p>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    {% endif %}
+
+    <!-- Formations inscrites (compact) -->
+    {% if enrollment_data %}
+    <div class="mb-4">
+      <h2 class="text-sm font-syne font-bold text-gray-900 mb-2.5">Mes Formations</h2>
+      <div class="space-y-2">
+        {% for item in enrollment_data %}
+        <a href="{% url 'formations:enrolled_formation' item.formation.slug %}"
+           class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3 py-2.5 hover:border-emerald-300 transition-colors group">
+          {% if item.formation.image and item.formation.image.name %}
+          <img src="{{ item.formation.image.url }}" alt="" class="w-10 h-10 rounded-lg object-cover flex-shrink-0">
+          {% else %}
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-50 to-cyan-50 flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          {% endif %}
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-900 truncate group-hover:text-emerald-600 transition-colors">{{ item.formation.title }}</p>
+            <div class="flex items-center gap-2 mt-0.5">
+              <div class="flex-1 bg-gray-100 rounded-full h-1.5">
+                <div class="h-1.5 rounded-full bg-emerald-500 transition-all" style="width: {{ item.progress }}%"></div>
+              </div>
+              <span class="text-[10px] font-bold text-emerald-600">{{ item.progress }}%</span>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<style>
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+{% endblock %}
