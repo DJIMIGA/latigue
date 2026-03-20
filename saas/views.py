@@ -278,6 +278,7 @@ def onboarding_choose_plan(request):
     org = get_object_or_404(Organization, owner=request.user, is_active=True)
     plan_slug = request.POST.get('plan_slug', '')
     agent_name = request.POST.get('agent_name', '').strip()
+    persona = request.POST.get('persona', '').strip()
     company_info = request.POST.get('company_info', '').strip()
 
     plan = get_object_or_404(SaaSPlan, slug=plan_slug, is_active=True)
@@ -303,6 +304,7 @@ def onboarding_choose_plan(request):
             'plan': plan,
             'agent_id': agent_id,
             'agent_name': agent_name,
+            'persona': persona,
             'company_info': company_info,
             'status': 'provisioning',
             'whatsapp_number': wa_number,
@@ -312,6 +314,7 @@ def onboarding_choose_plan(request):
     if not created:
         agent_config.plan = plan
         agent_config.agent_name = agent_name
+        agent_config.persona = persona
         agent_config.company_info = company_info
         # Mettre a jour WhatsApp si pas encore configure
         if not agent_config.whatsapp_number and wa_number:

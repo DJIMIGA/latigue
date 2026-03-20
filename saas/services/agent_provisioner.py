@@ -101,7 +101,14 @@ def _chown_recursive(path):
 
 def _generate_soul(agent_name, org_name, persona, company_info=None):
     """Genere SOUL.md complet avec les donnees entreprise inline."""
-    role = persona or "Repondre aux questions des clients avec professionnalisme."
+    default_persona = (
+        f"Tu es l'assistant IA de {org_name}. "
+        f"Tu reponds aux questions des clients avec professionnalisme et chaleur. "
+        f"Tu presentes les services, produits, horaires et tarifs de l'entreprise. "
+        f"Tu proposes de mettre en contact avec l'equipe quand tu ne peux pas repondre. "
+        f"Tu ne reponds qu'aux sujets lies a {org_name} — pour le reste, redirige poliment."
+    )
+    role = persona or default_persona
     data_section = ""
     if company_info and company_info.strip():
         data_section = f"""## Donnees de l'entreprise
