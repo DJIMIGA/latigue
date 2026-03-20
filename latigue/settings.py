@@ -455,6 +455,9 @@ OPENCLAW_AGENTS_DIR = os.environ.get('OPENCLAW_AGENTS_DIR', '/opt/app/openclaw/c
 # Numero WhatsApp du bot OpenClaw (pour QR codes et liens wa.me)
 OPENCLAW_WHATSAPP_NUMBER = os.environ.get('OPENCLAW_WHATSAPP_NUMBER', '+22372464294')
 
+# Username du bot Telegram (sans @)
+OPENCLAW_TELEGRAM_BOT = os.environ.get('OPENCLAW_TELEGRAM_BOT', 'Bolibanabot')
+
 # SaaS Trial Mode (desactiver quand PayDunya est active)
 SAAS_TRIAL_ENABLED = os.environ.get('SAAS_TRIAL_ENABLED', 'true').lower() == 'true'
 SAAS_TRIAL_DAYS = int(os.environ.get('SAAS_TRIAL_DAYS', '7'))

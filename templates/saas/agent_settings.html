@@ -105,230 +105,266 @@
       <!-- Colonne droite : Formulaire -->
       <div class="lg:col-span-2 space-y-6">
 
-        <!-- Canaux de communication -->
+        {% if channels_success %}
+        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          {{ channels_success }}
+        </div>
+        {% endif %}
+        {% if channels_error %}
+        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          {{ channels_error }}
+        </div>
+        {% endif %}
+
+        <!-- Connexion WhatsApp (clients) -->
         <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+              <svg class="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </div>
-            <div>
-              <h2 class="font-syne font-bold text-gray-900">Canaux de communication</h2>
-              <p class="text-xs text-gray-400">Vos clients vous contactent via WhatsApp et/ou Telegram</p>
+            <div class="flex-1">
+              <h2 class="font-syne font-bold text-gray-900">Connexion WhatsApp</h2>
+              <p class="text-xs text-gray-400">Liez le telephone de votre entreprise pour recevoir les messages clients</p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              {% if wa_connected %}
+              <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              <span class="text-xs font-semibold text-green-700">Connecte</span>
+              {% else %}
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="text-xs font-semibold text-amber-700">Non connecte</span>
+              {% endif %}
             </div>
           </div>
 
-          {% if channels_success %}
-          <div class="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 mb-4 text-sm text-emerald-700">
-            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            {{ channels_success }}
+          <div class="space-y-3">
+            {% if wa_connected %}
+            <!-- WhatsApp connecte -->
+            {% if wa_link %}
+            <p class="text-xs text-gray-600">Votre numero WhatsApp est lie a l'assistant. Partagez ce QR code a vos clients.</p>
+            <div class="flex items-start gap-3">
+              <div class="bg-white rounded-lg p-2 border border-green-200 flex-shrink-0">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{ wa_link|urlencode }}" alt="QR WhatsApp" class="w-[140px] h-[140px]" loading="lazy">
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs text-gray-400 mb-2">Votre numero : <span class="font-mono font-medium text-green-700">{{ agent.whatsapp_number }}</span></p>
+                <div class="flex flex-wrap items-center gap-2">
+                  <a href="{{ wa_link }}" target="_blank" rel="noopener"
+                     class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    Tester
+                  </a>
+                  <a href="https://api.qrserver.com/v1/create-qr-code/?size=400x400&format=png&data={{ wa_link|urlencode }}"
+                     download="qrcode-whatsapp-{{ agent.agent_id }}.png"
+                     class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-green-700 bg-white border border-green-200 hover:bg-green-50 transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    Telecharger HD
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <!-- Connecte mais pas de numero renseigne -->
+            <div class="p-3 rounded-lg bg-green-50 border border-green-200">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="text-xs text-green-700 font-medium">WhatsApp est lie et actif.</p>
+              </div>
+              <p class="text-xs text-gray-500">Renseignez votre numero ci-dessous pour generer un QR code a partager a vos clients.</p>
+            </div>
+            {% endif %}
+            <!-- Numero WhatsApp (dans son propre formulaire) -->
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="update_channels">
+              <input type="hidden" name="channels" value="both">
+              {% if agent.telegram_id %}<input type="hidden" name="telegram_id" value="{{ agent.telegram_id }}">{% endif %}
+              <div>
+                <label for="whatsapp_number" class="text-xs text-gray-500">Numero WhatsApp (pour le QR client)</label>
+                <div class="flex gap-2 mt-1">
+                  <input type="tel" name="whatsapp_number" id="whatsapp_number" value="{{ agent.whatsapp_number }}"
+                    class="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none text-xs text-gray-700"
+                    placeholder="+223 70 00 12 34">
+                  <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">Enregistrer</button>
+                </div>
+              </div>
+            </form>
+            <!-- Bouton deconnecter -->
+            <div class="pt-3 border-t border-gray-100">
+              <button type="button" id="wa-disconnect-btn" onclick="disconnectWhatsApp()"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-600 bg-white border border-red-200 hover:bg-red-50 transition-colors">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                Deconnecter WhatsApp
+              </button>
+            </div>
+
+            {% else %}
+            <!-- Non connecte : liaison WhatsApp en self-service -->
+            <div id="wa-link-section">
+              <div class="p-3 rounded-lg bg-amber-50 border border-amber-200 mb-3">
+                <p class="text-xs text-amber-800 font-medium mb-1">Etape requise : lier votre WhatsApp</p>
+                <p class="text-xs text-amber-700">Scannez le QR code avec WhatsApp sur le telephone de votre entreprise pour activer l'assistant.</p>
+              </div>
+
+              <!-- Bouton pour generer le QR -->
+              <button type="button" id="wa-qr-btn" onclick="startWhatsAppLink()"
+                      class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700 shadow-sm transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                Lier WhatsApp
+              </button>
+
+              <!-- Zone QR code (cachee au debut) -->
+              <div id="wa-qr-zone" class="hidden mt-3">
+                <div class="flex items-start gap-3">
+                  <div class="bg-white rounded-lg p-2 border border-green-200 flex-shrink-0">
+                    <img id="wa-qr-img" src="" alt="QR WhatsApp" class="w-[200px] h-[200px]">
+                  </div>
+                  <div class="flex-1 min-w-0 space-y-2">
+                    <p id="wa-qr-status" class="text-xs text-gray-600">Scannez ce QR code avec WhatsApp sur votre telephone...</p>
+                    <div id="wa-qr-spinner" class="flex items-center gap-2">
+                      <svg class="animate-spin w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                      <span class="text-xs text-green-700 font-medium">En attente du scan...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message d'erreur -->
+              <div id="wa-qr-error" class="hidden mt-3 p-3 rounded-lg bg-red-50 border border-red-200">
+                <p id="wa-qr-error-msg" class="text-xs text-red-700"></p>
+              </div>
+
+              <!-- Succes -->
+              <div id="wa-qr-success" class="hidden mt-3 p-3 rounded-lg bg-green-50 border border-green-200">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <p class="text-sm text-green-700 font-medium">WhatsApp connecte avec succes ! Rechargement...</p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
           </div>
-          {% endif %}
-          {% if channels_error %}
-          <div class="flex items-center gap-2 p-2.5 rounded-lg bg-red-50 border border-red-200 mb-4 text-sm text-red-700">
-            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            {{ channels_error }}
+        </div>
+
+        <!-- Acces Telegram (prive — admin) -->
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+              <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </div>
+            <div class="flex-1">
+              <h2 class="font-syne font-bold text-gray-900">Acces Telegram</h2>
+              <p class="text-xs text-gray-400">Votre acces prive pour parler directement au bot</p>
+            </div>
+            {% if agent.telegram_id %}
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+              <span class="text-xs font-semibold text-blue-700">Configure</span>
+            </div>
+            {% endif %}
           </div>
-          {% endif %}
 
           <form method="post">
             {% csrf_token %}
             <input type="hidden" name="action" value="update_channels">
-
-            <!-- Selecteur de canal -->
-            <div class="grid grid-cols-2 {% if has_api_access %}md:grid-cols-4{% else %}md:grid-cols-3{% endif %} gap-2 mb-5">
-              <label class="relative cursor-pointer">
-                <input type="radio" name="channels" value="whatsapp" class="peer sr-only" {% if agent.channels == 'whatsapp' %}checked{% endif %}>
-                <div class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-gray-200 peer-checked:border-green-500 peer-checked:bg-green-50 transition-all">
-                  <svg class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                  <span class="text-xs font-medium text-gray-700">WhatsApp</span>
-                </div>
-              </label>
-              <label class="relative cursor-pointer">
-                <input type="radio" name="channels" value="telegram" class="peer sr-only" {% if agent.channels == 'telegram' %}checked{% endif %}>
-                <div class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-gray-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all">
-                  <svg class="w-5 h-5 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                  <span class="text-xs font-medium text-gray-700">Telegram</span>
-                </div>
-              </label>
-              <label class="relative cursor-pointer">
-                <input type="radio" name="channels" value="both" class="peer sr-only" {% if agent.channels == 'both' %}checked{% endif %}>
-                <div class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-gray-200 peer-checked:border-violet-500 peer-checked:bg-violet-50 transition-all">
-                  <svg class="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                  <span class="text-xs text-gray-400">+</span>
-                  <svg class="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                  <span class="text-xs font-medium text-gray-700">Les deux</span>
-                </div>
-              </label>
-              {% if has_api_access %}
-              <label class="relative cursor-pointer">
-                <input type="radio" name="channels" value="none" class="peer sr-only" {% if agent.channels == 'none' %}checked{% endif %}>
-                <div class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-gray-200 peer-checked:border-gray-500 peer-checked:bg-gray-50 transition-all">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                  <span class="text-xs font-medium text-gray-700">API seule</span>
-                </div>
-              </label>
-              {% endif %}
-            </div>
-
-            <!-- WhatsApp config -->
-            <div id="whatsapp-config" class="mb-4 p-4 rounded-xl border border-green-200 bg-green-50/30 space-y-3" style="display:none">
-
-              <!-- Statut de connexion -->
-              <div class="flex items-center gap-2">
-                {% if wa_connected %}
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                <span class="text-xs font-semibold text-green-700">WhatsApp connecte</span>
-                {% else %}
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                <span class="text-xs font-semibold text-amber-700">WhatsApp non connecte</span>
-                {% endif %}
-              </div>
-
-              {% if wa_connected %}
-              <!-- WhatsApp connecte -->
-              {% if wa_link %}
-              <p class="text-xs text-gray-600">Votre numero WhatsApp est lie a l'assistant. Partagez ce QR code a vos clients.</p>
-              <div class="flex items-start gap-3">
-                <div class="bg-white rounded-lg p-2 border border-green-200 flex-shrink-0">
-                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{ wa_link|urlencode }}" alt="QR WhatsApp" class="w-[140px] h-[140px]" loading="lazy">
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="text-xs text-gray-400 mb-2">Votre numero : <span class="font-mono font-medium text-green-700">{{ agent.whatsapp_number }}</span></p>
-                  <div class="flex flex-wrap items-center gap-2">
-                    <a href="{{ wa_link }}" target="_blank" rel="noopener"
-                       class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                      Tester
-                    </a>
-                    <a href="https://api.qrserver.com/v1/create-qr-code/?size=400x400&format=png&data={{ wa_link|urlencode }}"
-                       download="qrcode-whatsapp-{{ agent.agent_id }}.png"
-                       class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-green-700 bg-white border border-green-200 hover:bg-green-50 transition-colors">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                      Telecharger HD
-                    </a>
-                  </div>
+            <input type="hidden" name="channels" value="both">
+            {% if agent.whatsapp_number %}<input type="hidden" name="whatsapp_number" value="{{ agent.whatsapp_number }}">{% endif %}
+            <div class="space-y-3">
+              <div>
+                <label for="telegram_id" class="text-xs text-gray-500">Votre ID Telegram</label>
+                <div class="flex gap-2 mt-1">
+                  <input type="text" name="telegram_id" id="telegram_id" value="{{ agent.telegram_id }}"
+                    class="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-xs text-gray-700 font-mono"
+                    placeholder="Ex: 7573032790">
+                  <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors">Enregistrer</button>
                 </div>
               </div>
-              {% else %}
-              <!-- Connecte mais pas de numero renseigne -->
-              <div class="p-3 rounded-lg bg-green-50 border border-green-200">
-                <div class="flex items-center gap-2 mb-2">
-                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  <p class="text-xs text-green-700 font-medium">WhatsApp est lie et actif.</p>
-                </div>
-                <p class="text-xs text-gray-500">Renseignez votre numero ci-dessous pour generer un QR code a partager a vos clients.</p>
-              </div>
-              {% endif %}
-              <!-- Numero WhatsApp (optionnel) -->
-              <div class="mt-3">
-                <label for="whatsapp_number" class="text-xs text-gray-500">Numero WhatsApp (pour le QR client)</label>
-                <input type="tel" name="whatsapp_number" id="whatsapp_number" value="{{ agent.whatsapp_number }}"
-                  class="w-full mt-1 px-3 py-1.5 rounded-lg border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none text-xs text-gray-500"
-                  placeholder="+223 70 00 12 34">
-              </div>
-              <!-- Bouton deconnecter -->
-              <div class="mt-3 pt-3 border-t border-gray-100">
-                <button type="button" id="wa-disconnect-btn" onclick="disconnectWhatsApp()"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-600 bg-white border border-red-200 hover:bg-red-50 transition-colors">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                  Deconnecter WhatsApp
-                </button>
-              </div>
 
-              {% else %}
-              <!-- Non connecte : liaison WhatsApp en self-service -->
-              <div id="wa-link-section">
-                <div class="p-3 rounded-lg bg-amber-50 border border-amber-200 mb-3">
-                  <p class="text-xs text-amber-800 font-medium mb-1">Etape requise : lier votre WhatsApp</p>
-                  <p class="text-xs text-amber-700">Scannez le QR code avec WhatsApp sur le telephone de votre entreprise pour activer l'assistant.</p>
-                </div>
-
-                <!-- Bouton pour generer le QR -->
-                <button type="button" id="wa-qr-btn" onclick="startWhatsAppLink()"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700 shadow-sm transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
-                  Lier WhatsApp
-                </button>
-
-                <!-- Zone QR code (cachee au debut) -->
-                <div id="wa-qr-zone" class="hidden mt-3">
-                  <div class="flex items-start gap-3">
-                    <div class="bg-white rounded-lg p-2 border border-green-200 flex-shrink-0">
-                      <img id="wa-qr-img" src="" alt="QR WhatsApp" class="w-[200px] h-[200px]">
-                    </div>
-                    <div class="flex-1 min-w-0 space-y-2">
-                      <p id="wa-qr-status" class="text-xs text-gray-600">Scannez ce QR code avec WhatsApp sur votre telephone...</p>
-                      <div id="wa-qr-spinner" class="flex items-center gap-2">
-                        <svg class="animate-spin w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                        <span class="text-xs text-green-700 font-medium">En attente du scan...</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Message d'erreur -->
-                <div id="wa-qr-error" class="hidden mt-3 p-3 rounded-lg bg-red-50 border border-red-200">
-                  <p id="wa-qr-error-msg" class="text-xs text-red-700"></p>
-                </div>
-
-                <!-- Succes -->
-                <div id="wa-qr-success" class="hidden mt-3 p-3 rounded-lg bg-green-50 border border-green-200">
-                  <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <p class="text-sm text-green-700 font-medium">WhatsApp connecte avec succes ! Rechargement...</p>
-                  </div>
-                </div>
-              </div>
-              {% endif %}
-            </div>
-
-            <!-- Telegram config -->
-            <div id="telegram-config" class="mb-4 p-4 rounded-xl border border-blue-200 bg-blue-50/30 space-y-2" style="display:none">
-              <label for="telegram_id" class="text-xs font-semibold text-blue-800">Votre acces prive (Telegram)</label>
-              <p class="text-xs text-gray-600 mb-1">Entrez votre ID Telegram pour parler directement au bot. Seul vous aurez acces via ce canal.</p>
               {% if agent.telegram_id %}
-              <div class="flex items-center gap-2">
-                <div id="tg-id-display" class="font-mono text-sm text-gray-900 bg-white px-3 py-2 rounded-lg border border-blue-200 flex-1">{{ agent.telegram_id }}</div>
-                <button type="button" id="tg-edit-btn" onclick="document.getElementById('tg-id-display').style.display='none';document.getElementById('tg-id-edit').style.display='block';document.getElementById('tg-id-hidden').disabled=true;this.style.display='none';"
-                        class="text-xs text-blue-600 hover:text-blue-800 font-medium">Modifier</button>
-              </div>
-              <input type="hidden" name="telegram_id" id="tg-id-hidden" value="{{ agent.telegram_id }}">
-              <div id="tg-id-edit" style="display:none">
-                <input type="text" name="telegram_id" id="telegram_id" value="{{ agent.telegram_id }}"
-                  class="w-full px-3 py-2 rounded-lg border border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm" placeholder="7573032790">
+              <div class="p-3 rounded-lg bg-blue-50 border border-blue-200">
+                <p class="text-xs text-blue-800 font-medium mb-1">Acces active</p>
+                <p class="text-xs text-blue-700">Envoyez <strong>/start</strong> a <a href="https://t.me/{{ telegram_bot }}" target="_blank" class="font-semibold underline">@{{ telegram_bot }}</a> sur Telegram pour commencer.</p>
               </div>
               {% else %}
-              <input type="text" name="telegram_id" id="telegram_id" value=""
-                class="w-full px-3 py-2 rounded-lg border border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm" placeholder="7573032790">
+              <div class="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                <p class="text-xs text-gray-600 font-medium mb-1">Comment configurer</p>
+                <ol class="text-xs text-gray-500 space-y-1 list-decimal list-inside">
+                  <li>Envoyez <strong>/start</strong> a <a href="https://t.me/userinfobot" target="_blank" class="text-blue-600 hover:underline">@userinfobot</a> pour obtenir votre ID</li>
+                  <li>Collez votre ID ci-dessus et cliquez Enregistrer</li>
+                  <li>Envoyez <strong>/start</strong> a <a href="https://t.me/{{ telegram_bot }}" target="_blank" class="text-blue-600 hover:underline">@{{ telegram_bot }}</a></li>
+                </ol>
+              </div>
               {% endif %}
-              <p class="text-xs text-gray-400">Envoyez <strong class="text-blue-700">/start</strong> a <strong class="text-blue-700">@userinfobot</strong> sur Telegram pour obtenir votre ID.</p>
-            </div>
-
-            <!-- Bindings actuels -->
-            {% if current_bindings %}
-            <div class="mb-4 flex flex-wrap items-center gap-2">
-              <span class="text-xs text-gray-400">Routage actif :</span>
-              {% for binding in current_bindings %}
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
-                {% if binding.match.channel == 'whatsapp' %}bg-green-50 text-green-700 border border-green-200
-                {% elif binding.match.channel == 'telegram' %}bg-blue-50 text-blue-700 border border-blue-200
-                {% else %}bg-gray-50 text-gray-600 border border-gray-200{% endif %}">
-                <span class="w-1.5 h-1.5 rounded-full {% if binding.match.channel == 'whatsapp' %}bg-green-500{% elif binding.match.channel == 'telegram' %}bg-blue-500{% else %}bg-gray-400{% endif %}"></span>
-                {{ binding.match.channel|title }}{% if binding.match.accountId %} <span class="font-mono text-[10px]">{{ binding.match.accountId }}</span>{% elif binding.match.peer %} <span class="font-mono">{{ binding.match.peer.id }}</span>{% endif %}
-              </span>
-              {% endfor %}
-            </div>
-            {% endif %}
-
-            <div class="flex items-center justify-end pt-2 border-t border-gray-100">
-              <button type="submit"
-                      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow-sm transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-                Mettre a jour les canaux
-              </button>
             </div>
           </form>
         </div>
+
+        <!-- Comment tester votre agent -->
+        {% if current_bindings %}
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+              <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </div>
+            <div>
+              <h2 class="font-syne font-bold text-gray-900">Tester votre agent</h2>
+              <p class="text-xs text-gray-400">Envoyez un message pour verifier que tout fonctionne</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            {% for binding in current_bindings %}
+            {% if binding.match.channel == 'telegram' %}
+            <a href="https://t.me/{{ telegram_bot }}" target="_blank"
+               class="flex items-center gap-3 p-3 rounded-xl border border-blue-200 bg-blue-50/50 hover:bg-blue-50 transition-colors group">
+              <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </span>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-700">Telegram — @{{ telegram_bot }}</p>
+                <p class="text-xs text-gray-500">Envoyez <strong>/start</strong> pour demarrer la conversation</p>
+              </div>
+              <svg class="w-4 h-4 text-gray-300 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+            {% elif binding.match.channel == 'whatsapp' and wa_connected %}
+            <{% if agent.whatsapp_number %}a href="https://wa.me/{{ agent.whatsapp_number|cut:'+' }}" target="_blank"{% else %}div{% endif %}
+               class="flex items-center gap-3 p-3 rounded-xl border border-green-200 bg-green-50/50 hover:bg-green-50 transition-colors group">
+              <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.63-1.2A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.332-1.544l-.372-.224-3.854 1.01 1.029-3.76-.246-.39A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              </span>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900 group-hover:text-green-700">WhatsApp{% if agent.whatsapp_number %} — {{ agent.whatsapp_number }}{% endif %}</p>
+                <p class="text-xs text-gray-500">
+                  {% if agent.whatsapp_number %}Envoyez un message pour demarrer{% else %}Renseignez votre numero pour un lien direct{% endif %}
+                </p>
+              </div>
+              {% if agent.whatsapp_number %}
+              <svg class="w-4 h-4 text-gray-300 group-hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+              {% else %}
+            </div>
+              {% endif %}
+            {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- Routage actif -->
+          <div class="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center gap-2">
+            <span class="text-xs text-gray-400">Routage actif :</span>
+            {% for binding in current_bindings %}
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
+              {% if binding.match.channel == 'whatsapp' %}bg-green-50 text-green-700 border border-green-200
+              {% elif binding.match.channel == 'telegram' %}bg-blue-50 text-blue-700 border border-blue-200
+              {% else %}bg-gray-50 text-gray-600 border border-gray-200{% endif %}">
+              <span class="w-1.5 h-1.5 rounded-full {% if binding.match.channel == 'whatsapp' %}bg-green-500{% elif binding.match.channel == 'telegram' %}bg-blue-500{% else %}bg-gray-400{% endif %}"></span>
+              {{ binding.match.channel|title }}{% if binding.match.accountId %} <span class="font-mono text-[10px]">{{ binding.match.accountId }}</span>{% elif binding.match.peer %} <span class="font-mono">{{ binding.match.peer.id }}</span>{% endif %}
+            </span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
 
         <form method="post" class="space-y-6">
           {% csrf_token %}
@@ -420,22 +456,7 @@
 </div>
 
 <script>
-(function() {
-  var radios = document.querySelectorAll('input[name="channels"]');
-  var waConf = document.getElementById('whatsapp-config');
-  var tgConf = document.getElementById('telegram-config');
-
-  function toggle() {
-    var val = (document.querySelector('input[name="channels"]:checked') || {}).value || 'none';
-    waConf.style.display = (val === 'whatsapp' || val === 'both') ? 'block' : 'none';
-    tgConf.style.display = (val === 'telegram' || val === 'both') ? 'block' : 'none';
-  }
-
-  radios.forEach(function(r) { r.addEventListener('change', toggle); });
-  toggle();
-})();
-
-/* ── WhatsApp QR code self-service (flux unique start+wait) ── */
+/* ── WhatsApp QR code self-service (2 etapes: start → show QR → wait) ── */
 function startWhatsAppLink() {
   var btn = document.getElementById('wa-qr-btn');
   var zone = document.getElementById('wa-qr-zone');
@@ -445,59 +466,72 @@ function startWhatsAppLink() {
   var errBox = document.getElementById('wa-qr-error');
   var errMsg = document.getElementById('wa-qr-error-msg');
   var successBox = document.getElementById('wa-qr-success');
+  var retryIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> ';
+
+  function showError(msg) {
+    spinner.classList.add('hidden');
+    zone.classList.add('hidden');
+    errBox.classList.remove('hidden');
+    errMsg.textContent = msg;
+    btn.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerHTML = retryIcon + 'Reessayer';
+  }
 
   // Reset
   errBox.classList.add('hidden');
   successBox.classList.add('hidden');
   zone.classList.add('hidden');
   btn.disabled = true;
-  btn.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Preparation...';
+  btn.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Generation du QR...';
 
   var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-  // Afficher le QR placeholder + spinner pendant que le serveur fait start+wait
-  zone.classList.remove('hidden');
-  btn.classList.add('hidden');
-  status.textContent = 'Connexion en cours... Le QR code va apparaitre.';
-  spinner.classList.remove('hidden');
-  img.src = '';
-
-  // Flux unique : start + wait sur une seule connexion WS (cote serveur)
-  // Cette requete dure ~90s max (long-polling)
-  fetch('{% url "saas:whatsapp_qr_full" %}', {
+  // Etape 1 : demander le QR code
+  fetch('{% url "saas:whatsapp_qr_start" %}', {
     method: 'POST',
     headers: {'X-CSRFToken': csrfToken, 'Content-Type': 'application/json'},
   })
   .then(function(r) { return r.json().then(function(d) { return {ok: r.ok, data: d}; }); })
   .then(function(res) {
+    if (!res.ok || !res.data.qr_data_url) {
+      throw new Error(res.data.error || 'Impossible de generer le QR code');
+    }
+
+    // Afficher le QR immediatement
+    img.src = res.data.qr_data_url;
+    zone.classList.remove('hidden');
+    btn.classList.add('hidden');
+    status.textContent = 'Scannez ce QR code avec WhatsApp sur votre telephone...';
+    spinner.classList.remove('hidden');
+
+    // Etape 2 : attendre le scan (long-polling ~90s)
+    return fetch('{% url "saas:whatsapp_qr_wait" %}', {
+      method: 'POST',
+      headers: {'X-CSRFToken': csrfToken, 'Content-Type': 'application/json'},
+    });
+  })
+  .then(function(r) {
+    if (!r) return;
+    return r.json().then(function(d) { return {ok: r.ok, data: d}; });
+  })
+  .then(function(res) {
+    if (!res) return;
     spinner.classList.add('hidden');
 
     if (res.data.connected) {
       zone.classList.add('hidden');
       successBox.classList.remove('hidden');
       setTimeout(function() { window.location.reload(); }, 2000);
-    } else if (res.data.error) {
-      zone.classList.add('hidden');
-      errBox.classList.remove('hidden');
-      errMsg.textContent = res.data.error;
-      btn.classList.remove('hidden');
-      btn.disabled = false;
-      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Reessayer';
     } else {
       status.textContent = 'Le QR code a expire. Cliquez pour reessayer.';
       btn.classList.remove('hidden');
       btn.disabled = false;
-      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Reessayer';
+      btn.innerHTML = retryIcon + 'Reessayer';
     }
   })
   .catch(function(err) {
-    spinner.classList.add('hidden');
-    zone.classList.add('hidden');
-    errBox.classList.remove('hidden');
-    errMsg.textContent = err.message || 'Erreur lors de la liaison WhatsApp';
-    btn.classList.remove('hidden');
-    btn.disabled = false;
-    btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Reessayer';
+    showError(err.message || 'Erreur lors de la liaison WhatsApp');
   });
 }
 

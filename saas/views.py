@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
+from django.conf import settings
 from django.utils.text import slugify
 from django.db.models import Sum, Count, Avg, Q
 from django.db.models.functions import TruncDate
@@ -704,6 +705,7 @@ def agent_settings(request):
         'wa_connected': wa_connected,
         'wa_link': wa_link,
         'has_api_access': agent.plan.api_access,
+        'telegram_bot': settings.OPENCLAW_TELEGRAM_BOT,
     })
 
 
@@ -877,12 +879,16 @@ def whatsapp_qr_start(request):
     if agent.channels not in ('whatsapp', 'both'):
         return JsonResponse({'error': 'WhatsApp non active'}, status=400)
 
+    # Nettoyer les creds partielles avant de demarrer
+    disconnect_whatsapp(agent.agent_id)
+
     try:
         qr_data_url = start_whatsapp_login(agent.agent_id)
         if not qr_data_url:
             return JsonResponse({'error': 'QR code vide — reessayez'}, status=500)
         return JsonResponse({'qr_data_url': qr_data_url})
     except Exception as e:
+        disconnect_whatsapp(agent.agent_id)
         logger.error(f'WhatsApp QR start failed for {agent.agent_id}: {e}')
         return JsonResponse({'error': str(e)}, status=500)
 
@@ -900,8 +906,11 @@ def whatsapp_qr_wait(request):
 
     try:
         connected = wait_whatsapp_login(agent.agent_id)
+        if not connected:
+            disconnect_whatsapp(agent.agent_id)
         return JsonResponse({'connected': connected})
     except Exception as e:
+        disconnect_whatsapp(agent.agent_id)
         logger.error(f'WhatsApp QR wait failed for {agent.agent_id}: {e}')
         return JsonResponse({'error': str(e), 'connected': False}, status=500)
 
